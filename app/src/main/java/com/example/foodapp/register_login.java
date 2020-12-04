@@ -97,10 +97,11 @@ public class register_login extends AppCompatActivity {
 
                 final Task<AuthResult> user_created = mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
                         if (task.isSuccessful()) {
                             Toast.makeText(register_login.this, "User Created", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
                         } else {
                             Toast.makeText(register_login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -108,6 +109,58 @@ public class register_login extends AppCompatActivity {
                     }
                 });
 
+
+            }
+        });
+
+        log_in_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = mEmail.getText().toString().trim();
+                String password = enter_password.getText().toString().trim();
+
+                // Validate the email and pass data
+
+                if(TextUtils.isEmpty(email))
+                {
+                    mEmail.setError("Email is Required.");
+                    return;
+                }
+                if(TextUtils.isEmpty(password))
+                {
+                    enter_password.setError("Password is Required.");
+                    return;
+                }
+
+                // Password must be at least 6 chars long
+                if(password.length() <= 6 )
+                {
+                    enter_password.setError("Password must be a least 6 characters");
+                    return;
+                }
+
+                // If it all passed that means our data from the user is valid
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                // Authenticate the user
+
+                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        if (task.isSuccessful())
+                            {
+                            Toast.makeText(register_login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
+                            }
+                        else
+                            {
+                            Toast.makeText(register_login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                    }
+                });
 
             }
         });
