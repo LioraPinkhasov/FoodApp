@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".OmelleteRecpie">
+
 
     <ImageView
         android:id="@+id/Menu_icon_btn"
@@ -119,7 +120,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SearchPlain_txt"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/sushi2" />
+        app:srcCompat="@drawable/omellete" />
 
     <ImageView
         android:id="@+id/Like_icon_btn"
@@ -151,10 +152,11 @@
         android:layout_marginStart="45dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="152dp"
-        android:text="Sushi"
+        android:text="Omellete"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/Save_icon_btn"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Sushi_food_pic" />
 
@@ -164,7 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="184dp"
-        android:text="5 rolls"
+        android:text="1 meal"
         android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/Save_icon_btn"
@@ -202,7 +204,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="296dp"
         android:text="Steps"
         android:textStyle="bold"
@@ -217,7 +219,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="319dp"
-        android:text="2 cups rice"
+        android:text="2 large eggs"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -230,7 +232,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="310dp"
-        android:text="3 cups water"
+        android:text="1 teablespoon unsalted butter"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -243,7 +245,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="297dp"
-        android:text="1 tablespon salt"
+        android:text="3 to 4 cherry tomatoes"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -251,88 +253,88 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="342dp"
-        android:text="6 nori"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="297dp"
+        android:text="1 Prep the eggs:  In a bowl, beat the eggs with a fork."
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="271dp"
-        android:text="100 gram raw salmon"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="310dp"
-        android:layout_height="27dp"
+        android:id="@+id/textView3"
+        android:layout_width="229dp"
+        android:layout_height="31dp"
         android:layout_marginStart="45dp"
         android:layout_marginTop="68dp"
-        android:layout_marginEnd="271dp"
-        android:text="1 Place the rice and water into a rice cooker. Cook the rice according to the “white rice” setting on the rice cooker."
+        android:layout_marginEnd="297dp"
+        android:text="2 Melt the butter: In an 8-inch nonstick skillet over medium-low heat, melt the butter."
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView18"
-        android:layout_width="307dp"
-        android:layout_height="47dp"
+        android:id="@+id/textView4"
+        android:layout_width="229dp"
+        android:layout_height="65dp"
         android:layout_marginStart="45dp"
         android:layout_marginTop="108dp"
-        android:layout_marginEnd="271dp"
-        android:text="2 When the rice has finished cooking, evenly pour the seasoned rice vinegar all over the rice. Toss the rice around to further distribute the rice vinegar, taking care to be gentle, and not mash the rice."
+        android:layout_marginEnd="297dp"
+        android:text="3 Add the eggs and cook the omelette: Add the eggs to the skillet and cook without stirring until the edges begin to set. With a silicone spatula, push the edges toward the center of the pan and tilt the pan so the uncooked eggs move to the edge."
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView26"
-        android:layout_width="307dp"
-        android:layout_height="47dp"
+        android:id="@+id/textView24"
+        android:layout_width="227dp"
+        android:layout_height="49dp"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="168dp"
-        android:layout_marginEnd="271dp"
-        android:text="3 Place the seaweed on a bamboo mat, then cover the sheet of seaweed with an even layer of prepared sushi rice. Smooth gently with the rice paddle."
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="297dp"
+        android:text="4  Fill the omelette: Place the cheese, tomatoes, and herbs in a line down the center of the omelette and cook for about 1 minute longer, or until the eggs are mostly set but still a little soft in the center."
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView28"
-        android:layout_width="307dp"
-        android:layout_height="47dp"
+        android:id="@+id/textView25"
+        android:layout_width="227dp"
+        android:layout_height="83dp"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="224dp"
-        android:layout_marginEnd="271dp"
-        android:text="4 Layer salmon, cream cheese, and avocado on the rice, and roll it up tightly. Slice with a sharp knife, and enjoy with soy sauce."
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="297dp"
+        android:text="5 Fold and plate the omelette: Slide the spatula around one side of the omelette at the edge to loosen it. Slip it under the eggs, and use it to carefully fold the omelette in half. Slide the spatula under the folded omelette to loosen it from the pan. Tilt the pan over a plate and use the spatula to nudge it onto the plate. Voila!"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.006"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="228dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="172dp"
+        android:layout_marginEnd="297dp"
+        android:text="Repeat until the eggs are somewhat set but still a little soft in the center, about 6 minutes."
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
         android:id="@+id/textView10"
@@ -340,11 +342,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="288dp"
-        android:text="1 tablespon sugar"
+        android:text="2 tablespoons chopped basil"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
