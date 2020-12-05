@@ -13,6 +13,37 @@
         android:text="Add recipe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.028"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.024" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="340dp"
+        android:layout_height="120dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="describe the working progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.225"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/send_recipe_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send recipe"
+        tools:layout_editor_absoluteX="226dp"
+        tools:layout_editor_absoluteY="644dp" />
+
+    <Button
+        android:id="@+id/add_photo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add_photo"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="641dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
