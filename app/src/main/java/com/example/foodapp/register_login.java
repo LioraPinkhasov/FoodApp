@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class register_login extends AppCompatActivity {
 
@@ -31,6 +32,10 @@ public class register_login extends AppCompatActivity {
 
     // Firebase authentication instance
     private FirebaseAuth mAuth;
+
+    // For using Firestore to authenticate admin users from others
+
+    private FirebaseFirestore fStore;
 
 
     @Override
@@ -53,6 +58,8 @@ public class register_login extends AppCompatActivity {
         // Initing FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
 
+
+
         /** The indian dude wants to go to the main activity if the user is allready logged in
 
         if(mAuth.getCurrentUser() != null)
@@ -61,6 +68,8 @@ public class register_login extends AppCompatActivity {
             finish();
         }
         */
+
+
 
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
