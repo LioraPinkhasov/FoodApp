@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainUserActivity extends AppCompatActivity {
@@ -23,6 +24,10 @@ public class MainUserActivity extends AppCompatActivity {
 
     TextView thedata;
     Button showData;
+
+    // Holders for queries
+   // private ArtistsAdapter adapter;
+   // private List<Artist> artistList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +38,8 @@ public class MainUserActivity extends AppCompatActivity {
         thedata = (TextView)findViewById(R.id.showDataText);
         showData = (Button)findViewById(R.id.showDataButton);
 
+
+
         /// Trying to fetch info from DB
 
 
@@ -42,9 +49,17 @@ public class MainUserActivity extends AppCompatActivity {
         //database = FirebaseDatabase.getInstance();
         //dbRootRef = database.getReference();
 
+
+        /**
+        // First toy example
+
         showData.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+
+
+              // Toy example 2
                 dbRootRef = FirebaseDatabase.getInstance().getReference().child("Products").child("1");
                 dbRootRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -62,12 +77,28 @@ public class MainUserActivity extends AppCompatActivity {
                     }
                 });
 
+                // Toy example 2
+
+                Query query1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild()
+
 
             }
         });
+        */
+        // Still in create
+        String ing1 = "Baking Soda";
+        showData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C").equalTo("Baking Soda");
+                thedata.setText(q1.toString());
+               q1.addListenerForSingleValueEvent(valueEventListener);
 
-
+            }
+        });
     }
+
 
     public void addRecipe(View view)
     {
@@ -82,6 +113,26 @@ public class MainUserActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(),register_login.class)); // Send the user to the rigister/login activity
         finish();
     }
+
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            artistList.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Artist artist = snapshot.getValue(Artist.class);
+                    artistList.add(artist);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
 
 /**
