@@ -1,20 +1,72 @@
 package com.example.foodapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainUserActivity extends AppCompatActivity {
+    FirebaseDatabase database;
+    DatabaseReference dbRootRef ;
+
+    TextView thedata;
+    Button showData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
+
+        thedata = (TextView)findViewById(R.id.showDataText);
+        showData = (Button)findViewById(R.id.showDataButton);
+
+        /// Trying to fetch info from DB
+
+
+
+        // Creating instances of:
+
+        //database = FirebaseDatabase.getInstance();
+        //dbRootRef = database.getReference();
+
+        showData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbRootRef = FirebaseDatabase.getInstance().getReference().child("Products").child("1");
+                dbRootRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
+                    {
+                        String myInfo = snapshot.child("A").getValue().toString(); // Supposed to retrive B: ?
+                        thedata.setText(myInfo);
+                       // Toast.makeText(MainUserActivity.this, myInfo, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+        });
+
+
     }
 
     public void addRecipe(View view)
@@ -30,4 +82,17 @@ public class MainUserActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(),register_login.class)); // Send the user to the rigister/login activity
         finish();
     }
+
+
+/**
+    for(
+    DataSnapshot data : dataSnapshot.getChildren())
+            * {
+     *     Post p = data.getValue(Post.class);
+     *     posts.add(p);
+     * }
+     *allPostAdapter = new AllPostAdapter(AllPostActivity.this,0,0,posts);
+     *Iv.setAdapter(allPostAdapter
+     */
+
 }

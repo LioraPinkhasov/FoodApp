@@ -19,7 +19,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class register_login extends AppCompatActivity {
+public class register_login extends AppCompatActivity
+{
 
     /**
      * Indian things
