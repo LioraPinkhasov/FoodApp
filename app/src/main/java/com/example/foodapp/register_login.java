@@ -21,6 +21,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class register_login extends AppCompatActivity {
 
+    /**
+     * Indian things
+     *
+     * // creating instance of the current user
+     *
+     * FirebaseUser user = fAuth.getCurrentUser();
+     *
+     * //document the user
+     * DocumentReference df = fStore.collection("Users").document(user.getUid());
+     * // Store the data in <Key,Vakue> map .
+     *
+     * Map<String,Object> userInfo = new HashMap<>();
+     *
+     * // Specify if the user is admin
+     *
+     *
+     * userInfo.put("isUser" , "1"); // Based on this field we gonna determinate users lvl
+     *
+     * df,set(userInfo);
+     */
+
     // Creating widget objects for class useage
     private Button log_in_button;
     private Button sign_in_button;
@@ -57,6 +78,9 @@ public class register_login extends AppCompatActivity {
 
         // Initing FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
+
+        // Init FirebaseFirestore
+        fStore = FirebaseFirestore.getInstance();
 
 
 
