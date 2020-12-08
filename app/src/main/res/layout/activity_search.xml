@@ -115,26 +115,12 @@
         app:layout_constraintTop_toBottomOf="@+id/SCrool_icon5"
         app:srcCompat="@drawable/ic_resource_long2" />
 
-    <MultiAutoCompleteTextView
-        android:id="@+id/insert_data_space"
-        android:layout_width="309dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="38dp"
-        android:text="insert Ingredients"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/insert_data_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
         app:srcCompat="@drawable/ic_search" />
@@ -201,5 +187,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.61" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/AutoCompIngList"
+        android:layout_width="313dp"
+        android:layout_height="51dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.024" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

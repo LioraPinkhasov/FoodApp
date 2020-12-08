@@ -27,6 +27,7 @@ public class Search extends AppCompatActivity {
     private MultiAutoCompleteTextView needToFind;
     private Button sByingredient;
     private List<Ingredient> ingredientList;
+    private List<Recipe> recipesWithMatchSize;
     private Query query;
 
 
@@ -35,7 +36,7 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-
+        //  Making the IngridientList filled with all the Ingredients from the DB
         ValueEventListener valueEventListener = new ValueEventListener() {// Insert the query results into the ingredientList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -49,18 +50,28 @@ public class Search extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error)
+            {
 
             }
         };
 
+
+
         ingredientList = new ArrayList<>();
         query = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C"); // A query that get all the ingredient names
         query.addListenerForSingleValueEvent(valueEventListener); // Here we push the ingredient names into the ingredientList
+        // Connecting views from XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
-        needToFind = (MultiAutoCompleteTextView)findViewById(R.id.insert_data_space);
+        needToFind = (MultiAutoCompleteTextView)findViewById(R.id.AutoCompIngList);
+        //
         ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1, ingredientList);
         needToFind.setAdapter(ingredientAdapter);
+        needToFind.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+
+
+
 
 
 
@@ -77,6 +88,59 @@ public class Search extends AppCompatActivity {
 
 
 
+    }
+
+
+
+
+
+    //  Making the IngridientList filled with all the Ingredients from the DB
+    ValueEventListener valueEventListener2 = new ValueEventListener() {// Insert the query results into the ingredientList
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            recipesWithMatchSize.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Recipe recipe = snapshot.getValue(Recipe.class);
+                    recipesWithMatchSize.add(recipe);
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error)
+        {
+
+        }
+    };
+
+    // The Search Function by Ingridients
+
+    /**
+     *
+     * @param userInputIng a String list
+     * @return
+     */
+    public List<String> searchByIng(ArrayList<String> userInputIng)
+    {
+        // 1) How many ingredients?
+        int size = userInputIng.size();
+        String strSize = String.valueOf(size);
+
+        // 2) Querry all the recipes of size "size".
+
+        query = FirebaseDatabase.getInstance().getReference("Recipe").orderByChild("numOfProducts").equalTo(strSize); // A query that get all the ingredient names
+        query.addListenerForSingleValueEvent(valueEventListener2); // Here we push the ingredient names into the ingredientList
+
+        //Now we can use recipesWithMatchSize as we please
+
+
+
+        // 3) Extract the Recipe Id of all recipes with a perfect Ingridient match.
+
+
+
+    return null;
     }
 
 
