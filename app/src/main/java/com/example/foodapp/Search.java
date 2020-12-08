@@ -2,6 +2,7 @@ package com.example.foodapp;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Search extends AppCompatActivity {
 
     private MultiAutoCompleteTextView needToFind;
+    private Button sByingredient;
     private List<Ingredient> ingredientList;
     private Query query;
 
@@ -32,12 +34,8 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        ingredientList = new ArrayList<>();
-        needToFind = (MultiAutoCompleteTextView)findViewById(R.id.insert_data_space);
-        ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1,ingredientList);
-        needToFind.setAdapter(ingredientAdapter);
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        ValueEventListener valueEventListener = new ValueEventListener() {// Insert the query results into the ingredientList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ingredientList.clear();
@@ -55,7 +53,26 @@ public class Search extends AppCompatActivity {
             }
         };
 
-        //query =
+        ingredientList = new ArrayList<>();
+        query = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C"); // A query that get all the ingredient names
+        query.addListenerForSingleValueEvent(valueEventListener); // Here we push the ingredient names into the ingredientList
+        sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
+        needToFind = (MultiAutoCompleteTextView)findViewById(R.id.insert_data_space);
+        ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1,ingredientList);
+        needToFind.setAdapter(ingredientAdapter);
+
+
+
+        sByingredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
+
 
 
     }
