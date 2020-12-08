@@ -1,6 +1,7 @@
 package com.example.foodapp;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
@@ -58,12 +59,13 @@ public class Search extends AppCompatActivity {
         query.addListenerForSingleValueEvent(valueEventListener); // Here we push the ingredient names into the ingredientList
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
         needToFind = (MultiAutoCompleteTextView)findViewById(R.id.insert_data_space);
-        ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1,ingredientList);
+        ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1, ingredientList);
         needToFind.setAdapter(ingredientAdapter);
 
 
 
-        sByingredient.setOnClickListener(new View.OnClickListener() {
+
+        needToFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
