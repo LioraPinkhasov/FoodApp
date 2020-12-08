@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -150,8 +151,10 @@ public class MainUserActivity extends AppCompatActivity {
 
 
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
+
+        public void onCancelled(DatabaseError databaseError)
+        {
+            Toast.makeText(MainUserActivity.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
 
         }
     };

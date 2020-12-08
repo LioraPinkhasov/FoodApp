@@ -1,4 +1,4 @@
-package com.example.foodapp;
+/*package com.example.foodapp;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -56,3 +56,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         }
     }
 }
+
+
+ */

@@ -1,3 +1,5 @@
+/*
+
 package com.example.foodapp;
 
 import android.view.View;
@@ -35,3 +37,6 @@ public class Search extends AppCompatActivity {
         });
     }
 }
+
+
+ */
