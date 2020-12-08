@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import java.util.List;
 import java.util.ArrayList;
@@ -63,10 +65,6 @@ public class MainUserActivity extends AppCompatActivity {
             }
         };
 
-
-
-
-
         Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C").equalTo("Baking Soda");
         q1.addListenerForSingleValueEvent(valueEventListener);
 
@@ -77,14 +75,9 @@ public class MainUserActivity extends AppCompatActivity {
         //dbRootRef = database.getReference();
 
 
-
-
-
-
-
         // First toy example
 
-        showData.setOnClickListener(new View.OnClickListener() {
+      /*  showData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -107,13 +100,13 @@ public class MainUserActivity extends AppCompatActivity {
 
                     }
                 });
-            */
+
                 // Toy example 2
 
 
 
             }
-        });
+        });*/
 
 
 
@@ -123,7 +116,7 @@ public class MainUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                ingredientList.get(0).toString();
+                thedata.setText(ingredientList.get(0).toString());
             }
         });
     }
