@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,34 +24,29 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @NonNull
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_artists, parent, false);
+        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_Ingrideient, parent, false);
         return new IngredientViewHolder(view);
     }
+    
 
     @Override
-    public void onBindViewHolder(@NonNull IngredientAdapter.IngredientViewHolder holder, int position) {
-
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ArtistViewHolder holder, int position) {
-        Ingredient artist = ingredientList.get(position);
-        holder.textViewName.setText(artist.name);
-        holder.textViewGenre.setText("Genre: " + artist.genre);
-        holder.textViewAge.setText("Age: " + artist.age);
-        holder.textViewCountry.setText("Country: " + artist.country);
+    public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
+        Ingredient ingredient = ingredientList.get(position);
+        holder.textViewName.setText(ingredient.uid);
+        holder.textViewGenre.setText(ingredient.engName);
+        holder.textViewAge.setText(ingredient.units);
     }
 
     @Override
     public int getItemCount() {
-        return artistList.size();
+        return ingredientList.size();
     }
 
-    class ArtistViewHolder extends RecyclerView.ViewHolder {
+    class IngredientViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewName, textViewGenre, textViewAge, textViewCountry;
 
-        public ArtistViewHolder(@NonNull View itemView) {
+        public IngredientViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.text_view_name);

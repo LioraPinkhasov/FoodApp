@@ -1,6 +1,5 @@
 package com.example.foodapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,7 @@ public class MainUserActivity extends AppCompatActivity {
 
     TextView thedata;
     Button showData;
+    List<Ingredient> ingredientList;
 
     // Holders for queries
    // private ArtistsAdapter adapter;
@@ -37,11 +39,36 @@ public class MainUserActivity extends AppCompatActivity {
 
         thedata = (TextView)findViewById(R.id.showDataText);
         showData = (Button)findViewById(R.id.showDataButton);
-
+        ingredientList = new ArrayList<Ingredient>();
 
 
         /// Trying to fetch info from DB
 
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ingredientList.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Ingredient ingredient = snapshot.getValue(Ingredient.class);
+                        ingredientList.add(ingredient);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+
+
+
+
+        Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C").equalTo("Baking Soda");
+        q1.addListenerForSingleValueEvent(valueEventListener);
+        thedata.setText(q1.toString());
 
 
         // Creating instances of:
@@ -50,7 +77,11 @@ public class MainUserActivity extends AppCompatActivity {
         //dbRootRef = database.getReference();
 
 
-        /**
+
+
+
+
+
         // First toy example
 
         showData.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +90,7 @@ public class MainUserActivity extends AppCompatActivity {
             {
 
 
-              // Toy example 2
+            /*  // Toy example 2
                 dbRootRef = FirebaseDatabase.getInstance().getReference().child("Products").child("1");
                 dbRootRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -76,15 +107,16 @@ public class MainUserActivity extends AppCompatActivity {
 
                     }
                 });
-
+            */
                 // Toy example 2
 
-                Query query1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild()
 
 
             }
         });
-        */
+
+
+
         // Still in create
         String ing1 = "Baking Soda";
         showData.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +124,9 @@ public class MainUserActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C").equalTo("Baking Soda");
+                q1.addListenerForSingleValueEvent(valueEventListener);
                 thedata.setText(q1.toString());
-               q1.addListenerForSingleValueEvent(valueEventListener);
+
 
             }
         });
@@ -135,4 +168,3 @@ public class MainUserActivity extends AppCompatActivity {
      *Iv.setAdapter(allPostAdapter
      */
 
-}
