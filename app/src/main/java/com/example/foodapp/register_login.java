@@ -135,7 +135,8 @@ public class register_login extends AppCompatActivity
                     {
                         if (task.isSuccessful()) {
                             Toast.makeText(register_login.this, "User Created", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
+                            startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
+                           // startActivity(new Intent(getApplicationContext(),Search.class)); // for running,  new path
                         } else {
                             Toast.makeText(register_login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
