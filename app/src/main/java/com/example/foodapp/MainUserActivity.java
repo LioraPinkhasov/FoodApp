@@ -69,7 +69,6 @@ public class MainUserActivity extends AppCompatActivity {
 
         Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C").equalTo("Baking Soda");
         q1.addListenerForSingleValueEvent(valueEventListener);
-        thedata.setText(q1.toString());
 
 
         // Creating instances of:
@@ -124,11 +123,7 @@ public class MainUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C").equalTo("Baking Soda");
-                q1.addListenerForSingleValueEvent(valueEventListener);
-                thedata.setText(q1.toString());
-
-
+                ingredientList.get(0).toString();
             }
         });
     }
