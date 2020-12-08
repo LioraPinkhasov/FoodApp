@@ -115,18 +115,7 @@ public class MainUserActivity extends AppCompatActivity {
     }
 
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            artistList.clear();
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Artist artist = snapshot.getValue(Artist.class);
-                    artistList.add(artist);
-                }
-                adapter.notifyDataSetChanged();
-            }
-        }
+
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
