@@ -137,16 +137,31 @@ public class Search extends AppCompatActivity {
 
 
         // 3) Extract the Recipe Id of all recipes with a perfect Ingridient match.
-            // First option is that we intersect them from  recipesWithMatchSize
+        // First option is that we intersect them from  recipesWithMatchSize
 
-                    // Intersection algorithem
+        // Intersection algorithem
+        for(Recipe recipe : recipesWithMatchSize){
+            String[] ingForRecipe = recipe.splitIngredients();
+            boolean notMatch = false;
+            for(int index = 0; index < size && !notMatch; index++){
+                boolean ingFound = false;
+                for(int innerIndex = 0; innerIndex < ingForRecipe.length && !ingFound; innerIndex++){
+
+                    if(userInputIng.get(index).equals(ingForRecipe[innerIndex])){
+                        ingFound = true;
+                    }
+
+                    if(!ingFound && innerIndex+1 ==  ingForRecipe.length){
+                        notMatch = true;
+                    }
+                }
+            }
+        }
 
 
-
-    return null;
+        return null;
     }
 
 
 }
-
 

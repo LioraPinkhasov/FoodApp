@@ -71,4 +71,9 @@ public class Recipe
     {
         return "This recipe name is : " + recipeName + " and its id is : " + id + " " ;
     }
+
+    public String[] splitIngredients(){
+        return this.products.split(",");
+    }
+
 }
