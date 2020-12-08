@@ -137,6 +137,9 @@ public class Search extends AppCompatActivity {
 
 
         // 3) Extract the Recipe Id of all recipes with a perfect Ingridient match.
+            // First option is that we intersect them from  recipesWithMatchSize
+
+                    // Intersection algorithem
 
 
 
