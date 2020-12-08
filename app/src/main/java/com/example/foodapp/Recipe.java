@@ -2,29 +2,33 @@ package com.example.foodapp;
 
 public class Recipe
 {
-    private String id ;
+    private String host;
     private String recipeName ;
     private String numOfProducts ;
     private String products ;
     private String measures ;
+    private String approved ;
+    private String create_time ;
     private String howTo ;
 
-    public Recipe(String id , String recipeName ,String numOfProducts , String products , String measures , String howTo )
+    public Recipe(String host , String recipeName ,String numOfProducts , String products , String measures , String approved , String create_time , String howTo )
     {
-        this.id = id;
+        this.host = host;
         this.recipeName = recipeName;
         this.numOfProducts = numOfProducts;
         this.products = products;
         this.measures = measures;
+        this.approved = "0"; // Never approved without admin
+        this.create_time = create_time;
         this.howTo = howTo;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public String getId() {
-        return id;
+    public String getHost() {
+        return host;
     }
 
     public void setRecipeName(String recipeName) {
@@ -55,6 +59,22 @@ public class Recipe
         this.measures = measures;
     }
 
+    public String getApproved() {
+        return approved;
+    }
+
+    public void setApproved(String approved) {
+        this.approved = approved;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
     public String getMeasures() {
         return measures;
     }
@@ -69,11 +89,15 @@ public class Recipe
 
     public String toString()
     {
-        return "This recipe name is : " + recipeName + " and its id is : " + id + " " ;
+        return "This recipe name is : " + recipeName + " by a : " + host + " " ;
     }
 
     public String[] splitIngredients(){
         return this.products.split(",");
     }
+
+    /**
+     * We can add a method theat return split ingridients with mesaurments
+     */
 
 }
