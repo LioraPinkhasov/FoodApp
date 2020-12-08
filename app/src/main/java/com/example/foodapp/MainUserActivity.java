@@ -29,6 +29,7 @@ public class MainUserActivity extends AppCompatActivity {
     TextView thedata;
     Button showData;
     List<Ingredient> ingredientList;
+    int i = 0;
 
     // Holders for queries
    // private ArtistsAdapter adapter;
@@ -65,7 +66,7 @@ public class MainUserActivity extends AppCompatActivity {
             }
         };
 
-        Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C").equalTo("Baking Soda");
+        Query q1 = FirebaseDatabase.getInstance().getReference("Products").orderByChild("E");
         q1.addListenerForSingleValueEvent(valueEventListener);
 
 
@@ -116,7 +117,8 @@ public class MainUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                thedata.setText(ingredientList.get(0).toString());
+                thedata.setText(ingredientList.get(i).toString());
+                i++;
             }
         });
     }
