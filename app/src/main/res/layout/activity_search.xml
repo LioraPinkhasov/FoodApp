@@ -117,7 +117,7 @@
         app:srcCompat="@drawable/ic_resource_long2" />
 
     <MultiAutoCompleteTextView
-        android:id="@+id/MultiAutoCompleteTextView"
+        android:id="@+id/insert_data_space"
         android:layout_width="309dp"
         android:layout_height="49dp"
         android:layout_marginStart="6dp"
@@ -135,7 +135,7 @@
         android:layout_marginStart="34dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/MultiAutoCompleteTextView"
+        app:layout_constraintEnd_toStartOf="@+id/insert_data_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
         app:srcCompat="@drawable/ic_search" />

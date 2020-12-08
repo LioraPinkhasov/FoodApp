@@ -1,4 +1,4 @@
-/*
+
 
 package com.example.foodapp;
 
@@ -20,23 +20,22 @@ public class Search extends AppCompatActivity {
     private MultiAutoCompleteTextView needToFind;
 
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("server/saving-data/fireblog/posts");
-        needToFind = (MultiAutoCompleteTextView) findViewById(R.id.MultiAutoCompleteTextView);
+        needToFind = (MultiAutoCompleteTextView)findViewById(R.id.insert_data_space);
 
-        ref.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+
+
+
+
     }
 }
 
 
- */

@@ -28,6 +28,7 @@ public class MainUserActivity extends AppCompatActivity {
 
     TextView thedata;
     Button showData;
+    Button searchBtn;
     List<Ingredient> ingredientList;
     int i = 0;
 
@@ -43,6 +44,7 @@ public class MainUserActivity extends AppCompatActivity {
 
         thedata = (TextView)findViewById(R.id.showDataText);
         showData = (Button)findViewById(R.id.showDataButton);
+        searchBtn = (Button)findViewById(R.id.searching_button);
         ingredientList = new ArrayList<Ingredient>();
 
 
@@ -70,6 +72,16 @@ public class MainUserActivity extends AppCompatActivity {
         q1.addListenerForSingleValueEvent(valueEventListener);
 
 
+
+        ///////////Actual code for the page \\\\\\\\\\\\\\\
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Search.class)); // Goes to search activity
+                // Need to end the current activity.
+            }
+        });
         // Creating instances of:
 
         //database = FirebaseDatabase.getInstance();
