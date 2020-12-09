@@ -105,11 +105,14 @@ public class Recipe implements Serializable
     }
 
     public String[] splitIngredients(){
+
+        this.products = this.products.replace(" " , "");
         return this.products.split(",");
     }
 
     /**
      * We can add a method theat return split ingridients with mesaurments
      */
+
 
 }
