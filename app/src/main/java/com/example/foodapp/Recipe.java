@@ -1,6 +1,8 @@
 package com.example.foodapp;
 
-public class Recipe
+import java.io.Serializable;
+
+public class Recipe implements Serializable
 {
     private String host;
     private String recipeName ;

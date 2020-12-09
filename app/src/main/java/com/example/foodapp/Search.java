@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.NonNull;
@@ -24,11 +25,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Search extends AppCompatActivity {
 
-    private MultiAutoCompleteTextView needToFind;
+
     private Button sByingredient;
     private List<Ingredient> ingredientList;
     private List<Recipe> recipesWithMatchSize;
     private Query query;
+    private EditText ingData;
 
 
     @Override
@@ -63,31 +65,43 @@ public class Search extends AppCompatActivity {
         query.addListenerForSingleValueEvent(valueEventListener); // Here we push the ingredient names into the ingredientList
         // Connecting views from XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
-        needToFind = (MultiAutoCompleteTextView)findViewById(R.id.AutoCompIngList);
-        //
-        String[] tmpArr = new String[ingredientList.size()];
-        int index = 0;
-        for(Ingredient ingredient : ingredientList) {
-            tmpArr[index] = ingredient.getC();
-        }
+        ingData = (EditText)findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
 
-        ArrayAdapter<String> ingredientAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tmpArr);
-        needToFind.setAdapter(ingredientAdapter);
-        needToFind.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-
-
-
-
-
-
-
-        needToFind.setOnClickListener(new View.OnClickListener() {
+        sByingredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 1) Cast the Input into an  ArrayList<String> userInputIng
+
+                String usrInput = ingData.getText().toString(); // This is the string from input
+                usrInput = usrInput.replace(" " , ""); // Cutting off all the spaces for easier work.
+                String[] splittedToArrayInput = usrInput.split(","); // Cut the string into an array of ingridients
+                ArrayList<String> userInputIng = new ArrayList<>() ; // Init the list
+                for( int i = 0 ; i < splittedToArrayInput.length ; i++)
+                {
+                    userInputIng.add(splittedToArrayInput[i]); // Fill the list
+                }
+
+                // 2) Pass userInputIng to  The Search Function by Ingridients searchByIng and store it in matchedRecipeList
+                List<Recipe> matchedRcipes = searchByIng(userInputIng);
+                // 3) Pass an List of recipes to peller in the result_page by intent
+
+
+
 
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -120,7 +134,7 @@ public class Search extends AppCompatActivity {
         }
     };
 
-    // The Search Function by Ingridients
+
 
     /**
      *
@@ -136,7 +150,7 @@ public class Search extends AppCompatActivity {
         // 2) Querry all the recipes of size "size".
 
         query = FirebaseDatabase.getInstance().getReference("Recipe").orderByChild("numOfProducts").equalTo(strSize); // A query that get all the ingredient names
-        query.addListenerForSingleValueEvent(valueEventListener2); // Here we push the ingredient names into the ingredientList
+        query.addListenerForSingleValueEvent(valueEventListener2); // Here we push the ingredient names into the recipesWithMatchSize.
 
         //Now we can use recipesWithMatchSize as we please
 
