@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class Recipe implements Serializable
 {
-    private String approved ;
+    private int approved ;
     private String create_time ;
     private String host;
     private String howTo ;
     private String id;
     private String measures ;
-    private String numOfProducts ;
+    private int numOfProducts ;
     private String products ;
     private String recipeName ;
 
-    public Recipe( String approved ,String create_time ,String host ,  String howTo , String id,  String measures ,String numOfProducts , String products , String recipeName    )
+    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName    )
     {
         this.approved = approved; // Never approved without admin
         this.create_time = create_time;
@@ -51,11 +51,11 @@ public class Recipe implements Serializable
         return recipeName;
     }
 
-    public void setNumOfProducts(String numOfProducts) {
+    public void setNumOfProducts(int numOfProducts) {
         this.numOfProducts = numOfProducts;
     }
 
-    public String getNumOfProducts() {
+    public int getNumOfProducts() {
         return numOfProducts;
     }
 
@@ -71,11 +71,11 @@ public class Recipe implements Serializable
         this.measures = measures;
     }
 
-    public String getApproved() {
+    public int getApproved() {
         return approved;
     }
 
-    public void setApproved(String approved) {
+    public void setApproved(int approved) {
         this.approved = approved;
     }
 
