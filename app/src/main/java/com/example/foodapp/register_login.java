@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
+import android.os.Debug;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class register_login extends AppCompatActivity
 {
+
 
     /**
      * Indian things
@@ -52,6 +55,9 @@ public class register_login extends AppCompatActivity
     private TextView output_to_user;
     private ProgressBar progressBar;
 
+    private Button debug_button;
+    boolean debug_mode_bool = false;
+
     // Firebase authentication instance
     private FirebaseAuth mAuth;
 
@@ -76,6 +82,17 @@ public class register_login extends AppCompatActivity
         enter_password = (EditText)findViewById(R.id.enter_pass);
         mEmail = (EditText)findViewById(R.id.enter_user_name_plain_text);
         progressBar = findViewById(R.id.my_progressBar);
+
+        //show debug button if in debug mode
+        debug_button = findViewById(R.id.debug_button);
+        debug_button.setVisibility(View.GONE);
+//        boolean isDebuggable = (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+
+//        debug_mode_bool = (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+        if(Debug.isDebuggerConnected()){
+            debug_button.setVisibility(View.VISIBLE);
+            Toast.makeText(register_login.this, "DEBUG MODE", Toast.LENGTH_SHORT).show();
+        }
 
         // Initing FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
@@ -200,7 +217,12 @@ public class register_login extends AppCompatActivity
             }
         });
 
-
+        debug_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), activity_debug.class));
+            }
+        });
 
 
     }
