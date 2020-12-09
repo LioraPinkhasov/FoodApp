@@ -1,18 +1,51 @@
 package com.example.foodapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.List;
 
-public class results_page extends AppCompatActivity {
+public class results_page extends AppCompatActivity implements RecyclerViewAdapter_forRecipes.ItemClickListener{
+
+    RecyclerViewAdapter_forRecipes adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //passing arrays using bundle in android
+        // https://stackoverflow.com/questions/5299532/passing-arrays-using-bundle-in-android
+
+        //in activity A -
+        //      String[] abc;
+        //
+        //      Bundle bundle =new Bundle();
+        //      bundle.putStringArray("some string",abcd);
+
+        // in Activity B
+
+        //      String abcd[]=bundle.getStringArray("some string");
+        //
+        //
+        //"some string" should be same in both case.
+
+        String[] received_Recipes =savedInstanceState.getStringArray("some string");
+
         setContentView(R.layout.activity_results_page);
+
+        RecyclerView _recyclerView = findViewById(R.id.myRecyclerView);
+        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new RecyclerViewAdapter_forRecipes(this, received_Recipes);
+        adapter.setClickListener(this);
+        _recyclerView.setAdapter(adapter);
+
+
+
 
         /**
          * By this link , this is how peller gets my List from the intent
@@ -21,5 +54,10 @@ public class results_page extends AppCompatActivity {
         Intent i = getIntent();
         List<Recipe> list = (List<Recipe>) i.getSerializableExtra("LIST");
 
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        //do something once a certain recipe was clicked from the recyclerView
     }
 }

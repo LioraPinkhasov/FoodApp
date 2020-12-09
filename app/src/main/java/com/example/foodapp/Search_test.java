@@ -48,6 +48,7 @@ public class Search_test extends AppCompatActivity
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
         ingData = (EditText)findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
         screen = (TextView)findViewById(R.id.test_screen);
+        recipesWithMatchSize = new ArrayList<>();
 
         sByingredient.setOnClickListener(new View.OnClickListener() {
             @Override
