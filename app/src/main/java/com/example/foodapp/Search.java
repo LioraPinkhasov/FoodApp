@@ -25,7 +25,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class Search extends AppCompatActivity {
+public class Search extends AppCompatActivity
+{
 
     // Init needed views
     private Button sByingredient;
@@ -42,9 +43,9 @@ public class Search extends AppCompatActivity {
     // Connecting the XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
         ingData = (EditText)findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
-
+        recipesWithMatchSize = new ArrayList<>();
         // Creating Intent to pass forward to resualt page.
-        Intent myintent = new Intent(this , results_page.class);
+
 
 
 
@@ -67,13 +68,16 @@ public class Search extends AppCompatActivity {
                 // 2) Pass userInputIng to  The Search Function by Ingridients searchByIng and store it in matchedRecipeList
                 List<Recipe> matchedRcipes = searchByIng(userInputIng);
                 // 3) Pass an List of recipes to peller in the result_page by intent
-                //V1 simple but time consuming
+
                 /**
                  * Please note that serialization can cause performance issues: it takes time, and a lot of objects will be allocated (and thus, have to be garbage collected).
                  */
 
-
-                myintent.putExtra("matchedRecipes" , (Serializable) matchedRcipes);
+                // Passing the matchedRecipes  as serilizable list to result_page activity
+                Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                myIntent.putExtra("LIST" , (Serializable) matchedRcipes); // Putting the list there
+                startActivity(myIntent); // Start new activity with the given intent
+                finish(); // End this activity
 
 
 
@@ -153,6 +157,8 @@ public class Search extends AppCompatActivity {
 
         // 3) Extract the Recipe Id of all recipes with a perfect Ingridient match.
         // First option is that we intersect them from  recipesWithMatchSize
+
+
 
         // Intersection algorithem
         List<Recipe> recipeMatched = new ArrayList<Recipe>();
