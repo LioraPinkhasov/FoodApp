@@ -1,5 +1,6 @@
 package com.example.foodapp;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,6 +86,14 @@ public class Search extends AppCompatActivity {
                 // 2) Pass userInputIng to  The Search Function by Ingridients searchByIng and store it in matchedRecipeList
                 List<Recipe> matchedRcipes = searchByIng(userInputIng);
                 // 3) Pass an List of recipes to peller in the result_page by intent
+                //V1 simple but time consuming
+                /**
+                 * Please note that serialization can cause performance issues: it takes time, and a lot of objects will be allocated (and thus, have to be garbage collected).
+                 */
+
+                Intent myintent = new Intent(this , results_page.class);
+                myintent.putExtra("matchedRecipes" , (Serializable) matchedRcipes);
+                context.start
 
 
 
@@ -153,6 +163,9 @@ public class Search extends AppCompatActivity {
         query.addListenerForSingleValueEvent(valueEventListener2); // Here we push the ingredient names into the recipesWithMatchSize.
 
         //Now we can use recipesWithMatchSize as we please
+
+
+
 
 
 
