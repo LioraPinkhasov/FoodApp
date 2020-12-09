@@ -146,7 +146,7 @@
         app:srcCompat="@drawable/ic_dislike" />
 
     <TextView
-        android:id="@+id/Food_name_btn"
+        android:id="@+id/image_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -161,7 +161,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Sushi_food_pic" />
 
     <TextView
-        android:id="@+id/NumOfServ_txt"
+        android:id="@+id/temphost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -171,7 +171,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/Save_icon_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Food_name_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/image_description" />
 
     <ImageView
         android:id="@+id/imageView14"
