@@ -145,7 +145,7 @@ public class Search extends AppCompatActivity
 
         // 2) Querry all the recipes of size "size".
 
-        query = FirebaseDatabase.getInstance().getReference("Recipe").orderByChild("numOfProducts").equalTo(strSize); // A query that get all the ingredient names
+        query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("numOfProducts").equalTo(size); // A query that get all the ingredient names
         query.addListenerForSingleValueEvent(valueEventListener2); // Here we push the ingredient names into the recipesWithMatchSize.
 
         //Now we can use recipesWithMatchSize as we please
