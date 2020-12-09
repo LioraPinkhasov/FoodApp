@@ -4,25 +4,35 @@ import java.io.Serializable;
 
 public class Recipe implements Serializable
 {
-    private String host;
-    private String recipeName ;
-    private String numOfProducts ;
-    private String products ;
-    private String measures ;
     private String approved ;
     private String create_time ;
+    private String host;
     private String howTo ;
+    private String id;
+    private String measures ;
+    private String numOfProducts ;
+    private String products ;
+    private String recipeName ;
 
-    public Recipe(String host , String recipeName ,String numOfProducts , String products , String measures , String approved , String create_time , String howTo )
+    public Recipe( String approved ,String create_time ,String host ,  String howTo , String id,  String measures ,String numOfProducts , String products , String recipeName    )
     {
+        this.approved = approved; // Never approved without admin
+        this.create_time = create_time;
         this.host = host;
-        this.recipeName = recipeName;
+        this.howTo = howTo;
+        this.id = id;
+        this.measures = measures;
         this.numOfProducts = numOfProducts;
         this.products = products;
-        this.measures = measures;
-        this.approved = "0"; // Never approved without admin
-        this.create_time = create_time;
-        this.howTo = howTo;
+        this.recipeName = recipeName;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setHost(String host) {

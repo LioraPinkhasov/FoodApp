@@ -96,6 +96,8 @@ public class Search extends AppCompatActivity {
 
                 myintent.putExtra("matchedRecipes" , (Serializable) matchedRcipes);
 
+                startActivity(myintent); // Might cause issues!
+
 
 
 
