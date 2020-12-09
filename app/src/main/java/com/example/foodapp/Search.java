@@ -40,6 +40,9 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
+        // Start of Autocomplete view to auto complete ingridients ,  not in use currently
+        /**
         //  Making the IngridientList filled with all the Ingredients from the DB
         ValueEventListener valueEventListener = new ValueEventListener() {// Insert the query results into the ingredientList
             @Override
@@ -60,7 +63,6 @@ public class Search extends AppCompatActivity {
             }
         };
 
-        Intent myintent = new Intent(this , results_page.class);
 
 
 
@@ -68,6 +70,13 @@ public class Search extends AppCompatActivity {
         query = FirebaseDatabase.getInstance().getReference("Products").orderByChild("C"); // A query that get all the ingredient names
         query.addListenerForSingleValueEvent(valueEventListener); // Here we push the ingredient names into the ingredientList
         // Connecting views from XML to our Objects
+
+        */ // End of autocompete search code
+
+        Intent myintent = new Intent(this , results_page.class);
+
+
+
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
         ingData = (EditText)findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
 
@@ -95,8 +104,6 @@ public class Search extends AppCompatActivity {
 
 
                 myintent.putExtra("matchedRecipes" , (Serializable) matchedRcipes);
-
-                startActivity(myintent); // Might cause issues!
 
 
 
@@ -209,4 +216,3 @@ public class Search extends AppCompatActivity {
 
 
 }
-
