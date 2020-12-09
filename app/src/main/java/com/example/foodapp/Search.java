@@ -60,6 +60,8 @@ public class Search extends AppCompatActivity {
             }
         };
 
+        Intent myintent = new Intent(this , results_page.class);
+
 
 
         ingredientList = new ArrayList<>();
@@ -91,9 +93,10 @@ public class Search extends AppCompatActivity {
                  * Please note that serialization can cause performance issues: it takes time, and a lot of objects will be allocated (and thus, have to be garbage collected).
                  */
 
-                Intent myintent = new Intent(this , results_page.class);
+
                 myintent.putExtra("matchedRecipes" , (Serializable) matchedRcipes);
-                context.start
+
+
 
 
 
