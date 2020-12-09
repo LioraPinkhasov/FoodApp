@@ -65,7 +65,13 @@ public class Search extends AppCompatActivity {
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
         needToFind = (MultiAutoCompleteTextView)findViewById(R.id.AutoCompIngList);
         //
-        ArrayAdapter<Ingredient> ingredientAdapter = new ArrayAdapter<Ingredient>(this, android.R.layout.simple_list_item_1, ingredientList);
+        String[] tmpArr = new String[ingredientList.size()];
+        int index = 0;
+        for(Ingredient ingredient : ingredientList) {
+            tmpArr[index] = ingredient.getC();
+        }
+
+        ArrayAdapter<String> ingredientAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tmpArr);
         needToFind.setAdapter(ingredientAdapter);
         needToFind.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
@@ -121,7 +127,7 @@ public class Search extends AppCompatActivity {
      * @param userInputIng a String list
      * @return
      */
-    public List<String> searchByIng(ArrayList<String> userInputIng)
+    public List<Recipe> searchByIng(ArrayList<String> userInputIng)
     {
         // 1) How many ingredients?
         int size = userInputIng.size();
@@ -140,6 +146,7 @@ public class Search extends AppCompatActivity {
         // First option is that we intersect them from  recipesWithMatchSize
 
         // Intersection algorithem
+        List<Recipe> recipeMatched = new ArrayList<Recipe>();
         for(Recipe recipe : recipesWithMatchSize){
             String[] ingForRecipe = recipe.splitIngredients();
             boolean notMatch = false;
@@ -153,13 +160,19 @@ public class Search extends AppCompatActivity {
 
                     if(!ingFound && innerIndex+1 ==  ingForRecipe.length){
                         notMatch = true;
+
                     }
                 }
+            }
+            if(!notMatch){
+                recipeMatched.add(recipe);
             }
         }
 
 
-        return null;
+
+
+        return recipeMatched;
     }
 
 
