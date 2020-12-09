@@ -205,6 +205,13 @@ public class register_login extends AppCompatActivity
 
     }
 
+    public void testView(View view)
+    {
+        startActivity(new Intent(getApplicationContext(),Search_test.class)); // Send the user to the rigister/login activity
+        finish();
+
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.foodapp;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,30 +25,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import android.os.Bundle;
+import android.widget.TextView;
 
-public class Search extends AppCompatActivity {
-
+public class Search_test extends AppCompatActivity
+{
     // Init needed views
     private Button sByingredient;
+    private TextView screen;
     private List<Recipe> recipesWithMatchSize;
     private Query query;
     private EditText ingData;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_search_test);
 
-    // Connecting the XML to our Objects
+        // Connecting the XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
         ingData = (EditText)findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
-
-        // Creating Intent to pass forward to resualt page.
-        Intent myintent = new Intent(this , results_page.class);
-
-
-
+        screen = (TextView)findViewById(R.id.test_screen);
 
         sByingredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +55,7 @@ public class Search extends AppCompatActivity {
                 // 1) Cast the Input into an  ArrayList<String> userInputIng
 
                 String usrInput = ingData.getText().toString(); // This is the string from input
-                
+
                 usrInput = usrInput.replace(" " , ""); // Cutting off all the spaces for easier work.
                 String[] splittedToArrayInput = usrInput.split(","); // Cut the string into an array of ingridients
                 ArrayList<String> userInputIng = new ArrayList<>() ; // Init the list
@@ -64,16 +64,15 @@ public class Search extends AppCompatActivity {
                     userInputIng.add(splittedToArrayInput[i]); // Fill the list
                 }
 
+                // Show the first ingredient on the screen
+                // Yes the ingredients are formed well in the inputIng to the screen
+                //screen.setText(userInputIng.get(0));
+
+
+
                 // 2) Pass userInputIng to  The Search Function by Ingridients searchByIng and store it in matchedRecipeList
                 List<Recipe> matchedRcipes = searchByIng(userInputIng);
                 // 3) Pass an List of recipes to peller in the result_page by intent
-                //V1 simple but time consuming
-                /**
-                 * Please note that serialization can cause performance issues: it takes time, and a lot of objects will be allocated (and thus, have to be garbage collected).
-                 */
-
-
-                myintent.putExtra("matchedRecipes" , (Serializable) matchedRcipes);
 
 
 
@@ -84,55 +83,10 @@ public class Search extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
+    // Search by Ingredient method
 
-
-
-
-    //  Making the IngridientList filled with all the Ingredients from the DB
-    ValueEventListener valueEventListener2 = new ValueEventListener() {// Insert the query results into the ingredientList
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            recipesWithMatchSize.clear();
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Recipe recipe = snapshot.getValue(Recipe.class);
-                    recipesWithMatchSize.add(recipe);
-                }
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error)
-        {
-
-        }
-    };
-
-
-
-    /**
-     *
-     * @param userInputIng a String list
-     * @return
-     */
     public List<Recipe> searchByIng(ArrayList<String> userInputIng)
     {
         // 1) How many ingredients?
@@ -184,5 +138,24 @@ public class Search extends AppCompatActivity {
         return recipeMatched;
     }
 
+    //  Making the IngridientList filled with all the Ingredients from the DB
+    ValueEventListener valueEventListener2 = new ValueEventListener() {// Insert the query results into the ingredientList
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            recipesWithMatchSize.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Recipe recipe = snapshot.getValue(Recipe.class);
+                    recipesWithMatchSize.add(recipe);
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error)
+        {
+
+        }
+    };
 
 }
