@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class results_page extends AppCompatActivity implements RecyclerViewAdapter_forRecipes.ItemClickListener{
 
     RecyclerViewAdapter_forRecipes adapter;
-
+    List<Recipe> recived_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +42,12 @@ public class results_page extends AppCompatActivity implements RecyclerViewAdapt
          * https://stackoverflow.com/questions/12092612/pass-list-of-objects-from-one-activity-to-other-activity-in-android/12092942 by Ruzin
          */
         Intent i = getIntent();
-        List<Recipe> list = (List<Recipe>) i.getSerializableExtra("LIST");
-
-        String[] received_Recipes = new String[list.size()];
+        recived_list = (List<Recipe>) i.getSerializableExtra("LIST");
+        String[] received_Recipes = new String[recived_list.size()];
         int j=0;
-        for (Recipe r: list){
+        for (Recipe r: recived_list){
             String temp = "";
-            temp = temp + r.getRecipeName();
+            temp = temp + r.getRecipeName() +" ";
             temp = temp + r.getCreate_time();
             //TODO add the likes/rating
             received_Recipes[j] = new String(temp);
@@ -72,6 +72,10 @@ public class results_page extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     public void onItemClick(View view, int position) {
+//        string a = view.
+        Toast.makeText(results_page.this, "clicked", Toast.LENGTH_SHORT).show();
+        Recipe choosen_recipe = recived_list.get(position);
+
         //do something once a certain recipe was clicked from the recyclerView
     }
 }
