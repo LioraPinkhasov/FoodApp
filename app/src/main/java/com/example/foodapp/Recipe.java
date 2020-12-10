@@ -107,7 +107,7 @@ public class Recipe implements Serializable
 
     public String toString()
     {
-        return "This recipe name is : " + recipeName + " by a : " + host + " " ;
+        return "This recipe name is : " + recipeName + " by : " + host + " " ;
     }
 
     public String[] splitIngredients(){

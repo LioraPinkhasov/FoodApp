@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class results_page extends AppCompatActivity implements RecyclerViewAdapter_forRecipes.ItemClickListener{
@@ -75,6 +76,13 @@ public class results_page extends AppCompatActivity implements RecyclerViewAdapt
 //        string a = view.
         Toast.makeText(results_page.this, "clicked", Toast.LENGTH_SHORT).show();
         Recipe choosen_recipe = recived_list.get(position);
+
+        // Passing the choosen recipe  as serilizable list to SelectedRecipe activity
+        Intent myIntent2 = new Intent(getApplicationContext(), selected_recipe2.class); // Creating the intent
+        myIntent2.putExtra("choosenRecipe" , (Serializable) choosen_recipe); // Putting the Recipe there
+        startActivity(myIntent2); // Start new activity with the given intent
+        finish(); // End this activity
+
 
         //do something once a certain recipe was clicked from the recyclerView
     }

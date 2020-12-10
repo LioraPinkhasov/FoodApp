@@ -11,8 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodApp">
-        <activity android:name=".activity_debug"></activity>
-        <activity android:name=".Search_test" />
+        <activity android:name=".selected_recipe2"></activity>
+        <activity android:name=".super_tester" />
+        <activity android:name=".activity_debug" />
         <activity android:name=".results_page" />
         <activity android:name=".addRecipe" />
         <activity android:name=".Pancake_recpie" />
