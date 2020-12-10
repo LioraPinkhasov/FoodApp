@@ -74,7 +74,7 @@ public class results_page extends AppCompatActivity implements RecyclerViewAdapt
     @Override
     public void onItemClick(View view, int position) {
 //        string a = view.
-        Toast.makeText(results_page.this, "clicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(results_page.this, "clicked", Toast.LENGTH_SHORT).show();
         Recipe choosen_recipe = recived_list.get(position);
 
         // Passing the choosen recipe  as serilizable list to SelectedRecipe activity
