@@ -1,6 +1,7 @@
 package com.example.foodapp;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,11 +12,13 @@ import android.widget.MultiAutoCompleteTextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,10 +31,11 @@ import com.google.firebase.database.ValueEventListener;
 public class Search extends AppCompatActivity
 {
 
+
     // Init needed views
     private Button sByingredient;
     private List<Recipe> recipesWithMatchSize;
-    private Query query;
+    public Query query;
     private EditText ingData;
 
 
@@ -119,7 +123,13 @@ public class Search extends AppCompatActivity
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Recipe recipe = snapshot.getValue(Recipe.class);
                     recipesWithMatchSize.add(recipe);
+                    //Toast.makeText(Search.this, "125", Toast.LENGTH_SHORT).show();
+                    Log.d(null, "---- line 127 ----");
+
                 }
+                //Toast.makeText(Search.this, "128", Toast.LENGTH_SHORT).show();
+                Log.d(null, "---- line 131 ----");
+
             }
         }
 
@@ -143,12 +153,42 @@ public class Search extends AppCompatActivity
         int size = userInputIng.size();
         String strSize = String.valueOf(size);
 
+
         // 2) Querry all the recipes of size "size".
-
+        Log.d(null, "---- line 158 ----");
         query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("numOfProducts").equalTo(size); // A query that get all the ingredient names
-        query.addListenerForSingleValueEvent(valueEventListener2); // Here we push the ingredient names into the recipesWithMatchSize.
+        //Toast.makeText(Search.this, "149", Toast.LENGTH_SHORT).show();
+        Log.d(null, "---- line 161 ----");
 
+//        query.addListenerForSingleValueEvent(valueEventListener2); // Here we push the ingredient names into the recipesWithMatchSize.
+//        query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("numOfProducts").equalTo(size); //aa
+        //Toast.makeText(Search.this, "153", Toast.LENGTH_SHORT).show();
         //Now we can use recipesWithMatchSize as we please
+        query.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot DS) {
+                recipesWithMatchSize.clear();
+                Log.d(null, "---- line 172 ----");
+                if (DS.exists()) {
+                    for (DataSnapshot snapshot : DS.getChildren()) {
+                        Recipe recipe = snapshot.getValue(Recipe.class);
+                        recipesWithMatchSize.add(recipe);
+                        //Toast.makeText(Search.this, "125", Toast.LENGTH_SHORT).show();
+                        Log.d(null, "---- line 178 ----");
+
+                    }
+                    //Toast.makeText(Search.this, "128", Toast.LENGTH_SHORT).show();
+                    Log.d(null, "---- line 182 ----");
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -162,7 +202,9 @@ public class Search extends AppCompatActivity
 
         // Intersection algorithem
         List<Recipe> recipeMatched = new ArrayList<Recipe>();
+        Log.d(null, "---- line 205 ----");
         for(Recipe recipe : recipesWithMatchSize){
+            Log.d(null, "---- line 207 ----");
             String[] ingForRecipe = recipe.splitIngredients();
             boolean notMatch = false;
             for(int index = 0; index < size && !notMatch; index++){
@@ -171,9 +213,11 @@ public class Search extends AppCompatActivity
 
                     if(userInputIng.get(index).equals(ingForRecipe[innerIndex])){
                         ingFound = true;
+                        Log.d(null, "---- line 216 ----");
                     }
 
                     if(!ingFound && innerIndex+1 ==  ingForRecipe.length){
+                        Log.d(null, "---- line 220 ----");
                         notMatch = true;
 
                     }
