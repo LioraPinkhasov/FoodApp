@@ -30,17 +30,23 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView textView;
 
         public ViewHolder(View view) {
             super(view);
-            textView = (TextView) view.findViewById(R.id.textView);
+            textView = (TextView) view.findViewById(R.id.myTextView);
+            view.setOnClickListener(this);
         }
 
         //getter. is this needed? maybe for clicking.
         public TextView getTextView() {
             return textView;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
 
 
