@@ -3,6 +3,7 @@ package com.example.foodapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,7 +21,7 @@ public class MainUserActivity extends AppCompatActivity {
     public void addRecipe(View view)
     {
         startActivity(new Intent(getApplicationContext(),addRecipe.class)); // Send the user to the rigister/login activity
-        finish();
+//        finish();
 
     }
 
@@ -34,7 +35,7 @@ public class MainUserActivity extends AppCompatActivity {
     public void goToSearch(View view)
     {
         startActivity(new Intent(getApplicationContext(),Search.class)); // Send the user to the rigister/login activity
-        finish();
+//        finish();
 
     }
 
