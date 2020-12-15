@@ -8,6 +8,7 @@ import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +20,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class register_login extends AppCompatActivity
 {
@@ -47,6 +58,9 @@ public class register_login extends AppCompatActivity
      */
 
     // Creating widget objects for class useage
+
+
+    private List<Auser> matchedAdminUsers;
     private Button log_in_button;
     private Button sign_in_button;
     private Button enter_anon_button;
@@ -54,7 +68,7 @@ public class register_login extends AppCompatActivity
     private EditText mEmail;
     private TextView output_to_user;
     private ProgressBar progressBar;
-
+    public Query query;
     private Button debug_button;
     boolean debug_mode_bool = false;
 
@@ -63,7 +77,8 @@ public class register_login extends AppCompatActivity
 
     // For using Firestore to authenticate admin users from others
 
-    private FirebaseFirestore fStore;
+    FirebaseDatabase mDatabase ;
+    DatabaseReference admin_data_ref;
 
 
     @Override
@@ -97,8 +112,9 @@ public class register_login extends AppCompatActivity
         // Initing FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
 
-        // Init FirebaseFirestore
-        fStore = FirebaseFirestore.getInstance();
+        // Init mDatabase and the reference
+       // mDatabase.getInstance();
+      // admin_data_ref.getRef("admins");
 
 
 
@@ -151,6 +167,7 @@ public class register_login extends AppCompatActivity
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
                         if (task.isSuccessful()) {
+
                             Toast.makeText(register_login.this, "User Created", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
                            // startActivity(new Intent(getApplicationContext(),Search.class)); // for running,  new path
@@ -203,8 +220,61 @@ public class register_login extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                             {
-                            Toast.makeText(register_login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
+
+                                boolean admin = false;
+
+
+                                /**
+                                 *
+                                 *
+                                 *
+                                 */
+
+                                query = FirebaseDatabase.getInstance().getReference("Admins").orderByChild("email").equalTo(email);
+                                query.addListenerForSingleValueEvent(new ValueEventListener()
+                                {
+
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot DS) {
+                                        matchedAdminUsers.clear();
+                                        if (DS.exists()) {
+                                            for (DataSnapshot snapshot : DS.getChildren()) {
+                                                Auser admin = snapshot.getValue(Auser.class);
+                                                matchedAdminUsers.add(admin);
+                                            }
+                                        }
+                                        // checking if matchedAdminUser list is empty ,  if it is then the email don't match admin privileges
+
+                                        // 3) Pass an List of recipes to peller in the result_page by intent
+                                        //* Please note that serialization can cause performance issues: it takes time, and a lot of objects will be allocated (and thus, have to be garbage collected).
+
+
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+                                    }
+                                });
+
+                                /**
+                                 *
+                                 */
+                                boolean isAdmin = matchedAdminUsers.isEmpty();
+                                if(isAdmin)
+                                {
+                                    Toast.makeText(register_login.this, "Admin Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                    Intent myAdminIntent = new Intent(getApplicationContext(), MainAdminActivity.class); // For testing
+                                    myAdminIntent.putExtra("isAdmin" , isAdmin ); // Putting the list there
+                                    startActivity(myAdminIntent); // Start new activity with the given intent
+
+                                }
+                                else { // Regular user
+                                    Toast.makeText(register_login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
+                                }
                             }
                         else
                             {

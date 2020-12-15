@@ -81,7 +81,8 @@ public class Search extends AppCompatActivity
                 String strSize = String.valueOf(size);
 
                 query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("numOfProducts").equalTo(size);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                query.addListenerForSingleValueEvent(new ValueEventListener()
+                {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot DS) {
