@@ -98,6 +98,8 @@ public class register_login extends AppCompatActivity
         mEmail = (EditText)findViewById(R.id.enter_user_name_plain_text);
         progressBar = findViewById(R.id.my_progressBar);
 
+        matchedAdminUsers = new ArrayList<>();
+
         //show debug button if in debug mode
         debug_button = findViewById(R.id.debug_button);
         debug_button.setVisibility(View.GONE);
@@ -221,14 +223,6 @@ public class register_login extends AppCompatActivity
                         if (task.isSuccessful())
                             {
 
-                                boolean admin = false;
-
-
-                                /**
-                                 *
-                                 *
-                                 *
-                                 */
 
                                 query = FirebaseDatabase.getInstance().getReference("Admins").orderByChild("email").equalTo(email);
                                 query.addListenerForSingleValueEvent(new ValueEventListener()
@@ -243,13 +237,22 @@ public class register_login extends AppCompatActivity
                                                 matchedAdminUsers.add(admin);
                                             }
                                         }
-                                        // checking if matchedAdminUser list is empty ,  if it is then the email don't match admin privileges
+                                        boolean isAdmin = !(matchedAdminUsers.isEmpty());
+                                        if(isAdmin)
+                                        {
+                                            Toast.makeText(register_login.this, "Admin Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                            Intent myAdminIntent = new Intent(getApplicationContext(), MainAdminActivity.class); // For testing
+                                            myAdminIntent.putExtra("isAdmin" , true ); // Putting the list there
+                                            startActivity(myAdminIntent); // Start new activity with the given intent
 
-                                        // 3) Pass an List of recipes to peller in the result_page by intent
-                                        //* Please note that serialization can cause performance issues: it takes time, and a lot of objects will be allocated (and thus, have to be garbage collected).
+                                        }
+                                        else { // Regular user
+                                            Toast.makeText(register_login.this, " Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                            Intent myAdminIntent = new Intent(getApplicationContext(), MainUserActivity.class); // For testing
+                                            myAdminIntent.putExtra("isAdmin" , false ); // Putting the list there
+                                            startActivity(myAdminIntent); // Start new activity with the given intent
 
-
-
+                                        }
 
                                     }
 
@@ -259,22 +262,8 @@ public class register_login extends AppCompatActivity
                                     }
                                 });
 
-                                /**
-                                 *
-                                 */
-                                boolean isAdmin = matchedAdminUsers.isEmpty();
-                                if(isAdmin)
-                                {
-                                    Toast.makeText(register_login.this, "Admin Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                    Intent myAdminIntent = new Intent(getApplicationContext(), MainAdminActivity.class); // For testing
-                                    myAdminIntent.putExtra("isAdmin" , isAdmin ); // Putting the list there
-                                    startActivity(myAdminIntent); // Start new activity with the given intent
+                                //
 
-                                }
-                                else { // Regular user
-                                    Toast.makeText(register_login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
-                                }
                             }
                         else
                             {

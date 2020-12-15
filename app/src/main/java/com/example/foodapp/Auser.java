@@ -4,6 +4,11 @@ public class Auser
 {
   private  String email;
 
+  public Auser(){}
+  public Auser (String email)
+  {
+      this.email = email;
+  }
     public String getEmail()
     {
         return email;
