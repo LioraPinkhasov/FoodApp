@@ -241,7 +241,7 @@ public class register_login extends AppCompatActivity
                                         if(isAdmin)
                                         {
                                             Toast.makeText(register_login.this, "Admin Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                            Intent myAdminIntent = new Intent(getApplicationContext(), MainAdminActivity.class); // For testing
+                                            Intent myAdminIntent = new Intent(getApplicationContext(), MainUserActivity.class); // For testing
                                             myAdminIntent.putExtra("isAdmin" , true ); // Putting the list there
                                             startActivity(myAdminIntent); // Start new activity with the given intent
 
