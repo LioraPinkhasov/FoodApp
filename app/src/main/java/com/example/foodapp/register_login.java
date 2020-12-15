@@ -234,7 +234,7 @@ public class register_login extends AppCompatActivity
                                         if (DS.exists()) {
                                             for (DataSnapshot snapshot : DS.getChildren()) {
                                                 Auser admin = snapshot.getValue(Auser.class);
-                                                matchedAdminUsers.add(admin);
+                                                matchedAdminUsers.add(admin) ;
                                             }
                                         }
                                         boolean isAdmin = !(matchedAdminUsers.isEmpty());
