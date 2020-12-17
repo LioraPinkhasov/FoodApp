@@ -152,7 +152,7 @@ public class register_login extends AppCompatActivity
                 }
 
                 // Password must be at least 6 chars long
-                if(password.length() <= 6 )
+                if(password.length() < 6 )
                 {
                     enter_password.setError("Password must be a least 6 characters");
                     return;
@@ -174,7 +174,7 @@ public class register_login extends AppCompatActivity
                             startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
                            // startActivity(new Intent(getApplicationContext(),Search.class)); // for running,  new path
                         } else {
-                            Toast.makeText(register_login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(register_login.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -238,21 +238,14 @@ public class register_login extends AppCompatActivity
                                             }
                                         }
                                         boolean isAdmin = !(matchedAdminUsers.isEmpty());
-                                        if(isAdmin)
-                                        {
-                                            Toast.makeText(register_login.this, "Admin Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                            Intent myAdminIntent = new Intent(getApplicationContext(), MainUserActivity.class); // For testing
-                                            myAdminIntent.putExtra("isAdmin" , true ); // Putting the list there
-                                            startActivity(myAdminIntent); // Start new activity with the given intent
 
-                                        }
-                                        else { // Regular user
-                                            Toast.makeText(register_login.this, " Logged in Successfully", Toast.LENGTH_SHORT).show();
-                                            Intent myAdminIntent = new Intent(getApplicationContext(), MainUserActivity.class); // For testing
-                                            myAdminIntent.putExtra("isAdmin" , false ); // Putting the list there
-                                            startActivity(myAdminIntent); // Start new activity with the given intent
+                                        CharSequence login_message = isAdmin? "Admin Logged in Successfully" : "Logged in Successfully";
 
-                                        }
+                                        Toast.makeText(register_login.this, login_message, Toast.LENGTH_SHORT).show();
+
+                                        Intent myLoginIntent = new Intent(getApplicationContext(), MainUserActivity.class); // For testing
+                                        myLoginIntent.putExtra("isAdmin" , isAdmin ); // Putting the list there
+                                        startActivity(myLoginIntent); // Start new activity with the given intent
 
                                     }
 
