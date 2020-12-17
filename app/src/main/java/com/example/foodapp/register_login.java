@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.TextUtils;
@@ -26,9 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +59,7 @@ public class register_login extends AppCompatActivity
 
     private List<Auser> matchedAdminUsers;
     private Button log_in_button;
-    private Button sign_in_button;
+    private Button sign_up_button;
     private Button enter_anon_button;
     private EditText enter_password;
     private EditText mEmail;
@@ -91,7 +88,7 @@ public class register_login extends AppCompatActivity
         // Connectiong the Java objects to our XML objects
 
         log_in_button = (Button)findViewById(R.id.log_in_button);
-        sign_in_button = (Button)findViewById(R.id.sing_in_button);
+        sign_up_button = (Button)findViewById(R.id.sing_up_button);
         enter_anon_button = (Button)findViewById(R.id.enter_as_anon_button);
         output_to_user = (TextView)findViewById(R.id.output_to_user);
         enter_password = (EditText)findViewById(R.id.enter_pass);
@@ -102,7 +99,7 @@ public class register_login extends AppCompatActivity
 
         //show debug button if in debug mode
         debug_button = findViewById(R.id.debug_button);
-        debug_button.setVisibility(View.GONE);
+        debug_button.setVisibility(View.INVISIBLE);
 //        boolean isDebuggable = (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 
 //        debug_mode_bool = (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
@@ -131,7 +128,7 @@ public class register_login extends AppCompatActivity
 
 
 
-        sign_in_button.setOnClickListener(new View.OnClickListener() {
+        sign_up_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -204,7 +201,7 @@ public class register_login extends AppCompatActivity
                 }
 
                 // Password must be at least 6 chars long
-                if(password.length() <= 6 )
+                if(password.length() < 6 )
                 {
                     enter_password.setError("Password must be a least 6 characters");
                     return;
@@ -260,7 +257,7 @@ public class register_login extends AppCompatActivity
                             }
                         else
                             {
-                            Toast.makeText(register_login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(register_login.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
 
                     }

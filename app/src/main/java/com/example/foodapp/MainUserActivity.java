@@ -13,7 +13,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 public class MainUserActivity extends AppCompatActivity {
-boolean isAdmin = false;
+    private Button button_Admin_Options;
+
+    boolean isAdmin = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -21,16 +24,14 @@ boolean isAdmin = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
 
-        // Get intent if admin or not
+        //Make admin button invisible by default
+        button_Admin_Options = (Button)findViewById(R.id.button_Admin_Options);
+        button_Admin_Options.setVisibility(View.INVISIBLE);
+
+        // Get intent if admin or not. If admin logged in - make admin button visible
         Intent i = getIntent();
         isAdmin = i.getBooleanExtra("isAdmin",false);
-
-
-        if(isAdmin)
-        {
-
-
-        }
+        if(isAdmin) {button_Admin_Options.setVisibility(View.VISIBLE);}
 
     }
 
