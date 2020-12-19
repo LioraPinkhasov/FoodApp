@@ -38,6 +38,7 @@ public class Recipe implements Serializable
        // int a=0;
     }
 
+
     public void setId(String id) {
         this.id = id;
     }
