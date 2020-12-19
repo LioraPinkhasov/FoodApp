@@ -126,7 +126,8 @@ public class PhotoUplode extends AppCompatActivity {
             progressDialog.show();
 
             // Defining the child of storageReference
-            dbRecipeRef2 = mDatabase2.getReference().child("Image/" + UUID.randomUUID().toString());
+            String uid = UUID.randomUUID().toString();
+            dbRecipeRef2 = mDatabase2.getReference().child("Image/" + uid);
 
             // adding listeners on upload
             // or failure of image

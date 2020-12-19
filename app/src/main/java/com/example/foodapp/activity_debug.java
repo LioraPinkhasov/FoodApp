@@ -66,9 +66,9 @@ public class activity_debug extends AppCompatActivity {
             public void onClick(View v){
                 //imititaing the behaviour of process to call search results
 //                public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName    )
-                Recipe r1 = new Recipe(1, "123", "host_1", "justDoIt1", "1", "1", 1, "sugar", "recipie1");
-                Recipe r2 = new Recipe(1, "234", "host_2", "justDoIt2", "2", "2", 1, "spice", "recipie2");
-                Recipe r3 = new Recipe(1, "345", "host_3", "justDoIt3", "3", "3", 1, "everything_nice", "recipie3");
+                Recipe r1 = new Recipe(1, "123", "host_1", "justDoIt1", "1", "1", 1, "sugar", "recipie1", "");
+                Recipe r2 = new Recipe(1, "234", "host_2", "justDoIt2", "2", "2", 1, "spice", "recipie2","");
+                Recipe r3 = new Recipe(1, "345", "host_3", "justDoIt3", "3", "3", 1, "everything_nice", "recipie3","");
 
                 ArrayList<String> userInputIng = new ArrayList<>() ; // Init the list
                 List<Recipe> matchedRcipes = new ArrayList<Recipe>();
