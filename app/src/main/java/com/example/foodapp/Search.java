@@ -36,7 +36,6 @@ public class Search extends AppCompatActivity
 
 
 
-
     // Init needed views
     private Button sByingredient;
     private List<Recipe> recipesWithMatchSize;

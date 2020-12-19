@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
@@ -121,6 +122,13 @@ public class addRecipe extends AppCompatActivity
 
 
         }
+
+
+        //add pic for firebase
+
+
+
+
 
     });
     }
