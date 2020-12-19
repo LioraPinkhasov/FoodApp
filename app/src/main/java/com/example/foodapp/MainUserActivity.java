@@ -56,5 +56,27 @@ public class MainUserActivity extends AppCompatActivity {
 
     }
 
+    public void AdminOp(View view)
+    {
+        startActivity(new Intent(getApplicationContext(),MainAdminActivity.class)); // Send the user to the rigister/adnim main
+//        finish();
+
+    }
+
+    public void Recpieperm(View view)
+    {
+        startActivity(new Intent(getApplicationContext(),Recpie_Admin_permmision.class)); // Send the user to the rigister/adnim main
+//        finish();
+
+    }
+
+    public void uplodephoto(View view)
+    {
+        startActivity(new Intent(getApplicationContext(),PhotoUplode.class)); // Send the user to the rigister/adnim main
+//        finish();
+
+    }
+
+
 
 }

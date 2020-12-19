@@ -29,6 +29,7 @@ public class activity_debug extends AppCompatActivity {
         button_ACTIVITY_REGISTER_LOGIN = (Button)findViewById(R.id.button_ACTIVITY_REGISTER_LOGIN);
         button_ACTIVITY_SEARCH = (Button)findViewById(R.id.button_ACTIVITY_SEARCH);
         button_ACTIVITY_RESULTS_PAGE = (Button)findViewById(R.id.button_ACTIVITY_RESULTS_PAGE);
+        //button_ACTIVITY_PHOTO_UPLODE = (Button)findViewById(R.id.button_ACTIVITY_PHOTO_UPLODE);
 
 
         button_ACTIVITY_MAIN_USER.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +53,13 @@ public class activity_debug extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Search.class));
             }
         });
+
+       /* button_ACTIVITY_PHOTO_UPLODE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(getApplicationContext(), PhotoUplode.class));
+            }
+        });*/
 
         button_ACTIVITY_RESULTS_PAGE.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,9 +85,11 @@ public class activity_debug extends AppCompatActivity {
         });
 
 
-
-
-
+    }
+    public void uplodephoto(View V)
+    {
+        startActivity(new Intent(getApplicationContext(),PhotoUplode.class)); // Send the user to the rigister/adnim main
+//        finish();
 
     }
 }
