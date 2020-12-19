@@ -30,18 +30,20 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class Search extends AppCompatActivity
-{
-
-
-
+public class Search extends AppCompatActivity {
 
     // Init needed views
     private Button sByingredient;
+    private Button byAuthor;
+    private Button byRecipe;
+
     private List<Recipe> recipesWithMatchSize;
+    private List<String> AuthorNames;
+    private List<Recipe> RecipeNames;
+
     public Query query;
     private EditText ingData;
-
+    private EditText authorOrRecipeNames;
 
 
     @Override
@@ -49,14 +51,16 @@ public class Search extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-    // Connecting the XML to our Objects
-        sByingredient = (Button) findViewById(R.id.by_ing_buttn) ;
-        ingData = (EditText)findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
+        // Connecting the XML to our Objects
+        sByingredient = (Button) findViewById(R.id.by_ing_buttn);
+        ingData = (EditText) findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
+        byAuthor = (Button) findViewById(R.id.by_author_bttn);
+        byRecipe = (Button) findViewById(R.id.by_recipe_bttn);
+        authorOrRecipeNames = (EditText) findViewById(R.id.insert_single_data_text);
         recipesWithMatchSize = new ArrayList<>();
+        AuthorNames = new ArrayList<>();
+        RecipeNames = new ArrayList<>();
         // Creating Intent to pass forward to resualt page.
-
-
-
 
 
         sByingredient.setOnClickListener(new View.OnClickListener() {
@@ -65,12 +69,11 @@ public class Search extends AppCompatActivity
                 // 1) Cast the Input into an  ArrayList<String> userInputIng
 
                 String usrInput = ingData.getText().toString(); // This is the string from input
-                
-                usrInput = usrInput.replace(" " , ""); // Cutting off all the spaces for easier work.
+
+                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work.
                 String[] splittedToArrayInput = usrInput.split(","); // Cut the string into an array of ingridients
-                ArrayList<String> userInputIng = new ArrayList<>() ; // Init the list
-                for( int i = 0 ; i < splittedToArrayInput.length ; i++)
-                {
+                ArrayList<String> userInputIng = new ArrayList<>(); // Init the list
+                for (int i = 0; i < splittedToArrayInput.length; i++) {
                     userInputIng.add(splittedToArrayInput[i]); // Fill the list
                 }
 
@@ -94,38 +97,33 @@ public class Search extends AppCompatActivity
                         }
 
                         List<Recipe> matchedRcipes = new ArrayList<Recipe>();
-                        for(Recipe recipe : recipesWithMatchSize){
+                        for (Recipe recipe : recipesWithMatchSize) {
                             String[] ingForRecipe = recipe.splitIngredients();
                             boolean notMatch = false;
-                            for(int index = 0; index < size && !notMatch; index++){
+                            for (int index = 0; index < size && !notMatch; index++) {
                                 boolean ingFound = false;
-                                for(int innerIndex = 0; innerIndex < ingForRecipe.length && !ingFound; innerIndex++){
+                                for (int innerIndex = 0; innerIndex < ingForRecipe.length && !ingFound; innerIndex++) {
 
-                                    if(userInputIng.get(index).equals(ingForRecipe[innerIndex])){
+                                    if (userInputIng.get(index).equals(ingForRecipe[innerIndex])) {
                                         ingFound = true;
                                     }
 
-                                    if(!ingFound && innerIndex+1 ==  ingForRecipe.length){
+                                    if (!ingFound && innerIndex + 1 == ingForRecipe.length) {
                                         notMatch = true;
 
                                     }
                                 }
                             }
-                            if(!notMatch){
+                            if (!notMatch) {
                                 matchedRcipes.add(recipe);
                             }
                         }
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
-                        // 3) Pass an List of recipes to peller in the result_page by intent
-                         //* Please note that serialization can cause performance issues: it takes time, and a lot of objects will be allocated (and thus, have to be garbage collected).
-
-                                Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
-                        myIntent.putExtra("LIST" , (Serializable) matchedRcipes); // Putting the list there
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        myIntent.putExtra("LIST", (Serializable) matchedRcipes); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
-
-
 
 
                     }
@@ -133,11 +131,102 @@ public class Search extends AppCompatActivity
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+
+
                     }
                 });
+
+
             }//end onClick
         });
 
+
+        byAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 1) Cast the Input into an  ArrayList<String> userInputIng
+
+                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
+                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
+                usrInput = usrInput.toLowerCase();
+                query = FirebaseDatabase.getInstance().getReference("Author").orderByChild("RecpieDetiels").startAt(usrInput);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot DS) {
+                        AuthorNames.clear();
+                        if (DS.exists()) {
+                            for (DataSnapshot snapshot : DS.getChildren()) {
+                                String names = snapshot.getValue(String.class);
+                                AuthorNames.add(names);
+                            }
+                        }
+
+
+                        // Passing the matchedRecipes  as serilizable list to result_page activity
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
+                        startActivity(myIntent); // Start new activity with the given intent
+                        finish(); // End this activity
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+
+
+                    }
+                });
+
+
+            }//end onClick
+        });
+
+
+        byRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 1) Cast the Input into an  ArrayList<String> userInputIng
+
+                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
+                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
+                usrInput = usrInput.toLowerCase();
+                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName").startAt(usrInput);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot DS) {
+                        RecipeNames.clear();
+                        if (DS.exists()) {
+                            for (DataSnapshot snapshot : DS.getChildren()) {
+                                Recipe recipe = snapshot.getValue(Recipe.class);
+                                RecipeNames.add(recipe);
+                            }
+                        }
+
+
+                        // Passing the matchedRecipes  as serilizable list to result_page activity
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        myIntent.putExtra("LIST", (Serializable) RecipeNames); // Putting the list there
+                        startActivity(myIntent); // Start new activity with the given intent
+                        finish(); // End this activity
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+
+
+                    }
+                });
+
+
+            }//end onClick
+        });
 
     }
 }
