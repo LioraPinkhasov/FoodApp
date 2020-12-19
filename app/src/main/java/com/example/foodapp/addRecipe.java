@@ -112,12 +112,8 @@ public class addRecipe extends AppCompatActivity
             dbRecipeRef.child(newRecipe.getId()).setValue(newRecipe);
             // 4) Toast and move to main page.
             Toast.makeText(addRecipe.this, "Thank you ! your recipe is added ! and will be visible when aproved by admin. ", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
-
-
-
-
-
+            //startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
+            finish();
 
 
         }
