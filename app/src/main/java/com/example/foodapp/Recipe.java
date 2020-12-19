@@ -31,6 +31,9 @@ public class Recipe implements Serializable
         this.products = products;
         this.rimage = Image;
 
+
+
+
     }
 
     public Recipe ()
@@ -108,6 +111,15 @@ public class Recipe implements Serializable
 
     public String getHowTo() {
         return howTo;
+    }
+
+    //image
+    public void setRimage(String rimage) {
+        this.rimage = rimage;
+    }
+
+    public String getRimage() {
+        return rimage;
     }
 
     //19.12 -- liora: delete the info and by , and return just the name recpie and the host

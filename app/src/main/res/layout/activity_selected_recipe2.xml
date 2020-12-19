@@ -38,12 +38,16 @@
         android:layout_width="111dp"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
+        android:layout_marginBottom="1dp"
         android:text="Fooding"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/Hello_user_txt"
         app:layout_constraintEnd_toStartOf="@+id/User_icon_btn"
         app:layout_constraintStart_toEndOf="@+id/Menu_icon_btn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.47000003" />
+
 
     <TextView
         android:id="@+id/Hello_user_txt"
@@ -52,9 +56,12 @@
         android:layout_marginStart="92dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="95dp"
+        android:layout_marginBottom="1dp"
         android:text="Hello user"
         android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/SCrool_icon"
         app:layout_constraintEnd_toStartOf="@+id/User_icon_btn"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toEndOf="@+id/Menu_icon_btn"
         app:layout_constraintTop_toBottomOf="@+id/Logo_text" />
 
@@ -63,15 +70,15 @@
         android:layout_width="344dp"
         android:layout_height="15dp"
         android:layout_marginStart="42dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="42dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toTopOf="@+id/recipe_header_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Hello_user_txt"
         app:srcCompat="@drawable/ic_longcircle2" />
-
 
     <TextView
         android:id="@+id/recipe_header_view"
@@ -165,7 +172,7 @@
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/ings_phrase"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8"
         app:srcCompat="@drawable/ic_longcircle2" />
@@ -175,7 +182,7 @@
         android:layout_width="174dp"
         android:layout_height="151dp"
         android:layout_marginStart="118dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="119dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

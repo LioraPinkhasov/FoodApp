@@ -7,6 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 public class selected_recipe2 extends AppCompatActivity {
 
@@ -60,6 +63,15 @@ public class selected_recipe2 extends AppCompatActivity {
 
         //added image
         r_image = (ImageView)findViewById(R.id.imageView8);
+        String imageurl = choosen_recipe.getRimage();
+        Toast.makeText(selected_recipe2.this, "hi", Toast.LENGTH_SHORT).show();
+
+        if (imageurl!=null)
+        {
+            Glide.with(this).load(imageurl).into(r_image);
+        }
+        //Glide.with(this).load("https://firebasestorage.googleapis.com/v0/b/fooding-90639.appspot.com/o/Image%2F18f2abc0-b81b-4b62-9ad6-e0cffce6a89c?alt=media&token=e09122c5-9fab-4a69-ba62-dfa17cda9e29").into(r_image);
+
         Uri img;
         //r_image.setImageURI(img);
 
