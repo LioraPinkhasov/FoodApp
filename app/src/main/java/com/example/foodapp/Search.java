@@ -193,7 +193,7 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("Author").orderByChild("Author_Name").startAt(usrInput);
+                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName").startAt(usrInput);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
