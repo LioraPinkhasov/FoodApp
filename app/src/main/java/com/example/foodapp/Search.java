@@ -149,7 +149,7 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("Author").orderByChild("RecpieDetiels").startAt(usrInput);
+                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host").startAt(usrInput);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -164,7 +164,7 @@ public class Search extends AppCompatActivity {
 
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
-                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
