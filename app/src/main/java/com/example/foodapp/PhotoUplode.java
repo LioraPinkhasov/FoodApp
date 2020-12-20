@@ -116,8 +116,13 @@ public class PhotoUplode extends AppCompatActivity {
     }
 
 
+
+
+
     // UploadImage method
     private void uploadImage() {
+
+
         if (filePath != null) {
             // Code for showing progressDialog while uploading
             ProgressDialog progressDialog
@@ -126,7 +131,8 @@ public class PhotoUplode extends AppCompatActivity {
             progressDialog.show();
 
             // Defining the child of storageReference
-            dbRecipeRef2 = mDatabase2.getReference().child("Image/" + UUID.randomUUID().toString());
+            String uid = UUID.randomUUID().toString();
+            dbRecipeRef2 = mDatabase2.getReference().child("Image/" + uid);
 
             // adding listeners on upload
             // or failure of image
@@ -134,7 +140,14 @@ public class PhotoUplode extends AppCompatActivity {
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(
+
+                                /////////////!!!!!!--------------------->continue from here
+
                                 UploadTask.TaskSnapshot taskSnapshot) {
+                            Uri  downloadUrl = filePath;
+                            String generatedFilePath = downloadUrl.getPath().toString();
+
+                            /////////////////////////////-------------->find how to find the url
 
                             // Image uploaded successfully
                             // Dismiss dialog
@@ -145,6 +158,9 @@ public class PhotoUplode extends AppCompatActivity {
                                             Toast.LENGTH_SHORT)
                                     .show();
                         }
+
+
+
                     })
 
                     .addOnFailureListener(new OnFailureListener() {
@@ -177,6 +193,25 @@ public class PhotoUplode extends AppCompatActivity {
                                                     + (int) progress + "%");
                                 }
                             });
+
+             ///try
+            //try
+           mDatabase2.getReference().child("Image/" + uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri)
+                {
+                 String a = uri.toString();
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+
+            /////
         }}
 
 

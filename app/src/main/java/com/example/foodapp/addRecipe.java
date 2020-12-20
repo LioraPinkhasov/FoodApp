@@ -52,6 +52,8 @@ public class addRecipe extends AppCompatActivity
         recipeName = (EditText)findViewById(R.id.recipeName_TextView);
         ingridientsList = (EditText)findViewById(R.id.ingredient_list_text);
         howToDescription = (EditText)findViewById(R.id.wrkProgress_text);
+        //Rphoto = (EditText)findViewById(R.id.)
+
 
         // Init DB references
         mDatabase = FirebaseDatabase.getInstance();
@@ -70,6 +72,9 @@ public class addRecipe extends AppCompatActivity
             String rName = recipeName.getText().toString().toLowerCase().trim(); // Should I use trim?
             String rIngridients = ingridientsList.getText().toString().toLowerCase().trim();
             String howTo = howToDescription.getText().toString().trim();;
+
+            //image url
+            String rImage = ""; //TODO: get link to image in 55
 
             // 1) Check if any field is empty and show toast ,  else put them inside a string;
 
@@ -109,7 +114,11 @@ public class addRecipe extends AppCompatActivity
             // 2.e)
             String measures = "How do I get the measures?";
             // 3) Store the recipe in DB
-            Recipe newRecipe = new Recipe( 0 , currentDate ,host,howTo ,id ,measures , commas+1 ,rIngridients , rName ); // Creating the new recipe
+
+
+            //!!!!!!!-> 19.12 ->liora added anoter tab for use.
+            //Recipe newRecipe = new Recipe( 0 , currentDate ,host,howTo ,id ,measures , commas+1 ,rIngridients , rName ); // Creating the new recipe
+            Recipe newRecipe = new Recipe( 0 , currentDate ,host,howTo ,id ,measures , commas+1 ,rIngridients , rName , rImage); // Creating the new recipe
             newRecipe.setId(dbRecipeRef.push().getKey());
             dbRecipeRef.child(newRecipe.getId()).setValue(newRecipe);
             // 4) Toast and move to main page.

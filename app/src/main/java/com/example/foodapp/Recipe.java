@@ -13,9 +13,12 @@ public class Recipe implements Serializable
     public int numOfProducts ;
     public String products ;
     public String recipeName ;
+    public String rimage;
 
 
-    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName   )
+    //!!!!!!-> 19.12 ->liora: added anoter colom
+    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName , String  Image)
+    //public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName)
     {
         this.numOfProducts = numOfProducts;
         this.recipeName = recipeName;
@@ -26,6 +29,10 @@ public class Recipe implements Serializable
         this.host = host;
         this.id = id;
         this.products = products;
+        this.rimage = Image;
+
+
+
 
     }
 
@@ -33,6 +40,7 @@ public class Recipe implements Serializable
     {
        // int a=0;
     }
+
 
     public void setId(String id) {
         this.id = id;
@@ -106,9 +114,21 @@ public class Recipe implements Serializable
         return howTo;
     }
 
+    //image
+    public void setRimage(String rimage) {
+        this.rimage = rimage;
+    }
+
+    public String getRimage() {
+        return rimage;
+    }
+
+    //19.12 -- liora: delete the info and by , and return just the name recpie and the host
+    // i put " " after the "," because i dont want the two labels begin in the same colm
     public String toString()
     {
-        return "This recipe name is : " + recipeName + " by : " + host + " " ;
+        //return "This recipe name is : " + recipeName + " by : " + host + " " ;
+        return (recipeName + ", " + host );
     }
 
     public String[] splitIngredients(){
@@ -116,6 +136,8 @@ public class Recipe implements Serializable
         this.products = this.products.replace(" " , "");
         return this.products.split(",");
     }
+
+
 
     /**
      * We can add a method theat return split ingridients with mesaurments
