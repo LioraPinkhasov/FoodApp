@@ -38,7 +38,7 @@ public class Search extends AppCompatActivity {
     private Button byRecipe;
 
     private List<Recipe> recipesWithMatchSize;
-    private List<String> AuthorNames;
+    private List<Recipe> AuthorNames;
     private List<Recipe> RecipeNames;
 
     public Query query;
@@ -62,6 +62,98 @@ public class Search extends AppCompatActivity {
         RecipeNames = new ArrayList<>();
         // Creating Intent to pass forward to resualt page.
 
+// Start by RecipeName
+        byRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 1) Cast the Input into an  ArrayList<String> userInputIng
+
+                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
+               // usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
+                usrInput = usrInput.toLowerCase();
+                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName").equalTo(usrInput);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot DS) {
+                        RecipeNames.clear();
+                        if (DS.exists()) {
+                            for (DataSnapshot snapshot : DS.getChildren()) {
+                                Recipe recipe = snapshot.getValue(Recipe.class);
+                                RecipeNames.add(recipe);
+                            }
+                        }
+
+
+                        // Passing the matchedRecipes  as serilizable list to result_page activity
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        myIntent.putExtra("LIST", (Serializable) RecipeNames); // Putting the list there
+                        startActivity(myIntent); // Start new activity with the given intent
+                        finish(); // End this activity
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+
+
+                    }
+                });
+
+
+            }//end onClick
+        });
+        // End by RecipeName
+
+
+        // Start search nby Author
+        byAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 1) Cast the Input into an  ArrayList<String> userInputIng
+
+                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
+                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
+                usrInput = usrInput.toLowerCase();
+                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host").equalTo(usrInput);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot DS) {
+                        AuthorNames.clear();
+                        if (DS.exists()) {
+                            for (DataSnapshot snapshot : DS.getChildren()) {
+                                Recipe names = snapshot.getValue(Recipe.class);
+                                AuthorNames.add(names);
+                            }
+                        }
+
+
+                        // Passing the matchedRecipes  as serilizable list to result_page activity
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
+                        startActivity(myIntent); // Start new activity with the given intent
+                        finish(); // End this activity
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+
+
+                    }
+                });
+
+
+            }
+        });
+        // End by Author
+
+        // Start search by Ingredients
 
         sByingredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,98 +227,21 @@ public class Search extends AppCompatActivity {
 
                     }
                 });
+                // End Search by ingredients
+
+
+
+
 
 
             }//end onClick
         });
 
 
-        byAuthor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 1) Cast the Input into an  ArrayList<String> userInputIng
-
-                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
-                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
-                usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host").startAt(usrInput);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot DS) {
-                        AuthorNames.clear();
-                        if (DS.exists()) {
-                            for (DataSnapshot snapshot : DS.getChildren()) {
-                                String names = snapshot.getValue(String.class);
-                                AuthorNames.add(names);
-                            }
-                        }
 
 
-                        // Passing the matchedRecipes  as serilizable list to result_page activity
-                        Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
-                        myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
-                        startActivity(myIntent); // Start new activity with the given intent
-                        finish(); // End this activity
 
 
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
-
-
-                    }
-                });
-
-
-            }//end onClick
-        });
-
-
-        byRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 1) Cast the Input into an  ArrayList<String> userInputIng
-
-                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
-                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
-                usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName").startAt(usrInput);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot DS) {
-                        RecipeNames.clear();
-                        if (DS.exists()) {
-                            for (DataSnapshot snapshot : DS.getChildren()) {
-                                Recipe recipe = snapshot.getValue(Recipe.class);
-                                RecipeNames.add(recipe);
-                            }
-                        }
-
-
-                        // Passing the matchedRecipes  as serilizable list to result_page activity
-                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
-                        myIntent.putExtra("LIST", (Serializable) RecipeNames); // Putting the list there
-                        startActivity(myIntent); // Start new activity with the given intent
-                        finish(); // End this activity
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
-
-
-                    }
-                });
-
-
-            }//end onClick
-        });
 
     }
 }

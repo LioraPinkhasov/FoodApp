@@ -110,7 +110,7 @@ public class addRecipe extends AppCompatActivity
             String id = "";
             // 2.d) Extract and put user email in the host string
             FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
-            String host = currentUser.getEmail(); // host is now our email.
+            String host = currentUser.getEmail().toLowerCase(); // host is now our email.
             // 2.e)
             String measures = "How do I get the measures?";
             // 3) Store the recipe in DB
