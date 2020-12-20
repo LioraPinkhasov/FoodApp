@@ -60,7 +60,8 @@ public class addRecipe extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
 
         // Clicking sendRecipe
-        sendRecipe.setOnClickListener(new View.OnClickListener() {
+        sendRecipe.setOnClickListener(new View.OnClickListener()
+        {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onClick(View v)
@@ -127,6 +128,20 @@ public class addRecipe extends AppCompatActivity
 
 
     });
+
+        // End of click on Add recipe
+    addPhoto.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+
+
+        }
+    });
+
+    // End of add photo
+
+
     }
 
 

@@ -14,7 +14,8 @@ public class Recipe implements Serializable
     public String products ;
     public String recipeName ;
 
-    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName    )
+
+    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName   )
     {
         this.numOfProducts = numOfProducts;
         this.recipeName = recipeName;
