@@ -164,7 +164,8 @@ public class Search extends AppCompatActivity {
 
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
-                        Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
+                       // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
+                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
