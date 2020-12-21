@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -141,13 +143,19 @@ public class PhotoUplode extends AppCompatActivity {
                         @Override
                         public void onSuccess(
 
-                                /////////////!!!!!!--------------------->continue from here
+                                /////////////!!!!!!--------------------->my baby is a liveeeeeeee!!!!
 
                                 UploadTask.TaskSnapshot taskSnapshot) {
-                            Uri  downloadUrl = filePath;
-                            String generatedFilePath = downloadUrl.getPath().toString();
+                            //Uri  downloadUrl = filePath;
+                            Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+                            //Bitmap bitmap = BitmapFactory.decodeFile(downloadUrl.)
+                            //String generatedFilePath = downloadUrl.getPath().toString();
+                            String generatedFilePath = downloadUrl.getResult().toString();
 
-                            /////////////////////////////-------------->find how to find the url
+
+                            //System.out.println("## Stored path is "+generatedFilePath);
+
+                            /////////////////////////////-------------->
 
                             // Image uploaded successfully
                             // Dismiss dialog
