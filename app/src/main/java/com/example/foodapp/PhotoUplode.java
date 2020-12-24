@@ -202,13 +202,13 @@ public class PhotoUplode extends AppCompatActivity {
                                 }
                             });
 
-             ///try
+            ///try
             //try
-           mDatabase2.getReference().child("Image/" + uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            mDatabase2.getReference().child("Image/" + uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri)
                 {
-                 String a = uri.toString();
+                    String a = uri.toString();
 
 
                 }
@@ -225,37 +225,37 @@ public class PhotoUplode extends AppCompatActivity {
 
 
 
-            @Override
-        protected void onCreate(Bundle savedInstanceState)
-        {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_photo_uplode);
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_photo_uplode);
 
-            ///Initialize Views
-            choose = (Button) findViewById(R.id.choose);
-            uplode = (Button) findViewById(R.id.uplode);
-            imageView6 = (ImageView) findViewById(R.id.imageView6);
+        ///Initialize Views
+        choose = (Button) findViewById(R.id.choose);
+        uplode = (Button) findViewById(R.id.uplode);
+        imageView6 = (ImageView) findViewById(R.id.imageView6);
 
-            // Init DB references
-            mDatabase = FirebaseDatabase.getInstance();
-            mDatabase2 = FirebaseStorage.getInstance();
-            //dbRecipeRef = mDatabase.getReference().child("Image/"+ UUID.randomUUID().toString());
-            // Initing FirebaseAuth instance
-            mAuth = FirebaseAuth.getInstance();
-
-
-            choose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    chooseImage();
-                }
-            });
+        // Init DB references
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabase2 = FirebaseStorage.getInstance();
+        //dbRecipeRef = mDatabase.getReference().child("Image/"+ UUID.randomUUID().toString());
+        // Initing FirebaseAuth instance
+        mAuth = FirebaseAuth.getInstance();
 
 
-            uplode.setOnClickListener(new View.OnClickListener() {
+        choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               uploadImage();
+                chooseImage();
+            }
+        });
+
+
+        uplode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadImage();
             }
         });
 

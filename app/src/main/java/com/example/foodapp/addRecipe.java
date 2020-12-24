@@ -127,7 +127,8 @@ public class addRecipe extends AppCompatActivity
             String uid = UUID.randomUUID().toString();
             dbRecipeRef2 = mDatabase2.getReference().child("Image/" + uid);
 
-            // adding listeners on upload
+            //*
+           // adding listeners on upload
             // or failure of image
             dbRecipeRef2.putFile(filePath).addOnSuccessListener(
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -192,6 +193,15 @@ public class addRecipe extends AppCompatActivity
                                     progressDialog.setMessage(
                                             "Uploaded "
                                                     + (int) progress + "%");
+
+                                    ////
+                                    //Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+                                    //Bitmap bitmap = BitmapFactory.decodeFile(downloadUrl.)
+                                    //String generatedFilePath = downloadUrl.getPath().toString();
+                                    // String generatedFilePath = downloadUrl.getResult().toString();
+                                    //generatedFilePath = downloadUrl.getResult().toString();
+                                    //////
+
                                 }
                             });
 
@@ -287,6 +297,25 @@ public class addRecipe extends AppCompatActivity
 
             //21.12 addition uplode photo
             uploadImage();
+            //////3:17 edit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            ///end 3:17 edit
             //image url
             //String rImage = ""; //TODO: get link to image in 55
             String rImage;
