@@ -132,8 +132,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/insert_single_data_text"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.605"
@@ -176,31 +174,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.923" />
 
-    <EditText
-        android:id="@+id/insert_single_data_text"
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoCompleteTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="recipe name or author"
+        android:text="MultiAutoCompleteTextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61" />
+        app:layout_constraintVertical_bias="0.237" />
 
-    <EditText
-        android:id="@+id/ingData_input"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="egg,salt,butter,cheese"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="AutoCompleteTextView"
+        app:layout_constraintBottom_toTopOf="@+id/by_author_bttn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/by_ing_buttn"
+        app:layout_constraintVertical_bias="0.426" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
