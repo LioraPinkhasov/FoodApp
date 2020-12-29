@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
@@ -40,10 +41,15 @@ public class Search extends AppCompatActivity {
     private List<Recipe> recipesWithMatchSize;
     private List<String> AuthorNames;
     private List<Recipe> RecipeNames;
-
+    private List<String> prepareIngredient;
+    private List<String> prepareRecipesOrAuthor;
     public Query query;
-    private EditText ingData;
-    private EditText authorOrRecipeNames;
+    private MultiAutoCompleteTextView ingData;
+    private AutoCompleteTextView authorOrRecipeNames;
+    private Query ingredientQuery;
+    private Query RecipeQuery;
+    private Query AuthorQuery;
+
 
 
     @Override
@@ -51,12 +57,40 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
+        prepareIngredient = new ArrayList<>();
+        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products").orderByChild("name");
+        ingredientQuery.addListenerForSingleValueEvent(valueEventListener);
+
+        ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
+        ingData.setThreshold(5);
+        String[] ingredientArray = (String[]) prepareIngredient.toArray();
+
+        ArrayAdapter<String> adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ingredientArray);
+        ingData.setAdapter(adaptIng);
+        ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+
+
+        prepareRecipesOrAuthor = new ArrayList<>();
+        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
+        RecipeQuery.addListenerForSingleValueEvent(valueEventListener2);
+
+        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
+        AuthorQuery.addListenerForSingleValueEvent(valueEventListener2);
+
+        authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        authorOrRecipeNames.setThreshold(5);
+        String[] recipeOrAuthorArray = (String[]) prepareRecipesOrAuthor.toArray();
+
+        ArrayAdapter<String> adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
+        authorOrRecipeNames.setAdapter(adaptRecipe);
+
+
         // Connecting the XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn);
-        ingData = (EditText) findViewById(R.id.ingData_input); // This is the field were ingredient input is comming from
         byAuthor = (Button) findViewById(R.id.by_author_bttn);
         byRecipe = (Button) findViewById(R.id.by_recipe_bttn);
-        authorOrRecipeNames = (EditText) findViewById(R.id.insert_single_data_text);
         recipesWithMatchSize = new ArrayList<>();
         AuthorNames = new ArrayList<>();
         RecipeNames = new ArrayList<>();
@@ -83,8 +117,7 @@ public class Search extends AppCompatActivity {
                 String strSize = String.valueOf(size);
 
                 query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("numOfProducts").equalTo(size);
-                query.addListenerForSingleValueEvent(new ValueEventListener()
-                {
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot DS) {
@@ -164,8 +197,8 @@ public class Search extends AppCompatActivity {
 
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
-                       // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
-                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
@@ -228,6 +261,42 @@ public class Search extends AppCompatActivity {
 
             }//end onClick
         });
-
     }
+
+
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String ingred = snapshot.getValue(String.class);
+                    prepareIngredient.add(ingred);
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+
+    ValueEventListener valueEventListener2 = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String recipe = snapshot.getValue(String.class);
+                    prepareRecipesOrAuthor.add(recipe);
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
 }
