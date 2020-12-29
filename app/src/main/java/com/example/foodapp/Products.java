@@ -1,6 +1,8 @@
 package com.example.foodapp;
 
 
+import java.util.List;
+
 /**
  * This class represents a ingridient named as product in the DB
  */
@@ -16,6 +18,7 @@ public class Products {
         this.name = name;
 
     }
+
 
     public String getMeasures() {
         return measures;
