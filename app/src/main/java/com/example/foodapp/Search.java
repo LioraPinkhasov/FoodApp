@@ -48,7 +48,7 @@ public class Search extends AppCompatActivity {
     public Query query;
     private MultiAutoCompleteTextView ingData;
     private AutoCompleteTextView authorOrRecipeNames;
-    private Query ingredientQuery;
+    private DatabaseReference ingredientQuery;
     private Query RecipeQuery;
     private Query AuthorQuery;
 
@@ -59,10 +59,11 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-
         prepareIngredient = new ArrayList<>();
-        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products\\name").orderByChild("name");
+        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products"); //.orderByChild("name");
         ingredientQuery.addListenerForSingleValueEvent(valueEventListener);
+
+
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(5);
@@ -79,7 +80,7 @@ public class Search extends AppCompatActivity {
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 
-        prepareRecipesOrAuthor = new ArrayList<>();
+    /*    prepareRecipesOrAuthor = new ArrayList<>();
         RecipeQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
         RecipeQuery.addListenerForSingleValueEvent(valueEventListener2);
 
@@ -96,7 +97,7 @@ public class Search extends AppCompatActivity {
         }
 
         adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
-        authorOrRecipeNames.setAdapter(adaptRecipe);
+        authorOrRecipeNames.setAdapter(adaptRecipe);*/
 
 
         // Connecting the XML to our Objects
@@ -273,6 +274,7 @@ public class Search extends AppCompatActivity {
 
             }//end onClick
         });
+
     }
 
 
