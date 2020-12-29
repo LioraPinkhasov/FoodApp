@@ -41,14 +41,14 @@ public class Search extends AppCompatActivity {
     private List<Recipe> recipesWithMatchSize;
     private List<String> AuthorNames;
     private List<Recipe> RecipeNames;
-    private List<Products> prepareIngredient;
+    private List<String> prepareIngredient;
     private List<Recipe> prepareRecipesOrAuthor;
     public ArrayAdapter<String> adaptIng;
     public ArrayAdapter<String> adaptRecipe;
     public Query query;
     private MultiAutoCompleteTextView ingData;
     private AutoCompleteTextView authorOrRecipeNames;
-    private Query ingredientQuery;
+    private DatabaseReference ingredientQuery;
     private Query RecipeQuery;
     private Query AuthorQuery;
 
@@ -61,16 +61,38 @@ public class Search extends AppCompatActivity {
 
 
         prepareIngredient = new ArrayList<>();
-        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products\\name").orderByChild("name");
-        ingredientQuery.addListenerForSingleValueEvent(valueEventListener);
+        FirebaseDatabase.getInstance().getReference("Products").addListenerForSingleValueEvent(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    List<Products> tmp = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String key = snapshot.getKey();
+                        String ingred = snapshot.child("name").getValue(String.class);
+                        prepareIngredient.add(ingred);
+                    }
+                    adaptIng.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+
+        });
+
+        //ingredientQuery.addListenerForSingleValueEvent(new ValueEventListener () {
+
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(5);
 
         String[] ingredientArray = new String[prepareIngredient.size()];
         int i = 0;
-        for(Products ing : prepareIngredient){
-            ingredientArray[i] = ing.getName();
+        for(String ing : prepareIngredient){
+            ingredientArray[i] = ing;
             i++;
         }
 
@@ -79,7 +101,7 @@ public class Search extends AppCompatActivity {
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 
-        prepareRecipesOrAuthor = new ArrayList<>();
+       /* prepareRecipesOrAuthor = new ArrayList<>();
         RecipeQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
         RecipeQuery.addListenerForSingleValueEvent(valueEventListener2);
 
@@ -97,7 +119,7 @@ public class Search extends AppCompatActivity {
 
         adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
         authorOrRecipeNames.setAdapter(adaptRecipe);
-
+*/
 
         // Connecting the XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn);
@@ -277,7 +299,7 @@ public class Search extends AppCompatActivity {
 
 
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
+    /*ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
@@ -293,7 +315,7 @@ public class Search extends AppCompatActivity {
         public void onCancelled(DatabaseError databaseError) {
 
         }
-    };
+    };*/
 
 
     ValueEventListener valueEventListener2 = new ValueEventListener() {
