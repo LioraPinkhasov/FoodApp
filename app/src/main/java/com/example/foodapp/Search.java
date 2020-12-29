@@ -57,21 +57,6 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String ingred = snapshot.getValue(String.class);
-                        prepareIngredient.add(ingred);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
 
         prepareIngredient = new ArrayList<>();
         ingredientQuery = FirebaseDatabase.getInstance().getReference("Products").orderByChild("name");
@@ -85,35 +70,20 @@ public class Search extends AppCompatActivity {
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        ValueEventListener valueEventListener2 = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String recipe = snapshot.getValue(String.class);
-                        prepareRecipesOrAuthor.add(recipe);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
 
         prepareRecipesOrAuthor = new ArrayList<>();
-        RecipeQuery  = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
+        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
         RecipeQuery.addListenerForSingleValueEvent(valueEventListener2);
 
-        AuthorQuery  = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
+        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
         AuthorQuery.addListenerForSingleValueEvent(valueEventListener2);
 
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(5);
         String[] recipeOrAuthorArray = (String[]) prepareRecipesOrAuthor.toArray();
 
-        ArrayAdapter<String> adaptRecipe  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
+        ArrayAdapter<String> adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
         authorOrRecipeNames.setAdapter(adaptRecipe);
 
 
@@ -147,8 +117,7 @@ public class Search extends AppCompatActivity {
                 String strSize = String.valueOf(size);
 
                 query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("numOfProducts").equalTo(size);
-                query.addListenerForSingleValueEvent(new ValueEventListener()
-                {
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot DS) {
@@ -228,8 +197,8 @@ public class Search extends AppCompatActivity {
 
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
-                       // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
-                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
@@ -292,6 +261,42 @@ public class Search extends AppCompatActivity {
 
             }//end onClick
         });
-
     }
+
+
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String ingred = snapshot.getValue(String.class);
+                    prepareIngredient.add(ingred);
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+
+    ValueEventListener valueEventListener2 = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String recipe = snapshot.getValue(String.class);
+                    prepareRecipesOrAuthor.add(recipe);
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
 }
