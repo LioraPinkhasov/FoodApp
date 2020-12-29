@@ -60,7 +60,7 @@ public class Search extends AppCompatActivity {
 
         prepareIngredient = new ArrayList<>();
         ingredientQuery = FirebaseDatabase.getInstance().getReference("Products").orderByChild("name");
-        ingredientQuery.addListenerForSingleValueEvent(valueEventListener);
+        ingredientQuery.addListenerForSingleValueEvent(valueEventListenerFQ);
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(5);
@@ -265,7 +265,7 @@ public class Search extends AppCompatActivity {
 
 
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
+    ValueEventListener valueEventListenerFQ = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
