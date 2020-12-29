@@ -43,6 +43,8 @@ public class Search extends AppCompatActivity {
     private List<Recipe> RecipeNames;
     private List<Products> prepareIngredient;
     private List<Recipe> prepareRecipesOrAuthor;
+    public ArrayAdapter<String> adaptIng;
+    public ArrayAdapter<String> adaptRecipe;
     public Query query;
     private MultiAutoCompleteTextView ingData;
     private AutoCompleteTextView authorOrRecipeNames;
@@ -59,8 +61,8 @@ public class Search extends AppCompatActivity {
 
 
         prepareIngredient = new ArrayList<>();
-        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products").orderByChild("name");
-        ingredientQuery.addListenerForSingleValueEvent(valueEventListenerFQ);
+        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products\\name").orderByChild("name");
+        ingredientQuery.addListenerForSingleValueEvent(valueEventListener);
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(5);
@@ -72,10 +74,9 @@ public class Search extends AppCompatActivity {
             i++;
         }
 
-        ArrayAdapter<String> adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ingredientArray);
+        adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ingredientArray);
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
 
 
         prepareRecipesOrAuthor = new ArrayList<>();
@@ -94,7 +95,7 @@ public class Search extends AppCompatActivity {
             j++;
         }
 
-        ArrayAdapter<String> adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
+        adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
         authorOrRecipeNames.setAdapter(adaptRecipe);
 
 
@@ -276,7 +277,7 @@ public class Search extends AppCompatActivity {
 
 
 
-    ValueEventListener valueEventListenerFQ = new ValueEventListener() {
+    ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
@@ -284,6 +285,7 @@ public class Search extends AppCompatActivity {
                     Products ingred = snapshot.getValue(Products.class);
                     prepareIngredient.add(ingred);
                 }
+                adaptIng.notifyDataSetChanged();
             }
         }
 
@@ -303,6 +305,7 @@ public class Search extends AppCompatActivity {
                     Recipe recipe = snapshot.getValue(Recipe.class);
                     prepareRecipesOrAuthor.add(recipe);
                 }
+                adaptRecipe.notifyDataSetChanged();
             }
         }
 
