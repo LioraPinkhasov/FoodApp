@@ -41,8 +41,8 @@ public class Search extends AppCompatActivity {
     private List<Recipe> recipesWithMatchSize;
     private List<String> AuthorNames;
     private List<Recipe> RecipeNames;
-    private List<String> prepareIngredient;
-    private List<String> prepareRecipesOrAuthor;
+    private List<Products> prepareIngredient;
+    private List<Recipe> prepareRecipesOrAuthor;
     public Query query;
     private MultiAutoCompleteTextView ingData;
     private AutoCompleteTextView authorOrRecipeNames;
@@ -64,7 +64,13 @@ public class Search extends AppCompatActivity {
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(5);
-        String[] ingredientArray = (String[]) prepareIngredient.toArray();
+
+        String[] ingredientArray = new String[prepareIngredient.size()];
+        int i = 0;
+        for(Products ing : prepareIngredient){
+            ingredientArray[i] = ing.getName();
+            i++;
+        }
 
         ArrayAdapter<String> adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ingredientArray);
         ingData.setAdapter(adaptIng);
@@ -81,7 +87,12 @@ public class Search extends AppCompatActivity {
 
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(5);
-        String[] recipeOrAuthorArray = (String[]) prepareRecipesOrAuthor.toArray();
+        String[] recipeOrAuthorArray = new String[prepareRecipesOrAuthor.size()];
+        int j = 0;
+        for(Recipe rec : prepareRecipesOrAuthor){
+            ingredientArray[j] = rec.getRecipeName();
+            j++;
+        }
 
         ArrayAdapter<String> adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
         authorOrRecipeNames.setAdapter(adaptRecipe);
@@ -270,7 +281,7 @@ public class Search extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String ingred = snapshot.getValue(String.class);
+                    Products ingred = snapshot.getValue(Products.class);
                     prepareIngredient.add(ingred);
                 }
             }
@@ -289,7 +300,7 @@ public class Search extends AppCompatActivity {
 
             if (dataSnapshot.exists()) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String recipe = snapshot.getValue(String.class);
+                    Recipe recipe = snapshot.getValue(Recipe.class);
                     prepareRecipesOrAuthor.add(recipe);
                 }
             }
