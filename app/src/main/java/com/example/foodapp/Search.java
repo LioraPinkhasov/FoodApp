@@ -69,8 +69,6 @@ public class Search extends AppCompatActivity {
                         adaptIng.add(ingred.getName());
                     }
                 }
-
-
             }
 
             @Override
@@ -81,30 +79,55 @@ public class Search extends AppCompatActivity {
 
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
-        ingData.setThreshold(1);
+        ingData.setThreshold(0);
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-
-       /* prepareRecipesOrAuthor = new ArrayList<>();
+        adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         RecipeQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
-        RecipeQuery.addListenerForSingleValueEvent(valueEventListener2);
+        RecipeQuery.addListenerForSingleValueEvent(new ValueEventListener () {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Recipe ingred = data.getValue(Recipe.class);
+                        adaptRecipe.add(ingred.getRecipeName());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         AuthorQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
-        AuthorQuery.addListenerForSingleValueEvent(valueEventListener2);
+        AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener () {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Recipe ingred = data.getValue(Recipe.class);
+                        adaptRecipe.add(ingred.getRecipeName());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
 
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        authorOrRecipeNames.setThreshold(5);
-        String[] recipeOrAuthorArray = new String[prepareRecipesOrAuthor.size()];
-        int j = 0;
-        for(Recipe rec : prepareRecipesOrAuthor){
-            ingredientArray[j] = rec.getRecipeName();
-            j++;
-        }
-
-        adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
+        authorOrRecipeNames.setThreshold(0);
         authorOrRecipeNames.setAdapter(adaptRecipe);
-*/
+
 
         // Connecting the XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn);
