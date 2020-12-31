@@ -81,7 +81,7 @@ public class Search extends AppCompatActivity {
 
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
-        ingData.setThreshold(5);
+        ingData.setThreshold(1);
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
