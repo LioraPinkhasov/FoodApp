@@ -1,6 +1,7 @@
 package com.example.foodapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -79,7 +80,7 @@ public class Search extends AppCompatActivity {
 
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
-        ingData.setThreshold(0);
+        ingData.setThreshold(1);
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
@@ -125,7 +126,7 @@ public class Search extends AppCompatActivity {
         });
 
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        authorOrRecipeNames.setThreshold(0);
+        authorOrRecipeNames.setThreshold(1);
         authorOrRecipeNames.setAdapter(adaptRecipe);
 
 
