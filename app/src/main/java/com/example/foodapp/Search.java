@@ -86,22 +86,21 @@ public class Search extends AppCompatActivity {
         ingData.setThreshold(1);
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        //ingData.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
-        //ingData.setOnFocusChangeListener(new FocusListener());
+//        ingData.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
+//        ingData.setOnFocusChangeListener(new FocusListener());
 
 
-       /* ingData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /* ingData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 String currentText = parent.toString();
                 String[] currentList = currentText.replace(" ", "").split(",");
                 int length = currentList.length;
                 if (length > 2) {
                     for (int i = 0; i < length - 1; i++) {
                         if (i < position) {
-                            if (currentList[i] == currentList[position]) {
+                            if (currentList[i].equals(currentList[position])) {
                                 adaptIng.remove(currentList[position]);
                                 ingData.setAdapter(adaptIng);
                                 //do the something when you select the same value
@@ -110,8 +109,8 @@ public class Search extends AppCompatActivity {
                     }
                 }
             }
-        });
-        */
+        }); */
+
 
 
 
@@ -230,7 +229,7 @@ public class Search extends AppCompatActivity {
                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) matchedRcipes); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
-                        finish(); // End this activity
+//                        finish(); // End this activity
 
 
                     }

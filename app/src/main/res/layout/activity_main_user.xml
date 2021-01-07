@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.768" />
+        app:layout_constraintVertical_bias="0.812" />
 
     <TextView
         android:id="@+id/wellcome_box"
@@ -41,20 +41,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576" />
-
-    <Button
-        android:id="@+id/add_recipe2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="Recpieperm"
-        android:text="Recpie permmision"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.472" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <Button
         android:id="@+id/move_to_search_button"
@@ -78,20 +65,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wellcome_box" />
-
-    <Button
-        android:id="@+id/upphoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="134dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="uplodephoto"
-        android:text="Uplode Photo"
-        app:layout_constraintBottom_toTopOf="@+id/lug_out_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_recipe" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

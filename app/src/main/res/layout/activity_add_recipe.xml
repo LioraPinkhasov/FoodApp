@@ -63,7 +63,7 @@
         android:layout_width="344dp"
         android:layout_height="15dp"
         android:layout_marginStart="37dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -88,32 +88,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="79dp"
-        android:layout_marginTop="18dp"
         android:layout_marginEnd="69dp"
-        android:layout_marginBottom="21dp"
-        android:text="Add Recpie"
+        android:text="Add Recipe"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/SCrool_icon2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SCrool_icon" />
 
     <EditText
         android:id="@+id/wrkProgress_text"
-        android:layout_width="345dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="37dp"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="10dp"
         android:ems="10"
 
+        android:hint="Describe the working progress"
         android:inputType="textPersonName"
-        android:text="describe the working progress"
         app:layout_constraintBottom_toTopOf="@+id/imageView9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ingredient_list_text" />
 
@@ -122,15 +119,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="60dp"
         android:text="send recipe"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/add_photo_button"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <Button
         android:id="@+id/add_photo_button"
@@ -145,20 +139,17 @@
         app:layout_constraintEnd_toStartOf="@+id/send_recipe_button"
         app:layout_constraintHorizontal_bias="0.188"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <EditText
         android:id="@+id/recipeName_TextView"
         android:layout_width="345dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="37dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginBottom="1dp"
         android:ems="10"
+        android:hint="Name of recipe"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBottom_toTopOf="@+id/ingredient_list_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,17 +158,14 @@
     <EditText
         android:id="@+id/ingredient_list_text"
         android:layout_width="345dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="37dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginBottom="5dp"
         android:ems="10"
+        android:hint="Write your ingredients here, separated by a comma"
         android:inputType="textPersonName"
-        android:text='Write your ingredients here ,  sperated by a comma "," '
         app:layout_constraintBottom_toTopOf="@+id/wrkProgress_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeName_TextView"
         app:layout_constraintVertical_bias="0.35000002" />
@@ -189,7 +177,6 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="33dp"
-        app:layout_constraintBottom_toTopOf="@+id/send_recipe_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
