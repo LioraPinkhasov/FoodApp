@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.util.List;
 
-public class results_page extends AppCompatActivity implements RecyclerViewAdapter_forRecipes.ItemClickListener{
+public class results_page extends AppCompatActivity implements ItemClickListener{
 
     RecyclerViewAdapter_forRecipes adapter;
     List<Recipe> recived_list;

@@ -285,7 +285,8 @@ public class addRecipe extends AppCompatActivity
         //end addition 21.12
 
         // Clicking sendRecipe
-        sendRecipe.setOnClickListener(new View.OnClickListener() {
+        sendRecipe.setOnClickListener(new View.OnClickListener()
+        {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onClick(View v)
@@ -361,7 +362,7 @@ public class addRecipe extends AppCompatActivity
             String id = "";
             // 2.d) Extract and put user email in the host string
             FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
-            String host = currentUser.getEmail(); // host is now our email.
+            String host = currentUser.getEmail().toLowerCase(); // host is now our email.
             // 2.e)
             String measures = "How do I get the measures?";
             // 3) Store the recipe in DB
@@ -379,12 +380,8 @@ public class addRecipe extends AppCompatActivity
             dbRecipeRef.child(newRecipe.getId()).setValue(newRecipe);
             // 4) Toast and move to main page.
             Toast.makeText(addRecipe.this, "Thank you ! your recipe is added ! and will be visible when aproved by admin. ", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
-
-
-
-
-
+            //startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
+            finish();
 
 
         }
@@ -397,6 +394,20 @@ public class addRecipe extends AppCompatActivity
 
 
     });
+
+        // End of click on Add recipe
+    addPhoto.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+
+
+        }
+    });
+
+    // End of add photo
+
+
     }
 
 

@@ -176,25 +176,32 @@
 
     <MultiAutoCompleteTextView
         android:id="@+id/multiAutoCompleteTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:text="MultiAutoCompleteTextView"
+        android:hint="e.g. - eggs, milk"
+        android:textColorHint="#80808080"
+        android:text=""
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.237" />
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:text="AutoCompleteTextView"
+        android:text=""
+        android:hint="e.g. - Pancakes"
+        android:textColorHint="#80808080"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/by_author_bttn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toEndOf="@+id/searchGlassIcon2"
         app:layout_constraintTop_toBottomOf="@+id/by_ing_buttn"
-        app:layout_constraintVertical_bias="0.426" />
+        app:layout_constraintVertical_bias="0.413" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,7 +35,9 @@ public class activity_debug extends AppCompatActivity {
         button_ACTIVITY_MAIN_USER.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
+                    Intent myLoginIntent = new Intent(getApplicationContext(), MainUserActivity.class);
+                    myLoginIntent.putExtra("isAdmin" , true );
+                    startActivity(myLoginIntent);
                 }
 
         });

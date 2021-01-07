@@ -1,28 +1,25 @@
 package com.example.foodapp;
 
 import android.content.Intent;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.CountDownLatch;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,15 +38,15 @@ public class Search extends AppCompatActivity {
     private List<Recipe> recipesWithMatchSize;
     private List<String> AuthorNames;
     private List<Recipe> RecipeNames;
-    private List<String> prepareIngredient;
-    private List<String> prepareRecipesOrAuthor;
+    private List<Recipe> prepareRecipesOrAuthor;
+    public ArrayAdapter<String> adaptIng;
+    public ArrayAdapter<String> adaptRecipe;
     public Query query;
     private MultiAutoCompleteTextView ingData;
     private AutoCompleteTextView authorOrRecipeNames;
-    private Query ingredientQuery;
+    private DatabaseReference ingredientQuery;
     private Query RecipeQuery;
     private Query AuthorQuery;
-
 
 
     @Override
@@ -57,63 +54,110 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products");
+        ingredientQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String ingred = snapshot.getValue(String.class);
-                        prepareIngredient.add(ingred);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Products ingred = data.getValue(Products.class);
+                        adaptIng.add(ingred.getName());
                     }
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        prepareIngredient = new ArrayList<>();
-        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products").orderByChild("name");
-        ingredientQuery.addListenerForSingleValueEvent(valueEventListener);
+            }
+        });
+
+        adaptIng.sort(new Comparator<String>() {
+            @Override
+            public int compare(String leftProduct, String rightProduct) {
+                return leftProduct.compareTo(rightProduct);   // Sort by name
+            }
+        });
+
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
-        ingData.setThreshold(5);
-        String[] ingredientArray = (String[]) prepareIngredient.toArray();
-
-        ArrayAdapter<String> adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ingredientArray);
+        ingData.setThreshold(1);
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        //ingData.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
+        //ingData.setOnFocusChangeListener(new FocusListener());
 
-        ValueEventListener valueEventListener2 = new ValueEventListener() {
+
+       /* ingData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String recipe = snapshot.getValue(String.class);
-                        prepareRecipesOrAuthor.add(recipe);
+                String currentText = parent.toString();
+                String[] currentList = currentText.replace(" ", "").split(",");
+                int length = currentList.length;
+                if (length > 2) {
+                    for (int i = 0; i < length - 1; i++) {
+                        if (i < position) {
+                            if (currentList[i] == currentList[position]) {
+                                adaptIng.remove(currentList[position]);
+                                ingData.setAdapter(adaptIng);
+                                //do the something when you select the same value
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        */
+
+
+
+
+        adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
+        RecipeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Recipe ingred = data.getValue(Recipe.class);
+                        adaptRecipe.add(ingred.getRecipeName());
                     }
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
-        };
+        });
 
-        prepareRecipesOrAuthor = new ArrayList<>();
-        RecipeQuery  = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName");
-        RecipeQuery.addListenerForSingleValueEvent(valueEventListener2);
+        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
+        AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
-        AuthorQuery  = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
-        AuthorQuery.addListenerForSingleValueEvent(valueEventListener2);
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Recipe ingred = data.getValue(Recipe.class);
+                        adaptRecipe.add(ingred.getRecipeName());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
 
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        authorOrRecipeNames.setThreshold(5);
-        String[] recipeOrAuthorArray = (String[]) prepareRecipesOrAuthor.toArray();
-
-        ArrayAdapter<String> adaptRecipe  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeOrAuthorArray);
+        authorOrRecipeNames.setThreshold(1);
         authorOrRecipeNames.setAdapter(adaptRecipe);
 
 
@@ -147,8 +191,7 @@ public class Search extends AppCompatActivity {
                 String strSize = String.valueOf(size);
 
                 query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("numOfProducts").equalTo(size);
-                query.addListenerForSingleValueEvent(new ValueEventListener()
-                {
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot DS) {
@@ -228,8 +271,8 @@ public class Search extends AppCompatActivity {
 
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
-                       // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
-                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                        // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
+                        Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
@@ -292,6 +335,57 @@ public class Search extends AppCompatActivity {
 
             }//end onClick
         });
+    }
 
+    class Validator implements MultiAutoCompleteTextView.Validator {
+
+        @Override
+        public boolean isValid(CharSequence text) {
+            Log.v("Test", "Checking if valid: "+ text);
+            adaptIng.sort(new Comparator<String>() {
+                @Override
+                public int compare(String lhs, String rhs) {
+                    return lhs.compareTo(rhs);   //or whatever your sorting algorithm
+                }
+            });
+
+            String tmp = (String) text;
+            if (adaptIng.getPosition(tmp) < 0) {
+                    return false;
+            }
+
+            String[] usrInput = ingData.getText().toString().split(",");
+            for (int i = 0; i < usrInput.length-1; i++) {
+                if(usrInput[i] == usrInput[usrInput.length-1]){
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        @Override
+        public CharSequence fixText(CharSequence invalidText) {
+            Log.v("Test", "Returning fixed text");
+
+            /* I'm just returning an empty string here, so the field will be blanked,
+             * but you could put any kind of action here, like popping up a dialog?
+             *
+             * Whatever value you return here must be in the list of valid words.
+             */
+            return "";
+        }
+    }
+
+    class FocusListener implements View.OnFocusChangeListener {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            Log.v("Test", "Focus changed");
+            if (v.getId() == R.id.autoCompleteTextView && !hasFocus) {
+                Log.v("Test", "Performing validation");
+                ((AutoCompleteTextView)v).performValidation();
+            }
+        }
     }
 }

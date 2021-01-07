@@ -25,9 +25,9 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
         this.mClickListener = itemClickListener;
     }
 
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
+//    public interface ItemClickListener {
+//        void onItemClick(View view, int position);
+//    }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
