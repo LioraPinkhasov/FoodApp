@@ -1,6 +1,7 @@
 package com.example.foodapp;
 
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -40,5 +41,4 @@ public class Products {
     public String toString() {
         return "product name: " + name + ", measures unit for this product is: " + measures;
     }
-
 }
