@@ -16,7 +16,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -81,6 +83,10 @@ public class Search extends AppCompatActivity {
             }
         });
 
+        HashSet hs1 = new HashSet();
+        hs1.addAll((Collection) adaptIng);
+        adaptIng.clear();
+        adaptIng.addAll(hs1);
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(1);
@@ -155,6 +161,11 @@ public class Search extends AppCompatActivity {
 
         });
 
+
+        HashSet hs2 = new HashSet();
+        hs2.addAll((Collection) adaptRecipe);
+        adaptRecipe.clear();
+        adaptRecipe.addAll(hs2);
 
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(1);
@@ -357,21 +368,15 @@ public class Search extends AppCompatActivity {
         @Override
         public boolean isValid(CharSequence text) {
             Log.v("Test", "Checking if valid: "+ text);
-            adaptIng.sort(new Comparator<String>() {
-                @Override
-                public int compare(String lhs, String rhs) {
-                    return lhs.compareTo(rhs);   //or whatever your sorting algorithm
-                }
-            });
 
             String tmp = (String) text;
-            if (adaptIng.getPosition(tmp) < 0) {
+            if (adaptRecipe.getPosition(tmp) < 0) {
                     return false;
             }
 
-            String[] usrInput = ingData.getText().toString().split(",");
+            String[] usrInput = authorOrRecipeNames.getText().toString().split(",");
             for (int i = 0; i < usrInput.length-1; i++) {
-                if(usrInput[i] == usrInput[usrInput.length-1]){
+                if(usrInput[i].equals(usrInput[usrInput.length-1])){
                     return false;
                 }
             }
