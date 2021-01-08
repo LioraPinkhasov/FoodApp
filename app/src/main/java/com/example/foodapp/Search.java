@@ -143,7 +143,7 @@ public class Search extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Recipe ingred = data.getValue(Recipe.class);
-                        adaptRecipe.add(ingred.getRecipeName());
+                        adaptRecipe.add(ingred.getHost());
                     }
                 }
             }
