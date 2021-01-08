@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -368,17 +369,6 @@ public class addRecipe extends AppCompatActivity
 
 
     });
-
-        // End of click on Add recipe
-    addPhoto.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-
-
-        }
-    });
-
     // End of add photo
 
 

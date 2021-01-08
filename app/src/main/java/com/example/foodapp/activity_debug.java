@@ -17,6 +17,7 @@ public class activity_debug extends AppCompatActivity {
     private Button button_ACTIVITY_REGISTER_LOGIN;
     private Button button_ACTIVITY_SEARCH;
     private Button button_ACTIVITY_RESULTS_PAGE;
+    private Button button_ACTIVITY_ADD_RECIPE;
 
 
 
@@ -30,12 +31,15 @@ public class activity_debug extends AppCompatActivity {
         button_ACTIVITY_SEARCH = (Button)findViewById(R.id.button_ACTIVITY_SEARCH);
         button_ACTIVITY_RESULTS_PAGE = (Button)findViewById(R.id.button_ACTIVITY_RESULTS_PAGE);
         //button_ACTIVITY_PHOTO_UPLODE = (Button)findViewById(R.id.button_ACTIVITY_PHOTO_UPLODE);
+        button_ACTIVITY_ADD_RECIPE = (Button)findViewById(R.id.button_ACTIVITY_ADD_RECIPE);
 
 
         button_ACTIVITY_MAIN_USER.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    startActivity(new Intent(getApplicationContext(), MainUserActivity.class));
+                    Intent myLoginIntent = new Intent(getApplicationContext(), MainUserActivity.class);
+                    myLoginIntent.putExtra("isAdmin" , true );
+                    startActivity(myLoginIntent);
                 }
 
         });
@@ -60,6 +64,13 @@ public class activity_debug extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), PhotoUplode.class));
             }
         });*/
+
+        button_ACTIVITY_ADD_RECIPE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(getApplicationContext(), addRecipe.class));
+            }
+        });
 
         button_ACTIVITY_RESULTS_PAGE.setOnClickListener(new View.OnClickListener() {
             @Override
