@@ -83,8 +83,10 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        HashSet hs1 = new HashSet();
-        hs1.addAll((Collection) adaptIng);
+        HashSet<String> hs1 = new HashSet<>();
+        for(int i = 0 ; i < adaptIng.getCount(); i++) {
+            hs1.add(adaptIng.getItem(i));
+        }
         adaptIng.clear();
         adaptIng.addAll(hs1);
 
@@ -163,7 +165,9 @@ public class Search extends AppCompatActivity {
 
 
         HashSet hs2 = new HashSet();
-        hs2.addAll((Collection) adaptRecipe);
+        for(int i = 0 ; i < adaptRecipe.getCount(); i++) {
+            hs2.add(adaptRecipe.getItem(i));
+        }
         adaptRecipe.clear();
         adaptRecipe.addAll(hs2);
 
