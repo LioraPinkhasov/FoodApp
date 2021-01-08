@@ -36,7 +36,7 @@ public class Search extends AppCompatActivity {
     private Button byRecipe;
 
     private List<Recipe> recipesWithMatchSize;
-    private List<String> AuthorNames;
+    private List<Recipe> AuthorNames;
     private List<Recipe> RecipeNames;
     private List<Recipe> prepareRecipesOrAuthor;
     public ArrayAdapter<String> adaptIng;
@@ -124,7 +124,7 @@ public class Search extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Recipe ingred = data.getValue(Recipe.class);
-                        adaptRecipe.add(ingred.getRecipeName());
+                        adaptRecipe.add("Recipe name " + ingred.getRecipeName());
                     }
                 }
             }
@@ -143,7 +143,7 @@ public class Search extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Recipe ingred = data.getValue(Recipe.class);
-                        adaptRecipe.add(ingred.getHost());
+                        adaptRecipe.add("author name " + ingred.getHost());
                     }
                 }
             }
@@ -155,11 +155,21 @@ public class Search extends AppCompatActivity {
 
         });
 
+
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(1);
         authorOrRecipeNames.setAdapter(adaptRecipe);
         authorOrRecipeNames.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
         authorOrRecipeNames.setOnFocusChangeListener(new FocusListener());
+        authorOrRecipeNames.setText(authorOrRecipeNames.getText().toString(), false);
+        authorOrRecipeNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                authorOrRecipeNames.dismissDropDown();
+            }
+        });
+
 
 
         // Connecting the XML to our Objects
@@ -257,7 +267,8 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host").startAt(usrInput);
+                query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
+                String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -265,8 +276,9 @@ public class Search extends AppCompatActivity {
                         AuthorNames.clear();
                         if (DS.exists()) {
                             for (DataSnapshot snapshot : DS.getChildren()) {
-                                String names = snapshot.getValue(String.class);
-                                AuthorNames.add(names);
+                                Recipe names = snapshot.getValue(Recipe.class);
+                                if(finalUsrInput.equals(names.getHost()))
+                                    AuthorNames.add(names);
                             }
                         }
 
@@ -303,6 +315,7 @@ public class Search extends AppCompatActivity {
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
                 query = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("recipeName").startAt(usrInput);
+                String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -311,7 +324,8 @@ public class Search extends AppCompatActivity {
                         if (DS.exists()) {
                             for (DataSnapshot snapshot : DS.getChildren()) {
                                 Recipe recipe = snapshot.getValue(Recipe.class);
-                                RecipeNames.add(recipe);
+                                if(recipe.getRecipeName().equals(finalUsrInput))
+                                    RecipeNames.add(recipe);
                             }
                         }
 
