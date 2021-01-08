@@ -44,6 +44,8 @@ public class addRecipe extends AppCompatActivity
     EditText ingridientsList;
     EditText howToDescription;
     String generatedFilePath;
+    Button takePhoto;
+    private static final int REQUST_IMAGE_CAPTURE = 101;
 
 
     // DB decleration
@@ -228,6 +230,7 @@ public class addRecipe extends AppCompatActivity
 
         // Init buttons and EditText
 
+        takePhoto = (Button)findViewById(R.id.take_photo_bttn);
         sendRecipe = (Button)findViewById(R.id.send_recipe_button);
        // addPhoto = (Button)findViewById(R.id.add_photo_button);
         recipeName = (EditText)findViewById(R.id.recipeName_TextView);
