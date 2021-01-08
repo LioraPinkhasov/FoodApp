@@ -155,11 +155,21 @@ public class Search extends AppCompatActivity {
 
         });
 
+
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(1);
         authorOrRecipeNames.setAdapter(adaptRecipe);
         authorOrRecipeNames.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
         authorOrRecipeNames.setOnFocusChangeListener(new FocusListener());
+        authorOrRecipeNames.setText(authorOrRecipeNames.getText().toString(), false);
+        authorOrRecipeNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                authorOrRecipeNames.dismissDropDown();
+            }
+        });
+
 
 
         // Connecting the XML to our Objects
