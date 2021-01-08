@@ -158,6 +158,8 @@ public class Search extends AppCompatActivity {
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(1);
         authorOrRecipeNames.setAdapter(adaptRecipe);
+        authorOrRecipeNames.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
+        authorOrRecipeNames.setOnFocusChangeListener(new FocusListener());
 
 
         // Connecting the XML to our Objects
