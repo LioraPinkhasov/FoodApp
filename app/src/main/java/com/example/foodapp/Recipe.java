@@ -14,9 +14,23 @@ public class Recipe implements Serializable
     public String products ;
     public String recipeName ;
     public String rimage;
+    public int rating;
+    public String rators; // String of users who rates this recipe;
 
 
-    //!!!!!!-> 19.12 ->liora: added anoter colom
+    /**
+     * Constructor for "Add recipe" creates a new recipe to store in DB
+     * @param approved
+     * @param create_time
+     * @param host
+     * @param howTo
+     * @param id
+     * @param measures
+     * @param numOfProducts
+     * @param products
+     * @param recipeName
+     * @param Image
+     */
     public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName , String  Image)
     //public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName)
     {
@@ -30,10 +44,44 @@ public class Recipe implements Serializable
         this.id = id;
         this.products = products;
         this.rimage = Image;
+        this.rating = 0;
+        this.rators = "";
 
 
 
 
+    }
+
+    /**
+     *  Constructor for showing Recipes or storing them from DB
+     * @param approved
+     * @param create_time
+     * @param host
+     * @param howTo
+     * @param id
+     * @param measures
+     * @param numOfProducts
+     * @param products
+     * @param recipeName
+     * @param Image
+     * @param rating
+     * @param rators
+     */
+    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName , String  Image, int rating , String rators)
+    //public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName)
+    {
+        this.numOfProducts = numOfProducts;
+        this.recipeName = recipeName;
+        this.approved = approved; // Never approved without admin
+        this.measures = measures;
+        this.create_time = create_time;
+        this.howTo = howTo;
+        this.host = host;
+        this.id = id;
+        this.products = products;
+        this.rimage = Image;
+        this.rating = rating;
+        this.rators = rators;
     }
 
     public Recipe ()
@@ -121,6 +169,40 @@ public class Recipe implements Serializable
 
     public String getRimage() {
         return rimage;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getRators() {
+        return rators;
+    }
+
+    /**
+     * To prevent multyple rating from the same user , this method check the validity of the rating ,  and updates the recipe accordingly.
+     * @param userName the user who is rating this recipe
+     * @param rating the rating must be '-' or '+' only!!!!
+     * @return true iff the recipe was properly rated by a new user and updated. and fals if no changes were made to the recipe.
+     */
+    public boolean addRating(String userName, char rating) {
+
+        // 1) check valid rating
+        if(rating != '-' &&  rating != '+')
+            return false;
+        // 2) check if userName allready rated this recipe
+        if(this.rators.contains(userName)) // if this user allready rated this recipe
+            return false;    // do nothing and return false
+        else {
+            this.rators = this.rators + userName + rating; // add this users vote to the rators names list ,  and change the rating accordingly
+
+            // 3) Updating rating
+            if(rating == '+')
+                this.rating++;
+            else // Assuming the other option is '-';
+                this.rating--;
+            return true;
+        }
     }
 
     //19.12 -- liora: delete the info and by , and return just the name recpie and the host
