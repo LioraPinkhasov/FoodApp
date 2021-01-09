@@ -66,7 +66,7 @@ public class selected_recipe2 extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 List<Recipe> matchedRcipes = new ArrayList<Recipe>();
-                Query AuthorQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
+                Query AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host");
                 AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -119,7 +119,7 @@ public class selected_recipe2 extends AppCompatActivity {
         r_how_to.setText(Howto);
 
         //added image
-        r_image = (ImageView)findViewById(R.id.imageView8);
+        r_image = (ImageView)findViewById(R.id.dislike_buttn);
         String imageurl = choosen_recipe.getRimage();
         //String imageURi = choosen_recipe.getRimage();
         Toast.makeText(selected_recipe2.this, "hi", Toast.LENGTH_SHORT).show();

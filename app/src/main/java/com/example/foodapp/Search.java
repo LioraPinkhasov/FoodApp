@@ -83,12 +83,12 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        HashSet<String> hs1 = new HashSet<>();
+       /* HashSet<String> hs1 = new HashSet<>();
         for(int i = 0 ; i < adaptIng.getCount(); i++) {
             hs1.add(adaptIng.getItem(i));
         }
         adaptIng.clear();
-        adaptIng.addAll(hs1);
+        adaptIng.addAll(hs1);               */
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(1);
@@ -124,7 +124,7 @@ public class Search extends AppCompatActivity {
 
 
         adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").equalTo(1);
+        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
         RecipeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -143,7 +143,7 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host").equalTo(1);
+        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
         AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -164,17 +164,17 @@ public class Search extends AppCompatActivity {
         });
 
 
-        HashSet hs2 = new HashSet();
+       /* HashSet hs2 = new HashSet();
         for(int i = 0 ; i < adaptRecipe.getCount(); i++) {
             hs2.add(adaptRecipe.getItem(i));
         }
         adaptRecipe.clear();
-        adaptRecipe.addAll(hs2);
+        adaptRecipe.addAll(hs2);          */
 
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(1);
         authorOrRecipeNames.setAdapter(adaptRecipe);
-        authorOrRecipeNames.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
+      /*  authorOrRecipeNames.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
         authorOrRecipeNames.setOnFocusChangeListener(new FocusListener());
         authorOrRecipeNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -182,7 +182,7 @@ public class Search extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 authorOrRecipeNames.dismissDropDown();
             }
-        });
+        });                             */
 
 
 
