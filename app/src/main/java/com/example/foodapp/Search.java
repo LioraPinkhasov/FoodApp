@@ -46,7 +46,7 @@ public class Search extends AppCompatActivity {
     public Query query;
     private MultiAutoCompleteTextView ingData;
     private AutoCompleteTextView authorOrRecipeNames;
-    private DatabaseReference ingredientQuery;
+    private Query ingredientQuery;
     private Query RecipeQuery;
     private Query AuthorQuery;
 
@@ -124,7 +124,7 @@ public class Search extends AppCompatActivity {
 
 
         adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName");
+        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").equalTo(1);
         RecipeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -143,7 +143,7 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host");
+        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host").equalTo(1);
         AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -151,7 +151,7 @@ public class Search extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Recipe ingred = data.getValue(Recipe.class);
-                        adaptRecipe.add("author name " + ingred.getHost());
+                        adaptRecipe.add("Author name " + ingred.getHost());
                     }
                 }
             }
@@ -176,7 +176,6 @@ public class Search extends AppCompatActivity {
         authorOrRecipeNames.setAdapter(adaptRecipe);
         authorOrRecipeNames.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
         authorOrRecipeNames.setOnFocusChangeListener(new FocusListener());
-        authorOrRecipeNames.setText(authorOrRecipeNames.getText().toString(), false);
         authorOrRecipeNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -216,7 +215,7 @@ public class Search extends AppCompatActivity {
                 int size = userInputIng.size();
                 String strSize = String.valueOf(size);
 
-                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("numOfProducts").equalTo(size);
+                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("numOfProducts").equalTo(size);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -282,7 +281,7 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host");
+                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("host");
                 String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -292,8 +291,7 @@ public class Search extends AppCompatActivity {
                         if (DS.exists()) {
                             for (DataSnapshot snapshot : DS.getChildren()) {
                                 Recipe names = snapshot.getValue(Recipe.class);
-                                if(finalUsrInput.equals(names.getHost()))
-                                    AuthorNames.add(names);
+                                AuthorNames.add(names);
                             }
                         }
 
@@ -329,7 +327,7 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").startAt(usrInput);
+                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("recipeName").startAt(usrInput);
                 String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -339,8 +337,7 @@ public class Search extends AppCompatActivity {
                         if (DS.exists()) {
                             for (DataSnapshot snapshot : DS.getChildren()) {
                                 Recipe recipe = snapshot.getValue(Recipe.class);
-                                if(recipe.getRecipeName().equals(finalUsrInput))
-                                    RecipeNames.add(recipe);
+                                RecipeNames.add(recipe);
                             }
                         }
 
