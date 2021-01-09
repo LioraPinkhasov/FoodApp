@@ -242,7 +242,7 @@ public class addRecipe extends AppCompatActivity
 
         // Init DB references
         mDatabase = FirebaseDatabase.getInstance();
-        dbRecipeRef = mDatabase.getReference().child("RecpieDetiels");
+        dbRecipeRef = mDatabase.getReference().child("RecpieDetails");
         // Initing FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
 
