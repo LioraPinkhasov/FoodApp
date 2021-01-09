@@ -67,7 +67,7 @@ public class Recipe implements Serializable
      * @param rating
      * @param rators
      */
-    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName , String  Image, int rating , String rators)
+    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products, int rating , String rators, String recipeName , String  Image )
     //public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName)
     {
         this.numOfProducts = numOfProducts;
