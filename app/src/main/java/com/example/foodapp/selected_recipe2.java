@@ -1,20 +1,32 @@
 package com.example.foodapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class selected_recipe2 extends AppCompatActivity {
 
     Recipe choosen_recipe ;
-    TextView r_header;
+    TextView r_name;
+    TextView r_host;
     TextView r_ing;
     TextView r_how_to;
     ImageView r_image;
@@ -31,13 +43,58 @@ public class selected_recipe2 extends AppCompatActivity {
         choosen_recipe = (Recipe) i.getSerializableExtra("choosenRecipe");
 
         // Show the recipe header
-        r_header = (TextView)findViewById(R.id.recipe_header_view);
-        String header = choosen_recipe.toString();
-        String header2 = header;
+        r_name = (TextView)findViewById(R.id.recipe_header_view);
+        r_host = (TextView)findViewById(R.id.textView_RecipeHost);
 
-        ///!!!!----19.12 -- liora: added line separator
-        header2 = header2.replace(",", System.getProperty("line.separator"));
-        r_header.setText(header2);
+//       String recipe_name = choosen_recipe.getRecipeName();
+//       String recipe_host = choosen_recipe.getHost();
+
+        r_name.setText(choosen_recipe.getRecipeName());
+        r_host.setText(choosen_recipe.getHost());
+
+
+
+//        String header2 = recipe_name;
+//
+//        ///!!!!----19.12 -- liora: added line separator
+//        header2 = header2.replace(",", System.getProperty("line.separator"));
+//        r_name.setText(header2);
+
+
+        //clicking the recipe host name displays all of his recipes
+        r_host.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                List<Recipe> matchedRcipes = new ArrayList<Recipe>();
+                Query AuthorQuery = FirebaseDatabase.getInstance().getReference("RecpieDetiels").orderByChild("host");
+                AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            //for each recipe you get from the DB, check if it is from the same author, and if so, display it.
+                            for (DataSnapshot data : snapshot.getChildren()) {
+                                Recipe temp_recipe = data.getValue(Recipe.class);
+                                if (temp_recipe.getHost().equals(choosen_recipe.getHost())){ //if current recipe has same author as currently displayed recipe
+                                    matchedRcipes.add(temp_recipe);
+                                }
+                            }
+                            // Passing the matchedRecipes  as serializable list to result_page activity
+                            Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
+                            myIntent.putExtra("LIST", (Serializable) matchedRcipes); // Putting the list there
+                            startActivity(myIntent); // Start new activity with the given intent
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+
+                });
+            }
+
+        });
 
         // Show Ingredients
 
