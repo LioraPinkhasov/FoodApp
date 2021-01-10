@@ -1,5 +1,8 @@
 package com.example.foodapp;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 
 public class Recipe implements Serializable
@@ -201,6 +204,14 @@ public class Recipe implements Serializable
                 this.rating++;
             else // Assuming the other option is '-';
                 this.rating--;
+
+            // 4) Updating the DB with this new rating // Need to be tested
+            FirebaseDatabase mDatabase;
+            DatabaseReference dbRecipeRef;
+            mDatabase = FirebaseDatabase.getInstance();
+            dbRecipeRef = mDatabase.getReference().child("RecipeDetails");
+            dbRecipeRef.child(getId()).child("rating").setValue(this.rating);
+            dbRecipeRef.child(getId()).child("rators").setValue(this.rators);
             return true;
         }
     }

@@ -7,11 +7,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,9 +34,12 @@ public class selected_recipe2 extends AppCompatActivity {
     TextView r_ing;
     TextView r_how_to;
     ImageView r_image;
+    ImageButton like_button,dislike_button;
+    private FirebaseAuth mAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_recipe2);
 
@@ -51,6 +58,10 @@ public class selected_recipe2 extends AppCompatActivity {
 
         r_name.setText(choosen_recipe.getRecipeName());
         r_host.setText(choosen_recipe.getHost());
+
+        like_button = (ImageButton)findViewById(R.id.like_buttn);
+        dislike_button = (ImageButton)findViewById(R.id.dislike_button);
+
 
 
 
@@ -133,6 +144,46 @@ public class selected_recipe2 extends AppCompatActivity {
 
         Uri img;
         //r_image.setImageURI(img);
+
+        /**
+         * This section is the like/dislike buttons ,  pressing on them ,  this choosen recipe is rated in the DB.
+         */
+        like_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
+                String host = currentUser.getEmail().toLowerCase(); // host is now our email.
+                if(choosen_recipe.addRating(host ,'+'))
+                {
+                    Toast.makeText(selected_recipe2.this, "Thanks for liking this recipe!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(selected_recipe2.this, "Your rating was not added", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        dislike_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
+                String host = currentUser.getEmail().toLowerCase(); // host is now our email.
+                if(choosen_recipe.addRating(host ,'-'))
+                {
+                    Toast.makeText(selected_recipe2.this, "Wasn't the recipe any good?", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(selected_recipe2.this, "Your rating was not added", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
 
 
 
