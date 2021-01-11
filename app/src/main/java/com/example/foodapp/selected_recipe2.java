@@ -36,6 +36,7 @@ public class selected_recipe2 extends AppCompatActivity {
     ImageView r_image;
     ImageButton like_button,dislike_button;
     private FirebaseAuth mAuth;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,9 +60,13 @@ public class selected_recipe2 extends AppCompatActivity {
         r_name.setText(choosen_recipe.getRecipeName());
         r_host.setText(choosen_recipe.getHost());
 
+        
+        // This section gets the current user for rating system
+        mAuth = FirebaseAuth.getInstance();
+        
         like_button = (ImageButton)findViewById(R.id.like_buttn);
         dislike_button = (ImageButton)findViewById(R.id.dislike_button);
-
+        
 
 
 
@@ -180,8 +185,7 @@ public class selected_recipe2 extends AppCompatActivity {
                 {
                     Toast.makeText(selected_recipe2.this, "Your rating was not added", Toast.LENGTH_SHORT).show();
                 }
-
-
+                
             }
         });
 
