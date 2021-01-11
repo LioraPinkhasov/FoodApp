@@ -35,7 +35,9 @@ public class selected_recipe2 extends AppCompatActivity {
     TextView r_how_to;
     ImageView r_image;
     ImageButton like_button,dislike_button;
+    Button edit_approve_recipe_button;
     private FirebaseAuth mAuth;
+    
     
 
     @Override
@@ -59,15 +61,19 @@ public class selected_recipe2 extends AppCompatActivity {
 
         r_name.setText(choosen_recipe.getRecipeName());
         r_host.setText(choosen_recipe.getHost());
-
+        
+        // Setting edit approve and make it Invisiable
+        edit_approve_recipe_button = (Button)findViewById(R.id.edit_approve_button);
+        edit_approve_recipe_button.setVisibility(View.INVISIBLE);
         
         // This section gets the current user for rating system
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
+        String currUser = currentUser.getEmail().toLowerCase(); // host is now our email.
         
         like_button = (ImageButton)findViewById(R.id.like_buttn);
         dislike_button = (ImageButton)findViewById(R.id.dislike_button);
         
-
 
 
 //        String header2 = recipe_name;
@@ -111,6 +117,14 @@ public class selected_recipe2 extends AppCompatActivity {
             }
 
         });
+        
+        // Editting / Approve recipe
+        // 1) check if admin and show the button;
+        //2) go to approve_recipes when clicked;
+        
+        ////////////////////////////
+    
+      
 
         // Show Ingredients
 
@@ -157,9 +171,9 @@ public class selected_recipe2 extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
-                String host = currentUser.getEmail().toLowerCase(); // host is now our email.
-                if(choosen_recipe.addRating(host ,'+'))
+               // FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
+               // String host = currentUser.getEmail().toLowerCase(); // host is now our email.
+                if(choosen_recipe.addRating(currUser ,'+'))
                 {
                     Toast.makeText(selected_recipe2.this, "Thanks for liking this recipe!", Toast.LENGTH_SHORT).show();
                 }
@@ -175,9 +189,9 @@ public class selected_recipe2 extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
-                String host = currentUser.getEmail().toLowerCase(); // host is now our email.
-                if(choosen_recipe.addRating(host ,'-'))
+                //FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
+               // String host = currentUser.getEmail().toLowerCase(); // host is now our email.
+                if(choosen_recipe.addRating(currUser ,'-'))
                 {
                     Toast.makeText(selected_recipe2.this, "Wasn't the recipe any good?", Toast.LENGTH_SHORT).show();
                 }
@@ -196,4 +210,27 @@ public class selected_recipe2 extends AppCompatActivity {
 
 
     }
+    
+    public boolean isAdmin(String user)
+    {
+        /**
+        query = FirebaseDatabase.getInstance().getReference("Admins").orderByChild("email").equalTo(user);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            
+            @Override
+            public void onDataChange(@NonNull DataSnapshot DS) {
+                matchedAdminUsers.clear();
+                if (DS.exists()) {
+                    for (DataSnapshot snapshot : DS.getChildren()) {
+                        Auser admin = snapshot.getValue(Auser.class);
+                        matchedAdminUsers.add(admin) ;
+                    }
+                }
+                boolean isAdmin = !(matchedAdminUsers.isEmpty());
+                */
+        return false;
+            }
+            ////////////////////////////
+        
 }
