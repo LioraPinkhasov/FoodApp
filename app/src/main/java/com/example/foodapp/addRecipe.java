@@ -24,6 +24,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -58,7 +60,7 @@ public class addRecipe extends AppCompatActivity {
     private Button choose, uplode;
     private ImageView imageView9;
 
-    private Uri filePath;
+    public Uri filePath;
 
     private final int PICK_IMAGE_REQUEST = 71;
 
@@ -107,7 +109,7 @@ public class addRecipe extends AppCompatActivity {
                         .getBitmap(
                                 getContentResolver(),
                                 filePath);
-                imageView9.setImageBitmap(bitmap);
+                imageView9.setImageBitmap(bitmap); //shows the picture on the activity add recipe
                 uploadImage();
             } catch (IOException e) {
                 // Log the exception
@@ -134,88 +136,171 @@ public class addRecipe extends AppCompatActivity {
 
             // adding listeners on upload
             // or failure of image
-            dbRecipeRef2.putFile(filePath).addOnSuccessListener(
-                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(
-
-                                /////////////!!!!!!--------------------->my baby is a liveeeeeeee!!!!
-                            UploadTask.TaskSnapshot taskSnapshot) {
-                            //Uri  downloadUrl = filePath;
-                            Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
-                            //Bitmap bitmap = BitmapFactory.decodeFile(downloadUrl.)
-                            //String generatedFilePath = downloadUrl.getPath().toString();
-                            // String generatedFilePath = downloadUrl.getResult().toString();
-                            generatedFilePath = downloadUrl.getResult().toString(); //TODO - bug here! Looks like we are trying to get the URI before we are done uploading/processing the images in the DB
+//            dbRecipeRef2.putFile(filePath);
 
 
-                            //System.out.println("## Stored path is "+generatedFilePath);
+//            dbRecipeRef2.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                                                                    @Override
+//                                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                                                                        /////////////!!!!!!--------------------->my baby is a liveeeeeeee!!!!
+//
+//                                                                        //Uri  downloadUrl = filePath;
+//                                                                        Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+//                                                                        //Bitmap bitmap = BitmapFactory.decodeFile(downloadUrl.)
+//                                                                        //String generatedFilePath = downloadUrl.getPath().toString();
+//                                                                        // String generatedFilePath = downloadUrl.getResult().toString();
+//                                                                        generatedFilePath = downloadUrl.getResult().toString(); //TODO - bug here! Looks like we are trying to get the URI before we are done uploading/processing the images in the DB
+//
+//
+//                                                                        //System.out.println("## Stored path is "+generatedFilePath);
+//
+//                                                                        /////////////////////////////-------------->
+//
+//                                                                        // Image uploaded successfully
+//                                                                        // Dismiss dialog
+//                                                                        progressDialog.dismiss();
+//                                                                        Toast
+//                                                                                .makeText(addRecipe.this,
+//                                                                                        "Image Uploaded!!",
+//                                                                                        Toast.LENGTH_SHORT)
+//                                                                                .show();
+//                                                                    }
+//
+//
+//                                                                }
 
-                            /////////////////////////////-------------->
+            //Guide used -  https://firebase.google.com/docs/storage/android/upload-files#get_a_download_url
 
-                            // Image uploaded successfully
-                            // Dismiss dialog
+            UploadTask uploadTask = dbRecipeRef2.putFile(filePath);
+
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                // Progress Listener for loading
+                // percentage on the dialog box
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (
+                            100.0
+                            *
+                            taskSnapshot.getBytesTransferred()
+                            /
+                            taskSnapshot.getTotalByteCount());
+
+                    progressDialog.setMessage(
+                            "Uploaded "
+                                    + (int) progress + "%");
+                }});
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return dbRecipeRef2.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        if (downloadUri == null)
+                            return;
+                        else {
+                            generatedFilePath = downloadUri.getPath();
                             progressDialog.dismiss();
-                            Toast
-                                    .makeText(addRecipe.this,
-                                            "Image Uploaded!!",
-                                            Toast.LENGTH_SHORT)
-                                    .show();
                         }
 
+                    }
+                }
+            });
 
-                    })
+//            dbRecipeRef2.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//
+//
+//                @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            /////////////!!!!!!--------------------->my baby is a liveeeeeeee!!!!
+//
+//                            //Uri  downloadUrl = filePath;
+//                            Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+//                            //Bitmap bitmap = BitmapFactory.decodeFile(downloadUrl.)
+//                            //String generatedFilePath = downloadUrl.getPath().toString();
+//                            // String generatedFilePath = downloadUrl.getResult().toString();
+//                            generatedFilePath = downloadUrl.getResult().toString(); //TODO - bug here! Looks like we are trying to get the URI before we are done uploading/processing the images in the DB
+//
+//
+//                            //System.out.println("## Stored path is "+generatedFilePath);
+//
+//                            /////////////////////////////-------------->
+//
+//                            // Image uploaded successfully
+//                            // Dismiss dialog
+//                            progressDialog.dismiss();
+//                            Toast
+//                                    .makeText(addRecipe.this,
+//                                            "Image Uploaded!!",
+//                                            Toast.LENGTH_SHORT)
+//                                    .show();
+//                        }
 
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
 
-                            // Error, Image not uploaded
-                            progressDialog.dismiss();
-                            Toast
-                                    .makeText(addRecipe.this,
-                                            "Failed " + e.getMessage(),
-                                            Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    })
-                    .addOnProgressListener(
-                            new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                                // Progress Listener for loading
-                                // percentage on the dialog box
-                                @Override
-                                public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot) {
-                                    double progress
-                                            = (100.0
-                                            * taskSnapshot.getBytesTransferred()
-                                            / taskSnapshot.getTotalByteCount());
-                                    progressDialog.setMessage(
-                                            "Uploaded "
-                                                    + (int) progress + "%");
-                                }
-                            });
+//                    })
+//
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.d(null, "line 173");
+//                            e.printStackTrace();
+//                            // Error, Image not uploaded
+//                            progressDialog.dismiss();
+//                            Toast
+//                                    .makeText(addRecipe.this,
+//                                            "Failed " + e.getMessage(),
+//                                            Toast.LENGTH_SHORT)
+//                                    .show();
+//                        }
+//                    })
+//                    .addOnProgressListener(
+//                            new OnProgressListener<UploadTask.TaskSnapshot>() {
+//
+//                                // Progress Listener for loading
+//                                // percentage on the dialog box
+//                                @Override
+//                                public void onProgress(
+//                                        UploadTask.TaskSnapshot taskSnapshot) {
+//                                    double progress
+//                                            = (100.0
+//                                            * taskSnapshot.getBytesTransferred()
+//                                            / taskSnapshot.getTotalByteCount());
+//                                    progressDialog.setMessage(
+//                                            "Uploaded "
+//                                                    + (int) progress + "%");
+//                                }
+//                            });
 
             ////try
             //try
-            mDatabase2.getReference().child("Image/" + uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    String a = uri.toString();
-                    Log.d(null, "line 206");
-
-
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.d(null, "line 214");
-
-                    // Handle any errors
-                }
-            });
+//            mDatabase2.getReference().child("Image/" + uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    String a = uri.toString();
+//                    Log.d(null, "line 206");
+//
+//
+//
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//
+//                    Log.d(null, "line 214");
+//                    exception.printStackTrace();
+//
+//                    // Handle any errors
+//                }
+//            });
 
             /////
         }
