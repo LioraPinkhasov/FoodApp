@@ -281,11 +281,17 @@ public class Search extends AppCompatActivity {
                             }
                         }
 
+                        List<String> validAuthor = new ArrayList<String>();
+                        for(int i = 0 ; i < AuthorNames.size(); i++){
+                            if(AuthorNames.get(i).getHost().equals(finalUsrInput)){
+                                validAuthor.add(AuthorNames.get(i).getHost());
+                            }
+                        }
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
                         // Intent myIntent = new Intent(getApplicationContext(), ResultsPageUser.class); // Creating the intent
                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
-                        myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
+                        myIntent.putExtra("LIST", (Serializable) validAuthor); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
 
@@ -313,7 +319,7 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("recipeName").startAt(usrInput);
+                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").startAt(usrInput);
                 String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -328,9 +334,16 @@ public class Search extends AppCompatActivity {
                         }
 
 
+                        List<String> validRecipe = new ArrayList<String>();
+                        for(int i = 0 ; i < RecipeNames.size(); i++) {
+                            if (RecipeNames.get(i).getHost().equals(finalUsrInput)) {
+                                validRecipe.add(RecipeNames.get(i).getHost());
+                            }
+                        }
+
                         // Passing the matchedRecipes  as serilizable list to result_page activity
                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
-                        myIntent.putExtra("LIST", (Serializable) RecipeNames); // Putting the list there
+                        myIntent.putExtra("LIST", (Serializable) validRecipe); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
                         finish(); // End this activity
 
