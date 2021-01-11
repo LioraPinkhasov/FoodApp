@@ -74,6 +74,9 @@ public class addRecipe extends AppCompatActivity
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        // var for url
+        // send to upload image
+        uploadImage();
     }
 
     // Override onActivityResult method
@@ -291,7 +294,7 @@ public class addRecipe extends AppCompatActivity
             String howTo = howToDescription.getText().toString().trim();;
 
             //21.12 addition uplode photo
-            uploadImage();
+            //uploadImage();
             //image url
             //String rImage = ""; //TODO: get link to image in 55
             String rImage;

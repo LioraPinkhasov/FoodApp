@@ -33,7 +33,8 @@ public class MainAdminActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_admin);
-        approve_rec = (Button)findViewById(R.id.button_Admin_Options2);
+        approve_rec = (Button)findViewById(R.id.button_unapproved_recipes);
+        unaprovedRecipes = new ArrayList<>();
 
         approve_rec.setOnClickListener(new View.OnClickListener()
         {
