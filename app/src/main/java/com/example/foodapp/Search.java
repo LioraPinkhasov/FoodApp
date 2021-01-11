@@ -2,6 +2,8 @@ package com.example.foodapp;
 
 import android.content.Intent;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -86,37 +88,10 @@ public class Search extends AppCompatActivity {
         ingData.setThreshold(1);
         ingData.setAdapter(adaptIng);
         ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-//      ingData.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
-//      ingData.setOnFocusChangeListener(new FocusListener());
-
-
-        /* ingData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String currentText = parent.toString();
-                String[] currentList = currentText.replace(" ", "").split(",");
-                int length = currentList.length;
-                if (length > 2) {
-                    for (int i = 0; i < length - 1; i++) {
-                        if (i < position) {
-                            if (currentList[i].equals(currentList[position])) {
-                                adaptIng.remove(currentList[position]);
-                                ingData.setAdapter(adaptIng);
-                                //do the something when you select the same value
-                            }
-                        }
-                    }
-                }
-            }
-        }); */
-
-
 
 
 
         adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-//        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("host");
         RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
         RecipeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -125,7 +100,7 @@ public class Search extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Recipe ingred = data.getValue(Recipe.class);
-                        adaptRecipe.add("Recipe name " + ingred.getRecipeName());
+                        adaptRecipe.add(ingred.getRecipeName());
                     }
                 }
             }
@@ -144,7 +119,7 @@ public class Search extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Recipe ingred = data.getValue(Recipe.class);
-                        adaptRecipe.add("Author name " + ingred.getHost());
+                        adaptRecipe.add(ingred.getHost());
                     }
                 }
             }
@@ -164,20 +139,36 @@ public class Search extends AppCompatActivity {
         adaptRecipe.clear();
         adaptRecipe.addAll(hs2);          */
 
+        final String[] tmpVar = new String[1];
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         authorOrRecipeNames.setThreshold(1);
         authorOrRecipeNames.setAdapter(adaptRecipe);
-      /* authorOrRecipeNames.setValidator(new Validator());  // IT and the next line ADD FOR CHECKING CAN REMOVE
-        authorOrRecipeNames.setOnFocusChangeListener(new FocusListener());
         authorOrRecipeNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                authorOrRecipeNames.dismissDropDown();
+                tmpVar[0] = adaptRecipe.getItem(position);
             }
-        });*/
+        });
 
 
+        authorOrRecipeNames.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tmpVar[0] = null;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         // Connecting the XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn);
@@ -357,51 +348,5 @@ public class Search extends AppCompatActivity {
 
             }//end onClick
         });
-    }
-
-    class Validator implements MultiAutoCompleteTextView.Validator {
-
-        @Override
-        public boolean isValid(CharSequence text) {
-            Log.v("Test", "Checking if valid: "+ text);
-
-            String tmp = (String) text;
-            if (adaptRecipe.getPosition(tmp) < 0) {
-                    return false;
-            }
-
-            String[] usrInput = authorOrRecipeNames.getText().toString().split(",");
-            for (int i = 0; i < usrInput.length-1; i++) {
-                if(usrInput[i].equals(usrInput[usrInput.length-1])){
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        @Override
-        public CharSequence fixText(CharSequence invalidText) {
-            Log.v("Test", "Returning fixed text");
-
-            /* I'm just returning an empty string here, so the field will be blanked,
-             * but you could put any kind of action here, like popping up a dialog?
-             *
-             * Whatever value you return here must be in the list of valid words.
-             */
-            return "";
-        }
-    }
-
-    class FocusListener implements View.OnFocusChangeListener {
-
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            Log.v("Test", "Focus changed");
-            if (v.getId() == R.id.autoCompleteTextView && !hasFocus) {
-                Log.v("Test", "Performing validation");
-                ((AutoCompleteTextView)v).performValidation();
-            }
-        }
     }
 }
