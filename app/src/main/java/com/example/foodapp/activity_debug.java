@@ -116,7 +116,7 @@ public class activity_debug extends AppCompatActivity {
                 Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                 myIntent.putExtra("LIST", (Serializable) matchedRcipes); // Putting the list there
                 startActivity(myIntent); // Start new activity with the given intent
-                finish(); // End this activity
+//                finish(); // End this activity
             }
         });
 
