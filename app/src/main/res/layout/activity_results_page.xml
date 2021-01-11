@@ -8,10 +8,55 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myRecyclerView"
-        android:layout_width="342dp"
+        android:layout_width="0dp"
         android:layout_height="608dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="103dp"
+        android:layout_height="25dp"
+        android:text="Recipe Name"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="103dp"
+        android:layout_height="25dp"
+        android:text="Recipe Date"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
+        app:layout_constraintStart_toEndOf="@+id/textView31"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="103dp"
+        android:layout_height="25dp"
+        android:text="Recipe Host"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
+        app:layout_constraintStart_toEndOf="@+id/textView27"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="103dp"
+        android:layout_height="25dp"
+        android:text="Recipe Likes"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
+        app:layout_constraintStart_toEndOf="@+id/textView32"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

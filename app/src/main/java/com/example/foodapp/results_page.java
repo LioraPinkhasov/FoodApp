@@ -19,6 +19,8 @@ public class results_page extends AppCompatActivity implements ItemClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_results_page);
+
 //        //passing arrays using bundle in android
 //        // https://stackoverflow.com/questions/5299532/passing-arrays-using-bundle-in-android
 //
@@ -44,23 +46,23 @@ public class results_page extends AppCompatActivity implements ItemClickListener
          */
         Intent i = getIntent();
         recived_list = (List<Recipe>) i.getSerializableExtra("LIST");
-        String[] received_Recipes = new String[recived_list.size()];
-        int j=0;
-        for (Recipe r: recived_list){
-            String temp = "";
-            temp = temp + r.getRecipeName() +" ";
-            temp = temp + r.getCreate_time();
-            //TODO add the likes/rating
-            received_Recipes[j] = new String(temp);
-            j++;
-        }
+//        String[] received_Recipes = new String[recived_list.size()];
+//        int j=0;
+//        for (Recipe r: recived_list){
+//            String temp = "";
+//            temp = temp + r.getRecipeName() +" ";
+//            temp = temp + r.getCreate_time();
+//            //TODO add the likes/rating
+//            received_Recipes[j] = new String(temp);
+//            j++;
+//        }
 
-        setContentView(R.layout.activity_results_page);
+
 
         RecyclerView _recyclerView = findViewById(R.id.myRecyclerView);
         _recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new RecyclerViewAdapter_forRecipes(this, received_Recipes);
+        adapter = new RecyclerViewAdapter_forRecipes(this, recived_list);
         adapter.setClickListener(this);
         _recyclerView.setAdapter(adapter);
 
@@ -81,7 +83,7 @@ public class results_page extends AppCompatActivity implements ItemClickListener
         Intent myIntent2 = new Intent(getApplicationContext(), selected_recipe2.class); // Creating the intent
         myIntent2.putExtra("choosenRecipe" , (Serializable) choosen_recipe); // Putting the Recipe there
         startActivity(myIntent2); // Start new activity with the given intent
-        finish(); // End this activity
+//        finish(); // End this activity
 
 
         //do something once a certain recipe was clicked from the recyclerView
