@@ -1,11 +1,11 @@
 package com.example.foodapp;
 
-public class Auser
+public class Admin
 {
   private  String email;
 
-  public Auser(){}
-  public Auser (String email)
+  public Admin(){}
+  public Admin(String email)
   {
       this.email = email;
   }

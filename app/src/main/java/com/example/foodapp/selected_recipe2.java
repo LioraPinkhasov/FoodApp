@@ -40,7 +40,7 @@ public class selected_recipe2 extends AppCompatActivity {
     Button edit_approve_recipe_button;
     private FirebaseAuth mAuth;
     //private List<Auser> matchedAdminUsers;
-    public ArrayAdapter<Auser> adaptAdmin;
+    public ArrayAdapter<Admin> adaptAdmin;
     public Query query;
     
     
@@ -79,7 +79,7 @@ public class selected_recipe2 extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
         String currUser = currentUser.getEmail().toLowerCase(); // host is now our email.
-        adaptAdmin = new ArrayAdapter<Auser>(this, android.R.layout.simple_list_item_1);
+        adaptAdmin = new ArrayAdapter<Admin>(this, android.R.layout.simple_list_item_1);
        
     
     
@@ -98,7 +98,7 @@ public class selected_recipe2 extends AppCompatActivity {
                 adaptAdmin.clear();
                 if (DS.exists()) {
                     for (DataSnapshot snapshot : DS.getChildren()) {
-                        Auser admin = snapshot.getValue(Auser.class);
+                        Admin admin = snapshot.getValue(Admin.class);
                         adaptAdmin.add(admin);
                     }
                 }
