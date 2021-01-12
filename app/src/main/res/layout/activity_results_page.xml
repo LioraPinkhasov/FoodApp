@@ -10,52 +10,36 @@
         android:id="@+id/myRecyclerView"
         android:layout_width="0dp"
         android:layout_height="608dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView27"
-        android:layout_width="103dp"
-        android:layout_height="25dp"
-        android:text="Recipe Name"
-        android:textAlignment="viewStart"
+    <Button
+        android:id="@+id/button_SortBy"
+        android:layout_width="102dp"
+        android:layout_height="45dp"
+        android:text="Button"
+        android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView32"
-        android:layout_width="103dp"
-        android:layout_height="25dp"
-        android:text="Recipe Date"
-        android:textAlignment="viewStart"
+        android:id="@+id/textView27"
+        android:layout_width="72dp"
+        android:layout_height="26dp"
+        android:layout_marginBottom="1dp"
+        android:text="Results:"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
-        app:layout_constraintStart_toEndOf="@+id/textView31"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textView31"
-        android:layout_width="103dp"
-        android:layout_height="25dp"
-        android:text="Recipe Host"
-        android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
-        app:layout_constraintStart_toEndOf="@+id/textView27"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textView33"
-        android:layout_width="103dp"
-        android:layout_height="25dp"
-        android:text="Recipe Likes"
-        android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@+id/myRecyclerView"
-        app:layout_constraintStart_toEndOf="@+id/textView32"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 

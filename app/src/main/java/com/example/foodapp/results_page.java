@@ -2,6 +2,7 @@ package com.example.foodapp;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -22,12 +24,19 @@ import java.util.List;
 
 public class results_page extends AppCompatActivity implements ItemClickListener{
 
+
+    Button sortBy;
+    int nextSortByIsByLikes = -1;
+
     RecyclerViewAdapter_forRecipes adapter;
     List<Recipe> recived_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_page);
+
+        sortBy = (Button) findViewById(R.id.button_SortBy);
+        sortBy.setText("Sort By Date");
 
 //        //passing arrays using bundle in android
 //        // https://stackoverflow.com/questions/5299532/passing-arrays-using-bundle-in-android
@@ -73,8 +82,27 @@ public class results_page extends AppCompatActivity implements ItemClickListener
         adapter.setClickListener(this);
         _recyclerView.setAdapter(adapter);
 
+        //divider between each object in the recyclerView.
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(_recyclerView.getContext(),
+                 LinearLayoutManager.VERTICAL);
+        _recyclerView.addItemDecoration(dividerItemDecoration);
 
-
+        sortBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (nextSortByIsByLikes == 1) {
+                    Collections.sort(recived_list, new RecipeLikeComparator());
+                    nextSortByIsByLikes = -1;
+                    sortBy.setText("Sort By Date");
+                }
+                else {
+                    Collections.sort(recived_list, new RecipeDateComparator());
+                    nextSortByIsByLikes = 1;
+                    sortBy.setText("Sort By Likes");
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
 
 
 
