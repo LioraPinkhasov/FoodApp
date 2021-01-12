@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,6 +39,9 @@ public class selected_recipe2 extends AppCompatActivity {
     ImageButton like_button,dislike_button;
     Button edit_approve_recipe_button;
     private FirebaseAuth mAuth;
+    //private List<Auser> matchedAdminUsers;
+    public ArrayAdapter<Auser> adaptAdmin;
+    public Query query;
     
     
 
@@ -45,8 +50,12 @@ public class selected_recipe2 extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_recipe2);
-
-
+    
+        // Buttons
+    
+        like_button = (ImageButton)findViewById(R.id.like_buttn);
+        dislike_button = (ImageButton)findViewById(R.id.dislike_button);
+        
         // Assuming I got Recipe recipe
 
         Intent i = getIntent();
@@ -70,9 +79,66 @@ public class selected_recipe2 extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
         String currUser = currentUser.getEmail().toLowerCase(); // host is now our email.
+        adaptAdmin = new ArrayAdapter<Auser>(this, android.R.layout.simple_list_item_1);
+       
+    
+    
+        // Editting / Approve recipe
+        // 1) check if admin and show the button;
+    
+    
+        query = FirebaseDatabase.getInstance().getReference("Admins").orderByChild("email").equalTo(currUser);
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
         
-        like_button = (ImageButton)findViewById(R.id.like_buttn);
-        dislike_button = (ImageButton)findViewById(R.id.dislike_button);
+            @Override
+            public void onDataChange(@NonNull DataSnapshot DS)
+            {
+    
+                adaptAdmin.clear();
+                if (DS.exists()) {
+                    for (DataSnapshot snapshot : DS.getChildren()) {
+                        Auser admin = snapshot.getValue(Auser.class);
+                        adaptAdmin.add(admin) ;
+                    }
+                }
+            
+            }
+        
+        
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+                Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+            }
+        
+        
+        });
+    
+        if(!(adaptAdmin.isEmpty()))
+        {
+            edit_approve_recipe_button.setVisibility(View.VISIBLE);
+        }
+        
+        
+        
+        //2) go to approve_recipes when clicked;
+        edit_approve_recipe_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // Passing the choosen recipe  as serilizable list to SelectedRecipe activity
+                Intent myIntent2 = new Intent(getApplicationContext(), Recpie_Admin_permmision.class); // Creating the intent
+                myIntent2.putExtra("adminChoosenRecipe" , (Serializable) choosen_recipe); // Putting the Recipe there
+                startActivity(myIntent2); // Start new activity with the given intent
+            
+            }
+        });
+    
+        ////////////////////////////
+    
+       
         
 
 
@@ -118,11 +184,7 @@ public class selected_recipe2 extends AppCompatActivity {
 
         });
         
-        // Editting / Approve recipe
-        // 1) check if admin and show the button;
-        //2) go to approve_recipes when clicked;
         
-        ////////////////////////////
     
       
 
@@ -210,16 +272,19 @@ public class selected_recipe2 extends AppCompatActivity {
 
 
     }
-    
+    /** This method is depricated
     public boolean isAdmin(String user)
     {
-        /**
+        
+        ////////////////////////////
+        boolean isAdmin = false;
         query = FirebaseDatabase.getInstance().getReference("Admins").orderByChild("email").equalTo(user);
         query.addListenerForSingleValueEvent(new ValueEventListener()
         {
-            
+        
             @Override
             public void onDataChange(@NonNull DataSnapshot DS) {
+                
                 matchedAdminUsers.clear();
                 if (DS.exists()) {
                     for (DataSnapshot snapshot : DS.getChildren()) {
@@ -227,10 +292,25 @@ public class selected_recipe2 extends AppCompatActivity {
                         matchedAdminUsers.add(admin) ;
                     }
                 }
-                boolean isAdmin = !(matchedAdminUsers.isEmpty());
-                */
-        return false;
+                 isAdmin = !(matchedAdminUsers.isEmpty());
+                
+               
             }
-            ////////////////////////////
+        
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+                Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+            }
+            
+            
+        });
+    
+        return isAdmin;
+        ////////////////////////////
+       
+    }*/
+    
+    
         
 }
