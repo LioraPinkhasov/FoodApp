@@ -117,6 +117,7 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
 
     }
 
+
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
