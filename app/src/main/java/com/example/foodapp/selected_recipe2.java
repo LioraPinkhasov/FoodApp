@@ -39,9 +39,8 @@ public class selected_recipe2 extends AppCompatActivity {
     ImageButton like_button,dislike_button;
     Button edit_approve_recipe_button;
     private FirebaseAuth mAuth;
-    //private List<Auser> matchedAdminUsers;
-    public ArrayAdapter<Admin> adaptAdmin;
-    public Query query;
+    private final String[] admins = {"yossiand10@gmail.com","lio@ra.com","pellerofir@gmail.com","admin@admin.com"};
+    
     
     
 
@@ -79,48 +78,21 @@ public class selected_recipe2 extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
         String currUser = currentUser.getEmail().toLowerCase(); // host is now our email.
-        adaptAdmin = new ArrayAdapter<Admin>(this, android.R.layout.simple_list_item_1);
-       
-    
-    
         // Editting / Approve recipe
         // 1) check if admin and show the button;
-    
-    
-        query = FirebaseDatabase.getInstance().getReference("Admins");
-        query.addListenerForSingleValueEvent(new ValueEventListener()
-        {
         
-            @Override
-            public void onDataChange(@NonNull DataSnapshot DS)
+        boolean isAdmin = false;
+        for(int index = 0 ; index < admins.length ;index++)
+            if (admins[index].equals(currUser))
             {
-    
-                adaptAdmin.clear();
-                if (DS.exists()) {
-                    for (DataSnapshot snapshot : DS.getChildren()) {
-                        Admin admin = snapshot.getValue(Admin.class);
-                        adaptAdmin.add(admin);
-                    }
-                }
-            
+                isAdmin = true;
+                break;
             }
         
-        
-            @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
-                Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
-            }
-        
-        
-        });
-    
-        if(!(adaptAdmin.isEmpty()))
+        if(isAdmin)
         {
             edit_approve_recipe_button.setVisibility(View.VISIBLE);
         }
-        
-        
         
         //2) go to approve_recipes when clicked;
         edit_approve_recipe_button.setOnClickListener(new View.OnClickListener()
