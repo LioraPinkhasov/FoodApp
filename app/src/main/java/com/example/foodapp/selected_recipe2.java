@@ -83,39 +83,14 @@ public class selected_recipe2 extends AppCompatActivity {
        
     
     
-        // Editting / Approve recipe
+        //  FOR JOSEPH Editting / Approve recipe
         // 1) check if admin and show the button;
+        boolean isAdmin = false;
+        // 2) Check with dataBase if "currUser" match admin emails (Is he an admin?)
+        
+        // Need to check if I am admin here******************
     
-    
-        query = FirebaseDatabase.getInstance().getReference("Admins").orderByChild("email").equalTo(currUser);
-        query.addListenerForSingleValueEvent(new ValueEventListener()
-        {
-        
-            @Override
-            public void onDataChange(@NonNull DataSnapshot DS)
-            {
-    
-                adaptAdmin.clear();
-                if (DS.exists()) {
-                    for (DataSnapshot snapshot : DS.getChildren()) {
-                        Auser admin = snapshot.getValue(Auser.class);
-                        adaptAdmin.add(admin) ;
-                    }
-                }
-            
-            }
-        
-        
-            @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
-                Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
-            }
-        
-        
-        });
-    
-        if(!(adaptAdmin.isEmpty()))
+        if(isAdmin) // Check if I am admin
         {
             edit_approve_recipe_button.setVisibility(View.VISIBLE);
         }

@@ -103,6 +103,10 @@ public class Recpie_Admin_permmision extends AppCompatActivity
                 
                 
                 // Add all ingridients into the Products DB
+                     //1) Extract all ingridients into an arrayList;
+                     //2) Create HashMap of Objects
+                
+                
                 
                 
         
