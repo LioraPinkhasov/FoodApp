@@ -87,7 +87,7 @@ public class selected_recipe2 extends AppCompatActivity {
         // 1) check if admin and show the button;
     
     
-        query = FirebaseDatabase.getInstance().getReference("Admins").orderByChild("email").equalTo(currUser);
+        query = FirebaseDatabase.getInstance().getReference("Admins");
         query.addListenerForSingleValueEvent(new ValueEventListener()
         {
         
@@ -99,7 +99,7 @@ public class selected_recipe2 extends AppCompatActivity {
                 if (DS.exists()) {
                     for (DataSnapshot snapshot : DS.getChildren()) {
                         Auser admin = snapshot.getValue(Auser.class);
-                        adaptAdmin.add(admin) ;
+                        adaptAdmin.add(admin);
                     }
                 }
             

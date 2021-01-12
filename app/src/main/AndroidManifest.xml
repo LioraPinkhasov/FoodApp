@@ -17,11 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodApp">
-        <activity android:name=".approve_recipes"></activity>
+        <activity android:name=".approve_recipes" />
         <activity android:name=".PhotoUplode" />
         <activity android:name=".Recpie_Admin_permmision" />
         <activity android:name=".selected_recipe2" />
-        <activity android:name=".super_tester" />
         <activity android:name=".activity_debug" />
         <activity android:name=".results_page" />
         <activity android:name=".addRecipe" />
@@ -36,8 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Search_by_RecpieName" />
-        <activity android:name=".Search_by_Publisher" />
         <activity android:name=".Search" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.tokenautocomplete.TokenCompleteTextView;
 
 
 public class Search extends AppCompatActivity {
@@ -39,6 +40,7 @@ public class Search extends AppCompatActivity {
     private Button byAuthor;
     private Button byRecipe;
 
+    private TokenCompleteTextView actv;
     private List<Recipe> recipesWithMatchSize;
     private List<Recipe> AuthorNames;
     private List<Recipe> RecipeNames;

@@ -9,18 +9,17 @@ public class Auser
   {
       this.email = email;
   }
-    public String getEmail()
+  public String getEmail()
     {
         return email;
     }
-
-    public void setEmail(String email)
+  public void setEmail(String email)
     {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
         return getEmail();
     }
 }
