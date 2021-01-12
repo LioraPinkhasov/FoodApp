@@ -1,26 +1,25 @@
 package com.example.foodapp;
 
-public class Auser
+public class Admin
 {
   private  String email;
 
-  public Auser(){}
-  public Auser (String email)
+  public Admin(){}
+  public Admin(String email)
   {
       this.email = email;
   }
-    public String getEmail()
+  public String getEmail()
     {
         return email;
     }
-
-    public void setEmail(String email)
+  public void setEmail(String email)
     {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
         return getEmail();
     }
 }

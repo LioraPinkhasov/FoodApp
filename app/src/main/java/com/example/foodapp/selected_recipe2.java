@@ -40,7 +40,7 @@ public class selected_recipe2 extends AppCompatActivity {
     Button edit_approve_recipe_button;
     private FirebaseAuth mAuth;
     //private List<Auser> matchedAdminUsers;
-    public ArrayAdapter<Auser> adaptAdmin;
+    public ArrayAdapter<Admin> adaptAdmin;
     public Query query;
     
     
@@ -79,18 +79,43 @@ public class selected_recipe2 extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
         String currUser = currentUser.getEmail().toLowerCase(); // host is now our email.
-        adaptAdmin = new ArrayAdapter<Auser>(this, android.R.layout.simple_list_item_1);
+        adaptAdmin = new ArrayAdapter<Admin>(this, android.R.layout.simple_list_item_1);
        
     
     
-        //  FOR JOSEPH Editting / Approve recipe
+        // Editting / Approve recipe
         // 1) check if admin and show the button;
-        boolean isAdmin = false;
-        // 2) Check with dataBase if "currUser" match admin emails (Is he an admin?)
-        
-        // Need to check if I am admin here******************
     
-        if(isAdmin) // Check if I am admin
+    
+        query = FirebaseDatabase.getInstance().getReference("Admins");
+        query.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+        
+            @Override
+            public void onDataChange(@NonNull DataSnapshot DS)
+            {
+    
+                adaptAdmin.clear();
+                if (DS.exists()) {
+                    for (DataSnapshot snapshot : DS.getChildren()) {
+                        Admin admin = snapshot.getValue(Admin.class);
+                        adaptAdmin.add(admin);
+                    }
+                }
+            
+            }
+        
+        
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+                Log.d(null, "---- !!!!!!onCancelled!!!!!! ----");
+            }
+        
+        
+        });
+    
+        if(!(adaptAdmin.isEmpty()))
         {
             edit_approve_recipe_button.setVisibility(View.VISIBLE);
         }
