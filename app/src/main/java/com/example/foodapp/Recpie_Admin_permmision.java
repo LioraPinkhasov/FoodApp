@@ -69,8 +69,9 @@ public class Recpie_Admin_permmision extends AppCompatActivity
         recipeName.setText(choosen_recipe.getRecipeName());
         
         // Init dataBase
-        db.getInstance();
-        dbRefToRecipe = db.getReference().child("RecipeDetails").child(choosen_recipe.getId());
+        db = FirebaseDatabase.getInstance();
+        String recipeID = choosen_recipe.getId();
+        dbRefToRecipe = db.getReference().child("RecipeDetails").child(recipeID);
         dbRefToProducts = db.getReference().child("Products");
         
         delete_recipe.setOnClickListener(new View.OnClickListener()

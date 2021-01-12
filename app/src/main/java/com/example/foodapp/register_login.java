@@ -272,6 +272,9 @@ public class register_login extends AppCompatActivity
                 startActivity(new Intent(getApplicationContext(), activity_debug.class));
             }
         });
+        
+        ///// This section is for Anonymus users who just wanna see the app
+        
 
 
     }
