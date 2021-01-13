@@ -3,9 +3,13 @@ package com.example.foodapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -93,7 +97,7 @@ public class addRecipe extends AppCompatActivity {
         // if request code is PICK_IMAGE_REQUEST and
         // resultCode is RESULT_OK
         // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST
+        if ( requestCode == PICK_IMAGE_REQUEST
                 && resultCode == RESULT_OK
                 && data != null
                 && data.getData() != null) {
@@ -115,6 +119,19 @@ public class addRecipe extends AppCompatActivity {
                 // Log the exception
                 e.printStackTrace();
             }
+        }
+       if(requestCode == 100
+               && resultCode == RESULT_OK
+               && data != null
+               && data.getData() != null) // Roie v1 for take photo
+        {
+           // Get capture image
+           Bitmap captureImage = (Bitmap) data.getExtras().get("data");
+           //Set Capture Iamge
+            imageView9.setImageBitmap(captureImage);
+            filePath = data.getData();
+            uploadImage();
+            
         }
     }
 
@@ -310,7 +327,6 @@ public class addRecipe extends AppCompatActivity {
 
     //end addition 21.12
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -366,6 +382,30 @@ public class addRecipe extends AppCompatActivity {
         //end addition 21.12
 
         // Clicking sendRecipe
+        
+        
+        //*******Take Photo******\\
+        
+        //1) Request for camera permissions
+        if(ContextCompat.checkSelfPermission(addRecipe.this,Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(addRecipe.this,
+                    new String[]{
+                            Manifest.permission.CAMERA
+                    },100);
+        }
+        //2) take photo button
+        takePhoto.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // Open camera
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent , 100);
+            }
+        });
+        
         sendRecipe.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

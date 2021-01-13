@@ -1,5 +1,6 @@
 package com.example.foodapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 
 import android.text.Editable;
@@ -52,12 +53,19 @@ public class Search extends AppCompatActivity {
     private Query ingredientQuery;
     private Query RecipeQuery;
     private Query AuthorQuery;
+    private int pleaseWaitCounter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+
+        pleaseWaitCounter = -3;
+        ProgressDialog pleaseWaitDialog = new ProgressDialog(this);
+        pleaseWaitDialog.setTitle("Please Wait...");
+        pleaseWaitDialog.show();
 
         adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         ingredientQuery = FirebaseDatabase.getInstance().getReference("Products");
@@ -71,6 +79,11 @@ public class Search extends AppCompatActivity {
                         adaptIng.add(ingred.getName());
                     }
                 }
+                pleaseWaitCounter++;
+                if(pleaseWaitCounter==0){
+                    pleaseWaitDialog.dismiss();
+                }
+
             }
 
             @Override
@@ -106,6 +119,10 @@ public class Search extends AppCompatActivity {
                         adaptRecipe.add(ingred.getRecipeName());
                     }
                 }
+                pleaseWaitCounter++;
+                if(pleaseWaitCounter==0){
+                    pleaseWaitDialog.dismiss();
+                }
             }
 
             @Override
@@ -132,6 +149,10 @@ public class Search extends AppCompatActivity {
                 }
                 adaptRecipe.clear();
                 adaptRecipe.addAll(hs2);
+                pleaseWaitCounter++;
+                if(pleaseWaitCounter==0){
+                    pleaseWaitDialog.dismiss();
+                }
             }
 
             @Override
