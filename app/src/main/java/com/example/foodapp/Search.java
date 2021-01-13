@@ -304,14 +304,8 @@ public class Search extends AppCompatActivity {
                         if (DS.exists()) {
                             for (DataSnapshot snapshot : DS.getChildren()) {
                                 Recipe names = snapshot.getValue(Recipe.class);
-                                AuthorNames.add(names);
-                            }
-                        }
-
-
-                        for(int i = 0 ; i < AuthorNames.size(); i++){
-                            if(!AuthorNames.get(i).getHost().equals(finalUsrInput)){
-                                AuthorNames.remove(i);
+                                if(names.getApproved() == 1)
+                                    AuthorNames.add(names);
                             }
                         }
 
@@ -346,7 +340,7 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").equalTo(usrInput).orderByChild("approved").startAt(1).endAt(1);
+                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").equalTo(usrInput);
                 String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -356,16 +350,11 @@ public class Search extends AppCompatActivity {
                         if (DS.exists()) {
                             for (DataSnapshot snapshot : DS.getChildren()) {
                                 Recipe recipe = snapshot.getValue(Recipe.class);
-                                RecipeNames.add(recipe);
+                                if(recipe.getApproved() == 1)
+                                    RecipeNames.add(recipe);
                             }
                         }
 
-
-                        for(int i = 0 ; i < RecipeNames.size(); i++) {
-                            if (!RecipeNames.get(i).getHost().equals(finalUsrInput)) {
-                                RecipeNames.remove(i);
-                            }
-                        }
 
                         // Passing the matchedRecipes  as serilizable list to result_page activity
                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
