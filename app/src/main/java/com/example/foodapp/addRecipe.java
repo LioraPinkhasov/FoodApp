@@ -18,14 +18,17 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.google.android.gms.tasks.Continuation;
@@ -35,8 +38,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -47,10 +54,15 @@ public class addRecipe extends AppCompatActivity {
     Button sendRecipe;
     Button addPhoto;
     EditText recipeName;
-    EditText ingridientsList;
+//    EditText ingridientsList;
     EditText howToDescription;
     String generatedFilePath;
     Button takePhoto;
+
+    public ArrayAdapter<String> adaptIng;
+    private MultiAutoCompleteTextView ingData;
+    private Query ingredientQuery;
+
     private static final int REQUST_IMAGE_CAPTURE = 101;
 
 
@@ -338,7 +350,7 @@ public class addRecipe extends AppCompatActivity {
         sendRecipe = (Button) findViewById(R.id.send_recipe_button);
         // addPhoto = (Button)findViewById(R.id.add_photo_button);
         recipeName = (EditText) findViewById(R.id.recipeName_TextView);
-        ingridientsList = (EditText) findViewById(R.id.ingredient_list_text);
+//        ingridientsList = (EditText) findViewById(R.id.ingredient_list_text);
         howToDescription = (EditText) findViewById(R.id.wrkProgress_text);
         //Rphoto = (EditText)findViewById(R.id.)
 
@@ -362,6 +374,34 @@ public class addRecipe extends AppCompatActivity {
         //dbRecipeRef = mDatabase.getReference().child("Image/"+ UUID.randomUUID().toString());
         // Initing FirebaseAuth instance
         //mAuth = FirebaseAuth.getInstance();
+
+
+        adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+
+        ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView_addRecipe); // This is the field were ingredient input is comming from
+        ingData.setThreshold(1);
+        ingData.setAdapter(adaptIng);
+        ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products");
+        ingredientQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Products ingred = data.getValue(Products.class);
+                        adaptIng.add(ingred.getName());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         addPhoto.setOnClickListener(new View.OnClickListener() {
@@ -412,7 +452,19 @@ public class addRecipe extends AppCompatActivity {
             public void onClick(View v) {
                 // Parts of recipe
                 String rName = recipeName.getText().toString().toLowerCase().trim(); // Should I use trim?
-                String rIngridients = ingridientsList.getText().toString().toLowerCase().trim();
+
+                String rIngridients = ingData.getText().toString(); // This is the string from input
+                rIngridients = rIngridients.replace(" ", ""); // Cutting off all the spaces for easier work.
+                String[] splittedToArrayInput = rIngridients.split(","); // Cut the string into an array of ingridients
+                ArrayList<String> userInputIng = new ArrayList<>(); // Init the list
+                for (int i = 0; i < splittedToArrayInput.length; i++) {
+                    userInputIng.add(splittedToArrayInput[i]); // Fill the list
+                }
+
+//                String rIngridients = ingridientsList.getText().toString().toLowerCase().trim();
+
+
+
                 String howTo = howToDescription.getText().toString().trim();
                 ;
 
@@ -434,7 +486,7 @@ public class addRecipe extends AppCompatActivity {
                     return;
                 }
                 if (TextUtils.isEmpty(rIngridients)) {
-                    ingridientsList.setError("Recipe must have Ingredients");
+                    ingData.setError("Recipe must have Ingredients");
                     return;
                 }
 
@@ -465,7 +517,7 @@ public class addRecipe extends AppCompatActivity {
 
                 //!!!!!!!-> 19.12 ->liora added anoter tab for use.
                 //Recipe newRecipe = new Recipe( 0 , currentDate ,host,howTo ,id ,measures , commas+1 ,rIngridients , rName ); // Creating the new recipe
-                Recipe newRecipe = new Recipe(0, currentDate, host, howTo, id, measures, commas + 1, rIngridients, rName, rImage); // Creating the new recipe
+                Recipe newRecipe = new Recipe(0, currentDate, host, howTo, id, measures, commas, rIngridients, rName, rImage); // Creating the new recipe
                 newRecipe.setId(dbRecipeRef.push().getKey());
                 dbRecipeRef.child(newRecipe.getId()).setValue(newRecipe);
                 // 4) Toast and move to main page.
