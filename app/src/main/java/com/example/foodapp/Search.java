@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -384,5 +387,27 @@ public class Search extends AppCompatActivity {
 
             }//end onClick
         });
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.basic_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.item1:
+                startActivity(new Intent(getApplicationContext(), Contact_us.class));
+                return true;
+
+            case R.id.item2:
+                startActivity(new Intent(getApplicationContext(), register_login.class));
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

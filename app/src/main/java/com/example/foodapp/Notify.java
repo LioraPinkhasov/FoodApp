@@ -74,4 +74,10 @@ public class Notify extends FirebaseMessagingService {
 
     }
 
+
+    @Override
+    public void onDeletedMessages() {
+
+    }
+
 }
