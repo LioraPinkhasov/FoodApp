@@ -100,6 +100,8 @@ public class results_page extends AppCompatActivity implements ItemClickListener
                     nextSortByIsByLikes = 1;
                     sortBy.setText("Sort By Likes");
                 }
+                //tell the recyclerView to update
+                //thank you - https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
                 adapter.notifyDataSetChanged();
             }
         });
@@ -151,8 +153,8 @@ public class results_page extends AppCompatActivity implements ItemClickListener
             int r1_likes = r1.getRating();
             int r2_likes = r2.getRating();
 
-            if (r1_likes > r2_likes) return 1;
-            else return -1;
+            if (r1_likes > r2_likes) return -1;
+            else return 1;
         }
     }
 }
