@@ -120,12 +120,18 @@ public class addRecipe extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        if(requestCode == 100) // Roie v1 for take photo
+       if(requestCode == 100
+               && resultCode == RESULT_OK
+               && data != null
+               && data.getData() != null) // Roie v1 for take photo
         {
            // Get capture image
            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
            //Set Capture Iamge
             imageView9.setImageBitmap(captureImage);
+            filePath = data.getData();
+            uploadImage();
+            
         }
     }
 
