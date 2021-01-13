@@ -67,9 +67,11 @@ public class Notify extends FirebaseMessagingService {
     }
 
     @Override
-    public void onNewToken(@NonNull String s) {
-        super.onNewToken(s);
+    public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
 
-        Log.d("Device token", s);
+        Log.d("Device token", token);
+
     }
+
 }
