@@ -7,15 +7,14 @@
     android:scrollbarDefaultDelayBeforeFade="1300"
     tools:context=".selected_recipe2">
 
+
     <ImageView
         android:id="@+id/Menu_icon_btn"
         android:layout_width="49dp"
         android:layout_height="47dp"
-        android:layout_marginStart="42dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="71dp"
         app:layout_constraintEnd_toStartOf="@+id/Logo_text"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_menu" />
@@ -24,11 +23,9 @@
         android:id="@+id/User_icon_btn"
         android:layout_width="49dp"
         android:layout_height="48dp"
-        android:layout_marginStart="71dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="42dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.841"
         app:layout_constraintStart_toEndOf="@+id/Logo_text"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_person" />
@@ -38,44 +35,29 @@
         android:layout_width="111dp"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="1dp"
         android:text="Fooding"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/Hello_user_txt"
         app:layout_constraintEnd_toStartOf="@+id/User_icon_btn"
         app:layout_constraintStart_toEndOf="@+id/Menu_icon_btn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.47000003" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Hello_user_txt"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="95dp"
-        android:layout_marginBottom="1dp"
+        android:layout_height="wrap_content"
         android:text="Hello user"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/SCrool_icon"
-        app:layout_constraintEnd_toStartOf="@+id/User_icon_btn"
-        app:layout_constraintHorizontal_bias="0.94"
-        app:layout_constraintStart_toEndOf="@+id/Menu_icon_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Logo_text" />
 
     <ImageView
         android:id="@+id/SCrool_icon"
         android:layout_width="344dp"
         android:layout_height="15dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_header_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Hello_user_txt"
         app:srcCompat="@drawable/ic_longcircle2" />
@@ -84,19 +66,13 @@
         android:id="@+id/recipe_header_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="79dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="69dp"
-        android:layout_marginBottom="41dp"
         android:text="RecpieName"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.456"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SCrool_icon"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/SCrool_icon" />
 
     <TextView
         android:id="@+id/ings_phrase"
@@ -174,20 +150,79 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/dislike_buttn"
         app:srcCompat="@drawable/ic_longcircle2" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/dislike_buttn"
         android:layout_width="174dp"
         android:layout_height="151dp"
         android:layout_marginStart="118dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="119dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_header_view"
+        app:layout_constraintTop_toBottomOf="@+id/Logo_text"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/byText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="By:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_header_view" />
+
+    <TextView
+        android:id="@+id/textView_RecipeHost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Host"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/byText"
+        app:layout_constraintTop_toBottomOf="@+id/Logo_text" />
+
+    <ImageButton
+        android:id="@+id/like_buttn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/SCrool_icon2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.074"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/byText"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_like" />
+
+    <ImageButton
+        android:id="@+id/dislike_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        app:layout_constraintBottom_toTopOf="@+id/SCrool_icon2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.903"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_header_view"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_dislike" />
+
+    <Button
+        android:id="@+id/edit_approve_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit/Approve"
+        app:layout_constraintBottom_toTopOf="@+id/ing_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ings_phrase"
+        app:layout_constraintTop_toBottomOf="@+id/SCrool_icon2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

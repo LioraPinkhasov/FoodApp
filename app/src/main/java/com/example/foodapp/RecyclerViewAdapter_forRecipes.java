@@ -4,10 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<RecyclerViewAdapter_forRecipes.ViewHolder> {
 
@@ -16,7 +21,7 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
     // https://developer.android.com/guide/topics/ui/layout/recyclerview
     // https://developer.android.com/reference/androidx/recyclerview/widget/RecyclerView.html
 
-    private String[] localDataSet;
+    private List<Recipe> localDataSet;
     private ItemClickListener mClickListener;
 
 
@@ -31,18 +36,40 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView textView;
+        TextView recipeName;
+        TextView recipeAuthor;
+        TextView recipeDate;
+        TextView recipeLikes;
+        ImageView recipeImage;
 
         public ViewHolder(View view) {
             super(view);
-            textView = (TextView) view.findViewById(R.id.myTextView);
+            recipeName = (TextView) view.findViewById(R.id.textView_recipeName);
+            recipeAuthor = (TextView) view.findViewById(R.id.textView_RecipeAuthor);
+            recipeDate = (TextView) view.findViewById(R.id.textView_RecipeDate);
+            recipeLikes = (TextView) view.findViewById(R.id.textView_RecipeLikes);
+            recipeImage = (ImageView) view.findViewById(R.id.imageView_RecipeImage);
             view.setOnClickListener(this);
         }
 
         //getter. is this needed? maybe for clicking.
-        public TextView getTextView() {
-            return textView;
+        public TextView get_textView_recipeName() {
+            return recipeName;
         }
+
+        public TextView get_textView_recipeAuthor(){
+            return recipeAuthor;
+        }
+
+        public TextView get_textView_recipeDate(){
+            return recipeDate;
+        }
+
+        public TextView get_textView_recipeLikes(){
+            return recipeLikes;
+        }
+
+        public ImageView get_ImageView_imageView_RecipeImage(){return recipeImage; }
 
         @Override
         public void onClick(View view) {
@@ -52,7 +79,7 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
 
     }
     // Initialize the dataset of the Adapter.
-    public RecyclerViewAdapter_forRecipes(Context context, String[] dataSet){
+    public RecyclerViewAdapter_forRecipes(Context context, List<Recipe> dataSet){
         localDataSet = dataSet;
     }
 
@@ -79,14 +106,36 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet[position]);
+//        String a = localDataSet[position];
+//        a = "a = " + a;
+//        Log.d(null, a);
+
+        viewHolder.get_textView_recipeName().setText("Name: " + localDataSet.get(position).getRecipeName());
+        viewHolder.get_textView_recipeAuthor().setText("Host: " + localDataSet.get(position).getHost());
+        viewHolder.get_textView_recipeDate().setText("Date: " + localDataSet.get(position).getCreate_time());
+        try{
+            viewHolder.get_textView_recipeLikes().setText(String.valueOf("Rating: " + localDataSet.get(position).getRating()));
+
+        }
+        catch (Exception e){
+            viewHolder.get_textView_recipeLikes().setText("-999");
+        }
+
+        String imageurl = localDataSet.get(position).getRimage();
+        if (!imageurl.isEmpty())
+        {
+            Glide.with(viewHolder.get_ImageView_imageView_RecipeImage()).load(imageurl).into(viewHolder.get_ImageView_imageView_RecipeImage());
+
+        }
+
 
     }
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 
 

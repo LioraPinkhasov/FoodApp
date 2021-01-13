@@ -7,12 +7,62 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/myTextView"
-        android:textSize="20sp"
-        android:text="a"
+        android:id="@+id/textView_recipeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="recipeName"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView_RecipeImage"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_RecipeAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="recipeHost"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView_RecipeImage"
+        app:layout_constraintTop_toBottomOf="@+id/textView_RecipeDate" />
+
+    <TextView
+        android:id="@+id/textView_RecipeDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="recipeDate"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView_RecipeImage"
+        app:layout_constraintTop_toBottomOf="@+id/textView_recipeName" />
+
+    <TextView
+        android:id="@+id/textView_RecipeLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="recipeLikes"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView_RecipeImage"
+        app:layout_constraintTop_toBottomOf="@+id/textView_RecipeAuthor" />
+
+    <ImageView
+        android:id="@+id/imageView_RecipeImage"
+        android:layout_width="110dp"
+        android:layout_height="112dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_apptizer" />
 </androidx.constraintlayout.widget.ConstraintLayout>

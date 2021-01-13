@@ -57,7 +57,7 @@ public class register_login extends AppCompatActivity
     // Creating widget objects for class useage
 
 
-    private List<Auser> matchedAdminUsers;
+    private List<Admin> matchedAdminUsers;
     private Button log_in_button;
     private Button sign_up_button;
     private Button enter_anon_button;
@@ -230,7 +230,7 @@ public class register_login extends AppCompatActivity
                                         matchedAdminUsers.clear();
                                         if (DS.exists()) {
                                             for (DataSnapshot snapshot : DS.getChildren()) {
-                                                Auser admin = snapshot.getValue(Auser.class);
+                                                Admin admin = snapshot.getValue(Admin.class);
                                                 matchedAdminUsers.add(admin) ;
                                             }
                                         }
@@ -272,6 +272,9 @@ public class register_login extends AppCompatActivity
                 startActivity(new Intent(getApplicationContext(), activity_debug.class));
             }
         });
+        
+        ///// This section is for Anonymus users who just wanna see the app
+        
 
 
     }
