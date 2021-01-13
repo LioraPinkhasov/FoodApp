@@ -19,7 +19,6 @@ import java.util.Random;
 
 public class Notify extends FirebaseMessagingService {
 
-    public static final String NOTIFICATION_ID_1 = "channel1";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -36,7 +35,7 @@ public class Notify extends FirebaseMessagingService {
         String title  = data.get("title").toString();
         String body = data.get("Body").toString();
         NotificationManager manegeNotify = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
+        String NOTIFICATION_ID_1 = "com.example.foodapp.test";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID_1, "Notification", NotificationManager.IMPORTANCE_HIGH);
 
@@ -52,6 +51,7 @@ public class Notify extends FirebaseMessagingService {
 
     private void showNotification(String title, String body) {
         NotificationManager manegeNotify = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String NOTIFICATION_ID_1 = "com.example.foodapp.test";
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID_1, "Notification", NotificationManager.IMPORTANCE_HIGH);
@@ -64,8 +64,12 @@ public class Notify extends FirebaseMessagingService {
         compat.setAutoCancel(true).setDefaults(Notification.DEFAULT_ALL).setWhen(System.currentTimeMillis()).setSmallIcon(R.drawable.ic_approve)
                 .setContentTitle(title).setContentText(body);
         manegeNotify.notify(new Random().nextInt(), compat.build());
+    }
 
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
 
-
+        Log.d("Device token", s);
     }
 }
