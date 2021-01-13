@@ -7,7 +7,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,14 +20,17 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.google.android.gms.tasks.Continuation;
@@ -35,8 +40,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -47,10 +56,15 @@ public class addRecipe extends AppCompatActivity {
     Button sendRecipe;
     Button addPhoto;
     EditText recipeName;
-    EditText ingridientsList;
+//    EditText ingridientsList;
     EditText howToDescription;
     String generatedFilePath;
     Button takePhoto;
+
+    public ArrayAdapter<String> adaptIng;
+    private MultiAutoCompleteTextView ingData;
+    private Query ingredientQuery;
+
     private static final int REQUST_IMAGE_CAPTURE = 101;
 
 
@@ -338,7 +352,7 @@ public class addRecipe extends AppCompatActivity {
         sendRecipe = (Button) findViewById(R.id.send_recipe_button);
         // addPhoto = (Button)findViewById(R.id.add_photo_button);
         recipeName = (EditText) findViewById(R.id.recipeName_TextView);
-        ingridientsList = (EditText) findViewById(R.id.ingredient_list_text);
+//        ingridientsList = (EditText) findViewById(R.id.ingredient_list_text);
         howToDescription = (EditText) findViewById(R.id.wrkProgress_text);
         //Rphoto = (EditText)findViewById(R.id.)
 
@@ -362,6 +376,34 @@ public class addRecipe extends AppCompatActivity {
         //dbRecipeRef = mDatabase.getReference().child("Image/"+ UUID.randomUUID().toString());
         // Initing FirebaseAuth instance
         //mAuth = FirebaseAuth.getInstance();
+
+
+        adaptIng = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+
+        ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView_addRecipe); // This is the field were ingredient input is comming from
+        ingData.setThreshold(1);
+        ingData.setAdapter(adaptIng);
+        ingData.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+        ingredientQuery = FirebaseDatabase.getInstance().getReference("Products");
+        ingredientQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Products ingred = data.getValue(Products.class);
+                        adaptIng.add(ingred.getName());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         addPhoto.setOnClickListener(new View.OnClickListener() {
@@ -405,73 +447,108 @@ public class addRecipe extends AppCompatActivity {
                 startActivityForResult(intent , 100);
             }
         });
-        
-        sendRecipe.setOnClickListener(new View.OnClickListener() {
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        String rName = recipeName.getText().toString().toLowerCase().trim(); // Should I use trim?
+
+                        String rIngridients = ingData.getText().toString(); // This is the string from input
+                        rIngridients = rIngridients.replace(" ", ""); // Cutting off all the spaces for easier work.
+                        String[] splittedToArrayInput = rIngridients.split(","); // Cut the string into an array of ingridients
+                        ArrayList<String> userInputIng = new ArrayList<>(); // Init the list
+                        for (int i = 0; i < splittedToArrayInput.length; i++) {
+                            userInputIng.add(splittedToArrayInput[i]); // Fill the list
+                        }
+
+//                String rIngridients = ingridientsList.getText().toString().toLowerCase().trim();
+
+
+
+                        String howTo = howToDescription.getText().toString().trim();
+                        ;
+
+                        //21.12 addition uplode photo
+                        //uploadImage();
+                        //image url
+                        //String rImage = ""; //TODO: get link to image in 55
+                        String rImage;
+                        if (generatedFilePath != null) {
+                            rImage = generatedFilePath;
+                        } else
+                            rImage = "";
+                        //end of additon 21.12
+
+                        // 1) Check if any field is empty and show toast ,  else put them inside a string;
+
+                        if (TextUtils.isEmpty(rName)) {
+                            recipeName.setError("Recipe name is Required!");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(rIngridients)) {
+                            ingData.setError("Recipe must have Ingredients");
+                            return;
+                        }
+
+                        if (TextUtils.isEmpty(howTo)) {
+                            howToDescription.setError("Please tell us how to make the recipe");
+                            return;
+                        }
+                        // 2) Create a Recipe Object
+
+                        // 2.a) count different ingredients by counting the num of commas -1
+                        int commas = 0;
+                        for (int i = 0; i < rIngridients.length(); i++) {
+                            if (rIngridients.charAt(i) == ',') commas++;
+                        }
+                        // 2.b ) Establish current Date
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                        LocalDateTime now = LocalDateTime.now();
+                        String currentDate = now.format(dtf);
+                        // 2.c ) User id is given by DBfirebase and I update in when putting the recipe in DB
+                        String id = "";
+                        // 2.d) Extract and put user email in the host string
+                        FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
+                        String host = currentUser.getEmail().toLowerCase(); // host is now our email.
+                        // 2.e)
+                        String measures = "How do I get the measures?";
+                        // 3) Store the recipe in DB
+
+
+                        //!!!!!!!-> 19.12 ->liora added anoter tab for use.
+                        //Recipe newRecipe = new Recipe( 0 , currentDate ,host,howTo ,id ,measures , commas+1 ,rIngridients , rName ); // Creating the new recipe
+                        Recipe newRecipe = new Recipe(0, currentDate, host, howTo, id, measures, commas, rIngridients, rName, rImage); // Creating the new recipe
+                        newRecipe.setId(dbRecipeRef.push().getKey());
+                        dbRecipeRef.child(newRecipe.getId()).setValue(newRecipe);
+                        // 4) Toast and move to main page.
+                        Toast.makeText(addRecipe.this, "Thank you ! your recipe is added ! and will be visible when aproved by admin. ", Toast.LENGTH_SHORT).show();
+                        //startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
+                        finish();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+
+
+        sendRecipe.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 // Parts of recipe
-                String rName = recipeName.getText().toString().toLowerCase().trim(); // Should I use trim?
-                String rIngridients = ingridientsList.getText().toString().toLowerCase().trim();
-                String howTo = howToDescription.getText().toString().trim();
-                ;
 
-                //21.12 addition uplode photo
-                //uploadImage();
-                //image url
-                //String rImage = ""; //TODO: get link to image in 55
-                String rImage;
-                if (generatedFilePath != null) {
-                    rImage = generatedFilePath;
-                } else
-                    rImage = "";
-                //end of additon 21.12
-
-                // 1) Check if any field is empty and show toast ,  else put them inside a string;
-
-                if (TextUtils.isEmpty(rName)) {
-                    recipeName.setError("Recipe name is Required!");
-                    return;
-                }
-                if (TextUtils.isEmpty(rIngridients)) {
-                    ingridientsList.setError("Recipe must have Ingredients");
-                    return;
-                }
-
-                if (TextUtils.isEmpty(howTo)) {
-                    howToDescription.setError("Please tell us how to make the recipe");
-                    return;
-                }
-                // 2) Create a Recipe Object
-
-                // 2.a) count different ingredients by counting the num of commas -1
-                int commas = 0;
-                for (int i = 0; i < rIngridients.length(); i++) {
-                    if (rIngridients.charAt(i) == ',') commas++;
-                }
-                // 2.b ) Establish current Date
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                String currentDate = now.format(dtf);
-                // 2.c ) User id is given by DBfirebase and I update in when putting the recipe in DB
-                String id = "";
-                // 2.d) Extract and put user email in the host string
-                FirebaseUser currentUser = mAuth.getCurrentUser(); // getting user Info from Authentication system
-                String host = currentUser.getEmail().toLowerCase(); // host is now our email.
-                // 2.e)
-                String measures = "How do I get the measures?";
-                // 3) Store the recipe in DB
+                AlertDialog.Builder builder = new AlertDialog.Builder(addRecipe.this);
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
 
 
-                //!!!!!!!-> 19.12 ->liora added anoter tab for use.
-                //Recipe newRecipe = new Recipe( 0 , currentDate ,host,howTo ,id ,measures , commas+1 ,rIngridients , rName ); // Creating the new recipe
-                Recipe newRecipe = new Recipe(0, currentDate, host, howTo, id, measures, commas + 1, rIngridients, rName, rImage); // Creating the new recipe
-                newRecipe.setId(dbRecipeRef.push().getKey());
-                dbRecipeRef.child(newRecipe.getId()).setValue(newRecipe);
-                // 4) Toast and move to main page.
-                Toast.makeText(addRecipe.this, "Thank you ! your recipe is added ! and will be visible when aproved by admin. ", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
-                finish();
 
 
             }

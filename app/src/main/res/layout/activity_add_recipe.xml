@@ -101,18 +101,17 @@
         android:id="@+id/wrkProgress_text"
         android:layout_width="347dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
+        android:layout_marginTop="5dp"
 
+        android:layout_marginBottom="5dp"
+        android:ems="10"
         android:hint="Describe the working progress"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/imageView9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.753"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_list_text" />
+        app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTextView_addRecipe" />
 
     <Button
         android:id="@+id/send_recipe_button"
@@ -145,30 +144,13 @@
         android:id="@+id/recipeName_TextView"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Name of recipe"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/ingredient_list_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SCrool_icon2" />
-
-    <EditText
-        android:id="@+id/ingredient_list_text"
-        android:layout_width="345dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="5dp"
-        android:ems="10"
-        android:hint="Write your ingredients here, separated by a comma"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/wrkProgress_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeName_TextView"
-        app:layout_constraintVertical_bias="0.35000002" />
 
     <ImageView
         android:id="@+id/imageView9"
@@ -194,4 +176,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9"
         app:layout_constraintVertical_bias="0.254" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoCompleteTextView_addRecipe"
+        android:layout_width="345dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="5dp"
+        android:hint="Write your ingredients here"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipeName_TextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
