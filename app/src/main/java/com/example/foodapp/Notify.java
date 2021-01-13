@@ -19,7 +19,6 @@ import java.util.Random;
 
 public class Notify extends FirebaseMessagingService {
 
-
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -79,5 +78,7 @@ public class Notify extends FirebaseMessagingService {
     public void onDeletedMessages() {
 
     }
+
+
 
 }

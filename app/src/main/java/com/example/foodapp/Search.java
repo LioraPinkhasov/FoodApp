@@ -293,7 +293,7 @@ public class Search extends AppCompatActivity {
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
 //              query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("host");
-                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host").equalTo(usrInput).orderByChild("approved").startAt(1).endAt(1);
+                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host").equalTo(usrInput);
 
                 String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
