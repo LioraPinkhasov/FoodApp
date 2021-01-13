@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.foodapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -37,13 +38,18 @@
         </activity>
         <activity android:name=".Search" />
         <activity android:name=".MainActivity">
-            <intent-filter>
+            <intent-filter tools:ignore="ExtraText">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-                sd
             </intent-filter>
         </activity>
+
+        <service android:name=".Notify">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSENGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
