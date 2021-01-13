@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodApp">
+        <activity android:name=".Contact_us"></activity>
         <activity android:name=".approve_recipes" />
         <activity android:name=".PhotoUplode" />
         <activity android:name=".Recpie_Admin_permmision" />
@@ -44,7 +44,7 @@
 
         <service android:name=".Notify">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSENGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSENGING_EVENT" />
             </intent-filter>
         </service>
     </application>
