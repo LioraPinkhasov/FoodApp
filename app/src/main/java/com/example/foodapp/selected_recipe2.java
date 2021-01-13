@@ -186,7 +186,7 @@ public class selected_recipe2 extends AppCompatActivity {
         r_image = (ImageView)findViewById(R.id.dislike_buttn);
         String imageurl = choosen_recipe.getRimage();
         //String imageURi = choosen_recipe.getRimage();
-        Toast.makeText(selected_recipe2.this, "hi", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(selected_recipe2.this, "hi", Toast.LENGTH_SHORT).show();
 
         if (imageurl!=null)
         {

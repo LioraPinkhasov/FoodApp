@@ -4,10 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -37,6 +40,7 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
         TextView recipeAuthor;
         TextView recipeDate;
         TextView recipeLikes;
+        ImageView recipeImage;
 
         public ViewHolder(View view) {
             super(view);
@@ -44,6 +48,7 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
             recipeAuthor = (TextView) view.findViewById(R.id.textView_RecipeAuthor);
             recipeDate = (TextView) view.findViewById(R.id.textView_RecipeDate);
             recipeLikes = (TextView) view.findViewById(R.id.textView_RecipeLikes);
+            recipeImage = (ImageView) view.findViewById(R.id.imageView_RecipeImage);
             view.setOnClickListener(this);
         }
 
@@ -63,6 +68,8 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
         public TextView get_textView_recipeLikes(){
             return recipeLikes;
         }
+
+        public ImageView get_ImageView_imageView_RecipeImage(){return recipeImage; }
 
         @Override
         public void onClick(View view) {
@@ -103,19 +110,27 @@ public class RecyclerViewAdapter_forRecipes extends RecyclerView.Adapter<Recycle
 //        a = "a = " + a;
 //        Log.d(null, a);
 
-        viewHolder.get_textView_recipeName().setText(localDataSet.get(position).getRecipeName());
-        viewHolder.get_textView_recipeAuthor().setText(localDataSet.get(position).getHost());
-        viewHolder.get_textView_recipeDate().setText(localDataSet.get(position).getCreate_time());
+        viewHolder.get_textView_recipeName().setText("Name: " + localDataSet.get(position).getRecipeName());
+        viewHolder.get_textView_recipeAuthor().setText("Host: " + localDataSet.get(position).getHost());
+        viewHolder.get_textView_recipeDate().setText("Date: " + localDataSet.get(position).getCreate_time());
         try{
-            viewHolder.get_textView_recipeLikes().setText(localDataSet.get(position).getRating());
+            viewHolder.get_textView_recipeLikes().setText(String.valueOf("Rating: " + localDataSet.get(position).getRating()));
 
         }
         catch (Exception e){
-            viewHolder.get_textView_recipeLikes().setText("0");
+            viewHolder.get_textView_recipeLikes().setText("-999");
+        }
+
+        String imageurl = localDataSet.get(position).getRimage();
+        if (!imageurl.isEmpty())
+        {
+            Glide.with(viewHolder.get_ImageView_imageView_RecipeImage()).load(imageurl).into(viewHolder.get_ImageView_imageView_RecipeImage());
+
         }
 
 
     }
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

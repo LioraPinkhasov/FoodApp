@@ -410,9 +410,9 @@ public class addRecipe extends AppCompatActivity {
                     if (rIngridients.charAt(i) == ',') commas++;
                 }
                 // 2.b ) Establish current Date
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                String currentDate = now.toString();
+                String currentDate = now.format(dtf);
                 // 2.c ) User id is given by DBfirebase and I update in when putting the recipe in DB
                 String id = "";
                 // 2.d) Extract and put user email in the host string

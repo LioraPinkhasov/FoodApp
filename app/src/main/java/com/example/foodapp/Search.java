@@ -79,12 +79,12 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        HashSet<String> hs1 = new HashSet<>();
+       /* HashSet<String> hs1 = new HashSet<>();
         for(int i = 0 ; i < adaptIng.getCount(); i++) {
             hs1.add(adaptIng.getItem(i));
         }
         adaptIng.clear();
-        adaptIng.addAll(hs1);
+        adaptIng.addAll(hs1);               */
 
         ingData = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoCompleteTextView); // This is the field were ingredient input is comming from
         ingData.setThreshold(1);
@@ -134,12 +134,12 @@ public class Search extends AppCompatActivity {
         });
 
 
-        HashSet hs2 = new HashSet();
+       /* HashSet hs2 = new HashSet();
         for(int i = 0 ; i < adaptRecipe.getCount(); i++) {
             hs2.add(adaptRecipe.getItem(i));
         }
         adaptRecipe.clear();
-        adaptRecipe.addAll(hs2);
+        adaptRecipe.addAll(hs2);          */
 
         final String[] tmpVar = new String[1];
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
