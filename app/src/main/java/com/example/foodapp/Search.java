@@ -295,7 +295,7 @@ public class Search extends AppCompatActivity {
 //              query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("host");
                 query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
 
-                final String finalUsrInput = usrInput;
+                String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -347,7 +347,7 @@ public class Search extends AppCompatActivity {
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
                 query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").startAt(usrInput);
-                final String finalUsrInput = usrInput;
+                String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -398,11 +398,11 @@ public class Search extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.item2:
+            case R.id.item1:
                 startActivity(new Intent(getApplicationContext(), Contact_us.class));
                 return true;
 
-            case R.id.item3:
+            case R.id.item2:
                 startActivity(new Intent(getApplicationContext(), register_login.class));
                 return true;
 
