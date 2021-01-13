@@ -79,6 +79,7 @@ public class Search extends AppCompatActivity {
             }
         });
 
+        //the below code are for reject duplicate
        /* HashSet<String> hs1 = new HashSet<>();
         for(int i = 0 ; i < adaptIng.getCount(); i++) {
             hs1.add(adaptIng.getItem(i));
@@ -124,6 +125,13 @@ public class Search extends AppCompatActivity {
                         adaptRecipe.add(ingred.getHost());
                     }
                 }
+
+                HashSet hs2 = new HashSet();
+                for(int i = 0 ; i < adaptRecipe.getCount(); i++) {
+                    hs2.add(adaptRecipe.getItem(i));
+                }
+                adaptRecipe.clear();
+                adaptRecipe.addAll(hs2);
             }
 
             @Override
@@ -133,13 +141,6 @@ public class Search extends AppCompatActivity {
 
         });
 
-
-       /* HashSet hs2 = new HashSet();
-        for(int i = 0 ; i < adaptRecipe.getCount(); i++) {
-            hs2.add(adaptRecipe.getItem(i));
-        }
-        adaptRecipe.clear();
-        adaptRecipe.addAll(hs2);          */
 
         final String[] tmpVar = new String[1];
         authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
