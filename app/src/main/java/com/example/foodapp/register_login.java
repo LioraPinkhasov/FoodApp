@@ -275,6 +275,29 @@ public class register_login extends AppCompatActivity
         
         ///// This section is for Anonymus users who just wanna see the app
         
+        enter_anon_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                final Task<AuthResult> wellcome_anonymous = mAuth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>()
+                                                                                                      {
+                                                                                                          @Override
+                                                                                                          public void onComplete(@NonNull Task<AuthResult> task)
+                                                                                                          {
+                                                                                                              Toast.makeText(register_login.this, "Wellcome Anonymous", Toast.LENGTH_SHORT).show();
+                                                                                                              Intent myLoginIntent = new Intent(getApplicationContext(), MainUserActivity.class); // For testing
+                                                                                                              myLoginIntent.putExtra("isAdmin" , false ); // Putting the list there
+                                                                                                              startActivity(myLoginIntent); // Start new activity with the given intent
+             
+                                                                                                          }
+                                                                                                      }
+    
+                );
+    
+            }
+        });
+        
 
 
     }
