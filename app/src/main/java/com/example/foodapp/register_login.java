@@ -61,8 +61,8 @@ public class register_login extends AppCompatActivity
     private List<Admin> matchedAdminUsers;
     private Button log_in_button;
     private Button sign_up_button;
-    private Button enter_anon_button;
     private EditText enter_password;
+    private Button anon_button;
     private EditText mEmail;
     private TextView output_to_user;
     private ProgressBar progressBar;
@@ -90,7 +90,8 @@ public class register_login extends AppCompatActivity
 
         log_in_button = (Button)findViewById(R.id.log_in_button);
         sign_up_button = (Button)findViewById(R.id.sing_up_button);
-        enter_anon_button = (Button)findViewById(R.id.enter_as_anon_button);
+        anon_button= (Button)findViewById(R.id.anon_buttn);
+        
         output_to_user = (TextView)findViewById(R.id.output_to_user);
         enter_password = (EditText)findViewById(R.id.enter_pass);
         mEmail = (EditText)findViewById(R.id.enter_user_name_plain_text);
@@ -273,31 +274,28 @@ public class register_login extends AppCompatActivity
                 startActivity(new Intent(getApplicationContext(), activity_debug.class));
             }
         });
-        
-        ///// This section is for Anonymus users who just wanna see the app
-        
-        enter_anon_button.setOnClickListener(new View.OnClickListener()
+        anon_button.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                mAuth.signInAnonymously(+);
-    
-                FirebaseUser user = mAuth.getCurrentUser();
-                if(user.isAnonymous())
+                Task<AuthResult> user = mAuth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>()
                 {
-                    Toast.makeText(register_login.this, "this is anon", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Toast.makeText(register_login.this, "nOT ANON", Toast.LENGTH_SHORT).show();
-                }
-                //startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
-                
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        Toast.makeText(register_login.this, "Wellcome Anonymous!", Toast.LENGTH_SHORT).show();
+                        Intent myLoginIntent = new Intent(getApplicationContext(), MainUserActivity.class);
+                        startActivity(myLoginIntent); // Start new activity with the given intent
+                        
+                    }
+                });
                 
     
             }
         });
+        
+       
         
 
 
