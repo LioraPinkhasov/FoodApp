@@ -13,13 +13,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 public class MainUserActivity extends AppCompatActivity {
     private Button button_Admin_Options;
-
-    boolean isAdmin = false;
+    private FirebaseAuth mAuth;
+    private boolean isAdmin = false;
+    Button addRecipe_button;
 
 
     @Override
@@ -27,7 +29,9 @@ public class MainUserActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
-
+        
+        addRecipe_button = (Button)findViewById(R.id.add_recipe);
+        addRecipe_button.setVisibility(View.INVISIBLE);
         //Make admin button invisible by default
         button_Admin_Options = (Button)findViewById(R.id.button_Admin_Options);
         button_Admin_Options.setVisibility(View.INVISIBLE);
@@ -36,6 +40,15 @@ public class MainUserActivity extends AppCompatActivity {
         Intent i = getIntent();
         isAdmin = i.getBooleanExtra("isAdmin",false);
         if(isAdmin) {button_Admin_Options.setVisibility(View.VISIBLE);}
+        
+        // Check anon user , and set UI accordingly
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(!user.isAnonymous())
+        {
+           addRecipe_button.setVisibility(View.VISIBLE);
+        }
+        
 
     }
 

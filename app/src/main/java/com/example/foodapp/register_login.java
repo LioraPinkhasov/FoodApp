@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -280,20 +281,20 @@ public class register_login extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                final Task<AuthResult> wellcome_anonymous = mAuth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>()
-                                                                                                      {
-                                                                                                          @Override
-                                                                                                          public void onComplete(@NonNull Task<AuthResult> task)
-                                                                                                          {
-                                                                                                              Toast.makeText(register_login.this, "Wellcome Anonymous", Toast.LENGTH_SHORT).show();
-                                                                                                              Intent myLoginIntent = new Intent(getApplicationContext(), MainUserActivity.class); // For testing
-                                                                                                              myLoginIntent.putExtra("isAdmin" , false ); // Putting the list there
-                                                                                                              startActivity(myLoginIntent); // Start new activity with the given intent
-             
-                                                                                                          }
-                                                                                                      }
+                mAuth.signInAnonymously(+);
     
-                );
+                FirebaseUser user = mAuth.getCurrentUser();
+                if(user.isAnonymous())
+                {
+                    Toast.makeText(register_login.this, "this is anon", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(register_login.this, "nOT ANON", Toast.LENGTH_SHORT).show();
+                }
+                //startActivity(new Intent(getApplicationContext(), MainUserActivity.class)); // This is the proper path!
+                
+                
     
             }
         });
