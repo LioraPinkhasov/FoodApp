@@ -19,6 +19,7 @@ public class Recipe implements Serializable
     public String rimage;
     public int rating;
     public String rators; // String of users who rates this recipe;
+    public String uuid;
 
 
     /**
@@ -34,7 +35,7 @@ public class Recipe implements Serializable
      * @param recipeName
      * @param Image
      */
-    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName , String  Image)
+    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName , String  Image, String uuid)
     //public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName)
     {
         this.numOfProducts = numOfProducts;
@@ -49,6 +50,7 @@ public class Recipe implements Serializable
         this.rimage = Image;
         this.rating = 0;
         this.rators = "";
+        this.uuid = uuid;
 
 
 
@@ -70,7 +72,7 @@ public class Recipe implements Serializable
      * @param rating
      * @param rators
      */
-    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products, int rating , String rators, String recipeName , String  Image )
+    public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products, int rating , String rators, String recipeName , String  Image, String uuid)
     //public Recipe( int approved ,String create_time ,String host ,  String howTo , String id,  String measures ,int numOfProducts , String products , String recipeName)
     {
         this.numOfProducts = numOfProducts;
@@ -85,6 +87,7 @@ public class Recipe implements Serializable
         this.rimage = Image;
         this.rating = rating;
         this.rators = rators;
+        this.uuid = uuid;
     }
 
     public Recipe ()
@@ -181,6 +184,9 @@ public class Recipe implements Serializable
     public String getRators() {
         return rators;
     }
+
+    public String getUuid() {return uuid;}
+
 
     /**
      * To prevent multyple rating from the same user , this method check the validity of the rating ,  and updates the recipe accordingly.

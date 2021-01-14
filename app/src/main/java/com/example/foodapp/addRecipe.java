@@ -536,12 +536,16 @@ public class addRecipe extends AppCompatActivity {
                         String host = currentUser.getEmail().toLowerCase(); // host is now our email.
                         // 2.e)
                         String measures = "How do I get the measures?";
+
+                        // 2.f) get the UUID (this is for sending notification when confirming the recipe
+                        String UUID = mAuth.getCurrentUser().getUid();
+
                         // 3) Store the recipe in DB
 
 
                         //!!!!!!!-> 19.12 ->liora added anoter tab for use.
                         //Recipe newRecipe = new Recipe( 0 , currentDate ,host,howTo ,id ,measures , commas+1 ,rIngridients , rName ); // Creating the new recipe
-                        Recipe newRecipe = new Recipe(0, currentDate, host, howTo, id, measures, commas, rIngridients, rName, rImage); // Creating the new recipe
+                        Recipe newRecipe = new Recipe(0, currentDate, host, howTo, id, measures, commas, rIngridients, rName, rImage, UUID); // Creating the new recipe
                         newRecipe.setId(dbRecipeRef.push().getKey());
                         dbRecipeRef.child(newRecipe.getId()).setValue(newRecipe);
                         // 4) Toast and move to main page.

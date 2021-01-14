@@ -111,7 +111,7 @@ public class Search extends AppCompatActivity {
 
 
         adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
+        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails");
         RecipeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -134,7 +134,7 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
+        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails");
         AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -292,10 +292,7 @@ public class Search extends AppCompatActivity {
                 String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
-//              query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1).orderByChild("host");
-                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host").equalTo(usrInput).orderByChild("approved").startAt(1).endAt(1);
-
-                String finalUsrInput = usrInput;
+                query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host").equalTo(usrInput);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -341,7 +338,6 @@ public class Search extends AppCompatActivity {
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
                 query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").equalTo(usrInput);
-                String finalUsrInput = usrInput;
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override

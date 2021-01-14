@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -20,6 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.example.foodapp.notifications.*;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Recpie_Admin_permmision extends AppCompatActivity
@@ -37,6 +45,8 @@ public class Recpie_Admin_permmision extends AppCompatActivity
     FirebaseDatabase db;
     DatabaseReference dbRefToRecipe;
     DatabaseReference dbRefToProducts;
+
+    private APIService apiService;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,6 +83,8 @@ public class Recpie_Admin_permmision extends AppCompatActivity
         String recipeID = choosen_recipe.getId();
         dbRefToRecipe = db.getReference().child("RecipeDetails").child(recipeID);
         dbRefToProducts = db.getReference().child("Products");
+
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         
         delete_recipe.setOnClickListener(new View.OnClickListener()
         {
@@ -115,18 +127,47 @@ public class Recpie_Admin_permmision extends AppCompatActivity
                 {
                     userInputIng.add(splittedToArrayIngs[i]); // Fill the list
                 }
+
+
                 
                     
                      //2) Create HashMap of Products
                      //3) Update all products in dbRefProductds
-                
-                
-                
-                
-        
+
+
+                String message = "Your recipe, named \"" + updt_recipeName + "\" has been approved!"; //construct the notification message
+                String usertoken = choosen_recipe.getUuid(); //get the user's UUID
+
+                Data data = new Data("Fooding", message);
+                NotificationSender sender = new NotificationSender(data, usertoken);
+                apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+                    @Override
+                    public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                        Log.d(null, "onResponse when sending notification. response.code() ==" + response.code() + " and response.body().success == " + response.body().success);
+                        if (response.code() == 200) {
+                            Log.d(null, "responsecode 200 and " + response.errorBody().toString());
+                            if (response.body().success != 1) {
+                                Toast.makeText(Recpie_Admin_permmision.this, "Failed to send notification", Toast.LENGTH_LONG);
+                            }
+                            else{
+                                Toast.makeText(Recpie_Admin_permmision.this, "Sent notification successfully", Toast.LENGTH_LONG);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MyResponse> call, Throwable t) {
+                        Log.d(null, "onFailure when sending notification");
+                        t.printStackTrace();
+                        Toast.makeText(Recpie_Admin_permmision.this, "ON FAILURE of sending notification", Toast.LENGTH_LONG);
+                    }
+                });
+
+
+                finish();
             }
         });
-    
+
     
     }
 }
