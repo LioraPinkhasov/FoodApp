@@ -170,7 +170,7 @@ public class Search extends AppCompatActivity {
 
 
         final String[] tmpVar = new String[1];
-        RecipeAutoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        RecipeAutoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView2);
         RecipeAutoComplete.setThreshold(1);
         RecipeAutoComplete.setAdapter(adaptRecipe);
         RecipeAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -183,7 +183,7 @@ public class Search extends AppCompatActivity {
 
         AuthorAutoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         AuthorAutoComplete.setThreshold(1);
-        AuthorAutoComplete.setAdapter(adaptRecipe);
+        AuthorAutoComplete.setAdapter(adaptNames);
 
 
         // Connecting the XML to our Objects
