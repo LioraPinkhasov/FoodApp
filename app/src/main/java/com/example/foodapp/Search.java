@@ -50,9 +50,11 @@ public class Search extends AppCompatActivity {
     private List<Recipe> RecipeNames;
     public ArrayAdapter<String> adaptIng;
     public ArrayAdapter<String> adaptRecipe;
+    public ArrayAdapter<String> adaptNames;
     public Query query;
     private MultiAutoCompleteTextView ingData;
-    private AutoCompleteTextView authorOrRecipeNames;
+    private AutoCompleteTextView RecipeAutoComplete;
+    private AutoCompleteTextView AuthorAutoComplete;
     private Query ingredientQuery;
     private Query RecipeQuery;
     private Query AuthorQuery;
@@ -111,7 +113,8 @@ public class Search extends AppCompatActivity {
 
 
         adaptRecipe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails");
+        adaptNames = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        RecipeQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
         RecipeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -134,7 +137,7 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails");
+        AuthorQuery = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("approved").equalTo(1);
         AuthorQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -142,16 +145,16 @@ public class Search extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Recipe ingred = data.getValue(Recipe.class);
-                        adaptRecipe.add(ingred.getHost());
+                        adaptNames.add(ingred.getHost());
                     }
                 }
 
                 HashSet hs2 = new HashSet();
-                for(int i = 0 ; i < adaptRecipe.getCount(); i++) {
-                    hs2.add(adaptRecipe.getItem(i));
+                for(int i = 0 ; i < adaptNames.getCount(); i++) {
+                    hs2.add(adaptNames.getItem(i));
                 }
-                adaptRecipe.clear();
-                adaptRecipe.addAll(hs2);
+                adaptNames.clear();
+                adaptNames.addAll(hs2);
                 pleaseWaitCounter++;
                 if(pleaseWaitCounter==0){
                     pleaseWaitDialog.dismiss();
@@ -167,10 +170,10 @@ public class Search extends AppCompatActivity {
 
 
         final String[] tmpVar = new String[1];
-        authorOrRecipeNames = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        authorOrRecipeNames.setThreshold(1);
-        authorOrRecipeNames.setAdapter(adaptRecipe);
-        authorOrRecipeNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        RecipeAutoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView2);
+        RecipeAutoComplete.setThreshold(1);
+        RecipeAutoComplete.setAdapter(adaptRecipe);
+        RecipeAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -178,24 +181,10 @@ public class Search extends AppCompatActivity {
             }
         });
 
+        AuthorAutoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        AuthorAutoComplete.setThreshold(1);
+        AuthorAutoComplete.setAdapter(adaptNames);
 
-        authorOrRecipeNames.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         // Connecting the XML to our Objects
         sByingredient = (Button) findViewById(R.id.by_ing_buttn);
@@ -289,7 +278,7 @@ public class Search extends AppCompatActivity {
             public void onClick(View v) {
                 // 1) Cast the Input into an  ArrayList<String> userInputIng
 
-                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
+                String usrInput = AuthorAutoComplete.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
                 query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("host").equalTo(usrInput);
@@ -334,7 +323,7 @@ public class Search extends AppCompatActivity {
             public void onClick(View v) {
                 // 1) Cast the Input into an  ArrayList<String> userInputIng
 
-                String usrInput = authorOrRecipeNames.getText().toString(); // This is the string from input
+                String usrInput = RecipeAutoComplete.getText().toString(); // This is the string from input
                 usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
                 usrInput = usrInput.toLowerCase();
                 query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").equalTo(usrInput);
