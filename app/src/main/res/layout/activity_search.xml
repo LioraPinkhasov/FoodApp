@@ -8,6 +8,18 @@
     tools:context=".Search">
 
     <ImageView
+        android:id="@+id/searchGlassIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/autoCompleteTextView2"
+        app:layout_constraintHorizontal_bias="0.641"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.807"
+        app:srcCompat="@drawable/ic_search" />
+
+    <ImageView
         android:id="@+id/SCrool_icon5"
         android:layout_width="344dp"
         android:layout_height="15dp"
@@ -130,11 +142,11 @@
         android:id="@+id/searchGlassIcon2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
+        android:layout_marginStart="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.605"
+        app:layout_constraintVertical_bias="0.512"
         app:srcCompat="@drawable/ic_search" />
 
     <Button
@@ -147,7 +159,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintVertical_bias="0.366" />
 
     <Button
         android:id="@+id/by_author_bttn"
@@ -157,10 +169,10 @@
         android:text="by author"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.817" />
+        app:layout_constraintVertical_bias="0.647" />
 
     <Button
         android:id="@+id/by_recipe_bttn"
@@ -193,15 +205,30 @@
         android:id="@+id/autoCompleteTextView"
         android:layout_width="256dp"
         android:layout_height="wrap_content"
+        android:hint="e.g. - Example@Example.com"
         android:text=""
-        android:hint="e.g. - Pancakes"
-        android:textColorHint="#80808080"
         android:textAlignment="center"
+        android:textColorHint="#80808080"
         app:layout_constraintBottom_toTopOf="@+id/by_author_bttn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toEndOf="@+id/searchGlassIcon2"
         app:layout_constraintTop_toBottomOf="@+id/by_ing_buttn"
-        app:layout_constraintVertical_bias="0.413" />
+        app:layout_constraintVertical_bias="0.528" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView2"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:hint="e.g. - pancake"
+        android:text=""
+        android:textAlignment="center"
+        android:textColorHint="#80808080"
+        app:layout_constraintBottom_toTopOf="@+id/by_recipe_bttn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/by_author_bttn"
+        app:layout_constraintVertical_bias="0.725" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
