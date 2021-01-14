@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,8 +61,8 @@ public class register_login extends AppCompatActivity
     private List<Admin> matchedAdminUsers;
     private Button log_in_button;
     private Button sign_up_button;
-    private Button enter_anon_button;
     private EditText enter_password;
+    private Button anon_button;
     private EditText mEmail;
     private TextView output_to_user;
     private ProgressBar progressBar;
@@ -89,7 +90,8 @@ public class register_login extends AppCompatActivity
 
         log_in_button = (Button)findViewById(R.id.log_in_button);
         sign_up_button = (Button)findViewById(R.id.sing_up_button);
-        enter_anon_button = (Button)findViewById(R.id.enter_as_anon_button);
+        anon_button= (Button)findViewById(R.id.anon_buttn);
+        
         output_to_user = (TextView)findViewById(R.id.output_to_user);
         enter_password = (EditText)findViewById(R.id.enter_pass);
         mEmail = (EditText)findViewById(R.id.enter_user_name_plain_text);
@@ -272,8 +274,28 @@ public class register_login extends AppCompatActivity
                 startActivity(new Intent(getApplicationContext(), activity_debug.class));
             }
         });
+        anon_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Task<AuthResult> user = mAuth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        Toast.makeText(register_login.this, "Wellcome Anonymous!", Toast.LENGTH_SHORT).show();
+                        Intent myLoginIntent = new Intent(getApplicationContext(), MainUserActivity.class);
+                        startActivity(myLoginIntent); // Start new activity with the given intent
+                        
+                    }
+                });
+                
+    
+            }
+        });
         
-        ///// This section is for Anonymus users who just wanna see the app
+       
         
 
 
