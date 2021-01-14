@@ -102,43 +102,38 @@
         android:layout_width="347dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-
-        android:layout_marginBottom="5dp"
         android:ems="10"
         android:hint="Describe the working progress"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/imageView9"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTextView_addRecipe" />
+        app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTextView_addRecipe"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/send_recipe_button"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#54BA28"
         android:text="send recipe"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/add_photo_button"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/take_photo_bttn" />
 
     <Button
         android:id="@+id/add_photo_button"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="8dp"
         android:text="Upload Image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.912" />
+        app:layout_constraintEnd_toEndOf="@+id/take_photo_bttn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/take_photo_bttn"
+        app:layout_constraintTop_toBottomOf="@+id/take_photo_bttn" />
 
     <EditText
         android:id="@+id/recipeName_TextView"
@@ -152,30 +147,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SCrool_icon2" />
 
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="345dp"
-        android:layout_height="205dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="33dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.405"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wrkProgress_text"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/take_photo_bttn"
-        android:layout_width="143dp"
+        android:layout_width="150dp"
         android:layout_height="49dp"
+        android:layout_marginTop="8dp"
         android:text="Take photo"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9"
-        app:layout_constraintVertical_bias="0.254" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
     <MultiAutoCompleteTextView
         android:id="@+id/multiAutoCompleteTextView_addRecipe"
@@ -186,4 +168,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeName_TextView" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="345dp"
+        android:layout_height="205dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/border_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wrkProgress_text">
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wrkProgress_text"
+            tools:srcCompat="@drawable/ic_apptizer" />
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

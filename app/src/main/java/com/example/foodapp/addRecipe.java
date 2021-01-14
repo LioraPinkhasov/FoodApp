@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,8 +36,6 @@ import java.util.UUID;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,6 +59,8 @@ public class addRecipe extends AppCompatActivity {
     EditText howToDescription;
     String generatedFilePath;
     Button takePhoto;
+    String[] storagePermissions;
+    String[] cameraPermissions;
 
     public ArrayAdapter<String> adaptIng;
     private MultiAutoCompleteTextView ingData;
@@ -78,9 +79,11 @@ public class addRecipe extends AppCompatActivity {
     private Button choose, uplode;
     private ImageView imageView9;
 
-    public Uri filePath;
+    public Uri image_uri;
 
     private final int PICK_IMAGE_REQUEST = 71;
+    private static final int PICK_IMAGE_FROM_CAMERA_REQUEST = 400;
+    private static final int STORAGE_REQUEST = 200;
 
 
     FirebaseStorage mDatabase2;
@@ -99,34 +102,28 @@ public class addRecipe extends AppCompatActivity {
 
     // Override onActivityResult method
     @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
-                                    Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode,
-                resultCode,
-                data);
+        super.onActivityResult(requestCode, resultCode, data);
 
         // checking request code and result code
         // if request code is PICK_IMAGE_REQUEST and
         // resultCode is RESULT_OK
         // then set image in the image view
-        if ( requestCode == PICK_IMAGE_REQUEST
-                && resultCode == RESULT_OK
-                && data != null
-                && data.getData() != null) {
-
+        if (resultCode == RESULT_OK && data != null) {
+            if(requestCode == PICK_IMAGE_REQUEST)
             // Get the Uri of data
-            filePath = data.getData();
+            if(requestCode == PICK_IMAGE_REQUEST) { //case of pick from gallery. This test and extra step is not needed for camera.
+                if(data.getData() != null){
+                    image_uri = data.getData();
+                }
+                else{
+                    return; //got picture form gallery, but it has an error - data.getData() = null
+                }
+            }
             try {
-
                 // Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore
-                        .Images
-                        .Media
-                        .getBitmap(
-                                getContentResolver(),
-                                filePath);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_uri);
                 imageView9.setImageBitmap(bitmap); //shows the picture on the activity add recipe
                 uploadImage();
             } catch (IOException e) {
@@ -134,25 +131,22 @@ public class addRecipe extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-       if(requestCode == 100
-               && resultCode == RESULT_OK
-               && data != null
-               && data.getData() != null) // Roie v1 for take photo
+       /* if(requestCode == PICK_IMAGE_FROM_CAMERA_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) // Roie v1 for take photo
         {
            // Get capture image
            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
            //Set Capture Iamge
             imageView9.setImageBitmap(captureImage);
-            filePath = data.getData();
+            image_uri = data.getData();
             uploadImage();
             
-        }
+        } */
     }
 
     // UploadImage method
     private void uploadImage() {
         Log.d(null, "line 125");
-        if (filePath != null) {
+        if (image_uri != null) {
             Log.d(null, "line 127");
             // Code for showing progressDialog while uploading
             ProgressDialog progressDialog
@@ -202,7 +196,7 @@ public class addRecipe extends AppCompatActivity {
 
             //Guide used -  https://firebase.google.com/docs/storage/android/upload-files#get_a_download_url
 
-            UploadTask uploadTask = dbRecipeRef2.putFile(filePath);
+            UploadTask uploadTask = dbRecipeRef2.putFile(image_uri);
 
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 // Progress Listener for loading
@@ -346,6 +340,10 @@ public class addRecipe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
 
+        permissionsInit();
+
+
+
         // Init buttons and EditText
 
         takePhoto = (Button) findViewById(R.id.take_photo_bttn);
@@ -406,6 +404,8 @@ public class addRecipe extends AppCompatActivity {
         });
 
 
+
+
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -434,17 +434,38 @@ public class addRecipe extends AppCompatActivity {
             ActivityCompat.requestPermissions(addRecipe.this,
                     new String[]{
                             Manifest.permission.CAMERA
-                    },100);
+                    },PICK_IMAGE_FROM_CAMERA_REQUEST);
         }
+
+        if(ContextCompat.checkSelfPermission(addRecipe.this,Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(addRecipe.this,
+                    new String[]{
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },STORAGE_REQUEST);
+        }
+
+
+
         //2) take photo button
         takePhoto.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+
+
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "temp pic");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "temp description");
+
+                image_uri = getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+
                 // Open camera
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent , 100);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+                startActivityForResult(cameraIntent, PICK_IMAGE_FROM_CAMERA_REQUEST);
             }
         });
 
@@ -561,6 +582,16 @@ public class addRecipe extends AppCompatActivity {
         // End of add photo
 
 
+    }
+
+    private boolean checkStoragePermission() {
+        boolean ans = ContextCompat.checkSelfPermission(addRecipe.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return ans;
+    }
+
+    private void permissionsInit() {
+        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
 
