@@ -1,4 +1,4 @@
-package com.example.foodapp;
+package com.example.foodapp.notifications;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,13 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.foodapp.R;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Map;
-import java.util.Random;
 
 public class Notify extends FirebaseMessagingService {
+
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -68,7 +75,6 @@ public class Notify extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-
         Log.d("Device token", token);
 
     }
@@ -79,6 +85,9 @@ public class Notify extends FirebaseMessagingService {
 
     }
 
+    private void storeToken(String token){
+        SavingToken.getInstance(getApplicationContext()).storeToken(token);
+    }
 
 
 }
