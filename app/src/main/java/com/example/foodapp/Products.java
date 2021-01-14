@@ -21,9 +21,7 @@ public class Products {
     }
 
 
-    public String getMeasures() {
-        return measures;
-    }
+    public String getMeasures() { return measures; }
 
     public String getName() {
         return name;
@@ -33,7 +31,7 @@ public class Products {
         this.measures = measures;
     }
 
-    public void getName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

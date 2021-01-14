@@ -44,7 +44,7 @@ public class Search extends AppCompatActivity {
     private Button byAuthor;
     private Button byRecipe;
 
-    
+
     private List<Recipe> recipesWithMatchSize;
     private List<Recipe> AuthorNames;
     private List<Recipe> RecipeNames;
@@ -125,6 +125,13 @@ public class Search extends AppCompatActivity {
                         adaptRecipe.add(ingred.getRecipeName());
                     }
                 }
+                HashSet hs2 = new HashSet();
+                for(int i = 0 ; i < adaptRecipe.getCount(); i++) {
+                    hs2.add(adaptRecipe.getItem(i));
+                }
+                adaptRecipe.clear();
+                adaptRecipe.addAll(hs2);
+
                 pleaseWaitCounter++;
                 if(pleaseWaitCounter==0){
                     pleaseWaitDialog.dismiss();
@@ -300,7 +307,7 @@ public class Search extends AppCompatActivity {
                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) AuthorNames); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
-                        finish(); // End this activity
+//                        finish(); // End this activity
 
 
                     }
@@ -324,8 +331,8 @@ public class Search extends AppCompatActivity {
                 // 1) Cast the Input into an  ArrayList<String> userInputIng
 
                 String usrInput = RecipeAutoComplete.getText().toString(); // This is the string from input
-                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
-                usrInput = usrInput.toLowerCase();
+//                usrInput = usrInput.replace(" ", ""); // Cutting off all the spaces for easier work
+//                usrInput = usrInput.toLowerCase();
                 query = FirebaseDatabase.getInstance().getReference("RecipeDetails").orderByChild("recipeName").equalTo(usrInput);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -345,7 +352,7 @@ public class Search extends AppCompatActivity {
                         Intent myIntent = new Intent(getApplicationContext(), results_page.class); // Creating the intent
                         myIntent.putExtra("LIST", (Serializable) RecipeNames); // Putting the list there
                         startActivity(myIntent); // Start new activity with the given intent
-                        finish(); // End this activity
+//                        finish(); // End this activity
 
 
                     }
